@@ -1,1 +1,1 @@
-# Crary for Node.js
+# Croquis's common libraries for Node.js
