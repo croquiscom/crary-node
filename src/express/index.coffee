@@ -1,1 +1,1 @@
-exports.app = require './app'
+exports.createApp = require './create_app'
