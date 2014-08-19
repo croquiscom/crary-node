@@ -24,6 +24,15 @@ setupSession = (app, config) ->
     saveUninitialized: false
     resave: true # session expire를 초기로 돌리기 위해서 매번 다시 저장한다
 
+setupRouters = (app, config) ->
+  for path, ctor of config.routers
+    router = express.Router()
+    ctor router, app
+    if path
+      app.use path, router
+    else
+      app.use router
+
 module.exports = (config) ->
   app = express()
 
@@ -34,5 +43,6 @@ module.exports = (config) ->
 
   setupMiddlewares app, config
   setupSession app, config
+  setupRouters app, config
 
   return app
