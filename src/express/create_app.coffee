@@ -67,4 +67,7 @@ module.exports = (config) ->
   setupRouters app, config
   setupErrorHandler app, config
 
+  app.response._errors = config.errors or {}
+  require('./response').install app.response
+
   return app
