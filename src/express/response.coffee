@@ -34,7 +34,7 @@ exports.install = (response) ->
     error = @setError error, cause
     description = error._table and (error._table[@req.session.language] or error._table.en)
     if jsonp_regexp.test @req.path
-      @status tatus
+      @status status
       .jsonp status: status, error: error.message, description: description
     else
       @type 'application/json; charset=utf-8'
