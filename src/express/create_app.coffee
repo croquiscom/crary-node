@@ -3,7 +3,6 @@ express = require 'express'
 setupMiddlewares = (app, config) ->
   bodyParser = require 'body-parser'
   app.use require('compression')()
-  app.use require('connect-decompress')()
   app.use bodyParser.json()
   app.use bodyParser.urlencoded extended: true
   app.use require('cookie-parser')()
