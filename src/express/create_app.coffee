@@ -32,12 +32,31 @@ setupSession = (app, config) ->
 setupRouters = (app, config) ->
   for path, ctor of config.routers
     router = express.Router()
+    if not path
+      installCheck router, config
     ctor router, app
     if path
       app.use path, router
     else
       app.use router
   return
+
+installCheck = (router, config) ->
+  worker_num = process.env.WORKER_NUM
+  router.get '/api/check', (req, res) ->
+    req.skip_logging = true
+    data =
+      memory: process.memoryUsage()
+      uptime: process.uptime()
+      dir: config.project_root
+      worker_num: worker_num
+    if data.memory.rss > 1.5 * 1000 * 1000 * 1000
+      process.kill process.pid, 'SIGHUP'
+    if not req.session?
+      data.session = false
+      res.status 400
+    res.type 'application/json; charset=utf-8'
+    res.json data
 
 setupErrorHandler = (app, config) ->
   app.use (err, req, res, next) ->
