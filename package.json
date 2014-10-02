@@ -21,7 +21,7 @@
     "cookie-parser": "~1.3.3",
     "express": "~4.9.5",
     "express-session": "~1.8.2",
-    "heapdump": "~0.2.10",
+    "heapdump": "git+https://github.com/sixmen/node-heapdump.git",
     "log4js": "~0.6.21",
     "redis": "~0.12.1"
   }
