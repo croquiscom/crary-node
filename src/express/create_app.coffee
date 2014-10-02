@@ -54,6 +54,8 @@ setupErrorHandler = (app, config) ->
   return
 
 module.exports = (config) ->
+  require 'heapdump'
+
   app = express()
 
   app.set 'trust proxy', true
