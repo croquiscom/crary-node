@@ -5,7 +5,7 @@ exports.install = (response) ->
     if typeof status isnt 'number'
       for_logging = obj
       obj = status
-      status = 200
+      status = @statusCode or 200
     @result = for_logging or obj
     if jsonp_regexp.test @req.path
       obj.status = status
