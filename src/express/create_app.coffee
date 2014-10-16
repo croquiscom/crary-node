@@ -4,7 +4,7 @@ handlePromise = (handler) ->
   (req, res) ->
     handler req, res
     .then (result) ->
-      res.sendResult result
+      res.sendResult result or {}
     .catch (error) ->
       res.sendError error
 express.Router.getPromise = (path, callback) -> @get.call @, path, handlePromise callback
