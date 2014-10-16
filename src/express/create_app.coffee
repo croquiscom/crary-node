@@ -1,5 +1,17 @@
 express = require 'express'
 
+handlePromise = (handler) ->
+  (req, res) ->
+    handler req, res
+    .then (result) ->
+      res.sendResult result
+    .catch (error) ->
+      res.sendError error
+express.Router.getPromise = (path, callback) -> @get.call @, path, handlePromise callback
+express.Router.postPromise = (path, callback) -> @post.call @, path, handlePromise callback
+express.Router.putPromise = (path, callback) -> @put.call @, path, handlePromise callback
+express.Router.deletePromise = (path, callback) -> @delete.call @, path, handlePromise callback
+
 setupMiddlewares = (app, config) ->
   bodyParser = require 'body-parser'
   app.use require('compression')()
