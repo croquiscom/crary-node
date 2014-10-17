@@ -62,8 +62,8 @@ installCheck = (router, config) ->
       uptime: process.uptime()
       dir: config.project_root
       worker_num: worker_num
-    if data.memory.rss > 1.5 * 1000 * 1000 * 1000
-      process.kill process.pid, 'SIGHUP'
+    #if data.memory.rss > 1.5 * 1000 * 1000 * 1000
+    #  process.kill process.pid, 'SIGHUP'
     if not req.session?
       data.session = false
       res.status 400
