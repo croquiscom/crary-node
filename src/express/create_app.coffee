@@ -1,8 +1,11 @@
 express = require 'express'
+Promise = require 'bluebird'
 
 handlePromise = (handler) ->
   (req, res) ->
-    handler req, res
+    Promise.resolve()
+    .then ->
+      handler req, res
     .then (result) ->
       res.sendResult result or {}
     .catch (error) ->
