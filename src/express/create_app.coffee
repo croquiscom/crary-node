@@ -40,7 +40,7 @@ setupSession = (app, config) ->
     store: sessionStore
     secret: config.session_secret
     cookie: maxAge: config.session_ttl*1000
-    saveUninitialized: false
+    saveUninitialized: config.session_save_uninitialized or false
     resave: true # session expire를 초기로 돌리기 위해서 매번 다시 저장한다
   return
 
