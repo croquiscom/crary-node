@@ -27,7 +27,7 @@ setupSession = (app, config) ->
   session = require 'express-session'
   redis = require 'redis'
   RedisStore = require('connect-redis') session
-  redis_client = redis.createClient config.redis_port, config.redis_host or '127.0.0.1'
+  redis_client = redis.createClient config.redis_port or 6379, config.redis_host or '127.0.0.1'
   sessionStore = new RedisStore client: redis_client, ttl: config.session_ttl, pass: config.redis_password
   sessionStore.on 'disconnect', ->
     console.log "RedisStore for express is disconnected. Exit the process..."
