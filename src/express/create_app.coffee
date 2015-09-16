@@ -1,19 +1,22 @@
 express = require 'express'
 Promise = require 'bluebird'
 
-handlePromise = (handler) ->
-  (req, res) ->
-    Promise.resolve()
-    .then ->
-      handler req, res
-    .then (result) ->
-      res.sendResult result or {}
-    .catch (error) ->
-      res.sendError error
-express.Router.getPromise = (path, callback) -> @get.call @, path, handlePromise callback
-express.Router.postPromise = (path, callback) -> @post.call @, path, handlePromise callback
-express.Router.putPromise = (path, callback) -> @put.call @, path, handlePromise callback
-express.Router.deletePromise = (path, callback) -> @delete.call @, path, handlePromise callback
+wrapPromise = (args) ->
+  if args.length > 0
+    handler = args[args.length-1]
+    args[args.length-1] = (req, res) ->
+      Promise.resolve()
+      .then ->
+        handler req, res
+      .then (result) ->
+        res.sendResult result or {}
+      .catch (error) ->
+        res.sendError error
+  args
+express.Router.getPromise = (args...) -> @get.apply @, wrapPromise args
+express.Router.postPromise = (args...) -> @post.apply @, wrapPromise args
+express.Router.putPromise = (args...) -> @put.apply @, wrapPromise args
+express.Router.deletePromise = (args...) -> @delete.apply @, wrapPromise args
 
 setupMiddlewares = (app, config) ->
   bodyParser = require 'body-parser'
