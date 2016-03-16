@@ -1,5 +1,6 @@
 express = require 'express'
 Promise = require 'bluebird'
+os = require 'os'
 
 wrapPromise = (args) ->
   if args.length > 0
@@ -70,6 +71,7 @@ installCheck = (router, config) ->
       uptime: process.uptime()
       dir: config.project_root
       worker_num: worker_num
+      hostname: os.hostname()
     #if data.memory.rss > 1.5 * 1000 * 1000 * 1000
     #  process.kill process.pid, 'SIGHUP'
     if not req.session?
