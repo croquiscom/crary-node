@@ -1,6 +1,6 @@
 {
   "name": "@croquiscom/crary",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "description": "Croquis's common libraries for Node.js",
   "main": "./lib",
   "scripts": {},
@@ -18,14 +18,14 @@
     "node": ">= 0.10"
   },
   "dependencies": {
-    "bluebird": "~3.3.4",
-    "body-parser": "~1.15.0",
-    "compression": "~1.6.1",
+    "bluebird": "~3.4.0",
+    "body-parser": "~1.15.1",
+    "compression": "~1.6.2",
     "connect-redis": "~3.0.2",
-    "cookie-parser": "~1.4.1",
+    "cookie-parser": "~1.4.3",
     "express": "~4.13.4",
     "express-session": "~1.13.0",
-    "log4js": "~0.6.33",
-    "redis": "~2.5.1"
+    "log4js": "~0.6.36",
+    "redis": "~2.6.1"
   }
 }
