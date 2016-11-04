@@ -72,6 +72,7 @@ installCheck = (router, config) ->
       dir: config.project_root
       worker_num: worker_num
       hostname: os.hostname()
+      nodejs: process.version
     #if data.memory.rss > 1.5 * 1000 * 1000 * 1000
     #  process.kill process.pid, 'SIGHUP'
     if not req.session?
