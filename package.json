@@ -1,6 +1,6 @@
 {
   "name": "@croquiscom/crary",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "description": "Croquis's common libraries for Node.js",
   "main": "./lib",
   "scripts": {},
@@ -14,18 +14,15 @@
     "url": "https://github.com/croquiscom/Crary-Node/issues"
   },
   "homepage": "https://github.com/croquiscom/Crary-Node",
-  "engines": {
-    "node": ">= 0.10"
-  },
   "dependencies": {
-    "bluebird": "~3.4.0",
-    "body-parser": "~1.15.1",
-    "compression": "~1.6.2",
-    "connect-redis": "~3.0.2",
-    "cookie-parser": "~1.4.3",
-    "express": "~4.13.4",
-    "express-session": "~1.13.0",
-    "log4js": "~0.6.36",
-    "redis": "~2.6.1"
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
+    "connect-redis": "^3.1.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.14.2",
+    "log4js": "^1.0.0",
+    "redis": "^2.6.3"
   }
 }
