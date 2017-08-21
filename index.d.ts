@@ -1,0 +1,29 @@
+import * as express_core from 'express-serve-static-core';
+import * as log4js from 'log4js';
+
+export interface ExpressApp extends express_core.Express { }
+
+export interface ExpressRouter extends express_core.Router {
+  getPromise: express_core.IRouterMatcher<this>;
+  postPromise: express_core.IRouterMatcher<this>;
+  putPromise: express_core.IRouterMatcher<this>;
+  deletePromise: express_core.IRouterMatcher<this>;
+}
+
+interface ExpressConfig {
+  project_root: string;
+  log4js_config?: log4js.IConfig;
+  redis_host?: string;
+  redis_port?: number;
+  session_ttl: number;
+  session_secret: string;
+  session_save_uninitialized?: boolean;
+  errors?: { [key: string]: Error };
+  routers: { [path: string]: (router: ExpressRouter, app: ExpressApp) => void };
+}
+
+interface Express {
+  createApp(config: ExpressConfig): ExpressApp;
+}
+
+export declare const express: Express;
