@@ -10,6 +10,12 @@ export interface ExpressRouter extends express_core.Router {
   deletePromise: express_core.IRouterMatcher<this>;
 }
 
+export interface ExpressResponse extends express_core.Response {
+  sendError(error: Error, cause?: Error);
+  sendError(status: number, error: Error, cause?: Error);
+  result_for_logging: object;
+}
+
 interface ExpressConfig {
   project_root: string;
   log4js_config?: log4js.IConfig;
