@@ -1,6 +1,6 @@
 {
   "name": "@croquiscom/crary",
-  "version": "0.5.8",
+  "version": "0.6.0",
   "description": "Croquis's common libraries for Node.js",
   "main": "./lib",
   "types": "./index.d.ts",
