@@ -24,6 +24,7 @@ interface ExpressConfig {
   session_ttl: number;
   session_secret: string;
   session_save_uninitialized?: boolean;
+  session_domain?: string;
   errors?: { [key: string]: Error };
   routers: { [path: string]: (router: ExpressRouter, app: ExpressApp) => void };
 }
