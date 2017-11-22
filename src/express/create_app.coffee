@@ -21,6 +21,8 @@ express.Router.deletePromise = (args...) -> @delete.apply @, wrapPromise args
 
 setupMiddlewares = (app, config) ->
   bodyParser = require 'body-parser'
+  if req.headers and req.headers['content-type']
+    req.headers['content-type'] = req.headers['content-type'].replace(/euc-kr/ig, 'utf-8')
   app.use require('compression')()
   app.use bodyParser.json limit: '10mb'
   app.use bodyParser.urlencoded limit: '10mb', extended: true
