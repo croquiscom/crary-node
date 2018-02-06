@@ -11,8 +11,8 @@ export interface ExpressRouter extends express_core.Router {
 }
 
 export interface ExpressResponse extends express_core.Response {
-  sendError(error: Error, cause?: Error);
-  sendError(status: number, error: Error, cause?: Error);
+  sendError(error: Error, cause?: Error): void;
+  sendError(status: number, error: Error, cause?: Error): void;
   result_for_logging: object;
 }
 
