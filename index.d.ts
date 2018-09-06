@@ -27,6 +27,7 @@ interface ExpressConfig {
   session_domain?: string;
   errors?: { [key: string]: Error };
   routers: { [path: string]: (router: ExpressRouter, app: ExpressApp) => void };
+  body_parser_limit?: number;
 }
 
 interface Express {

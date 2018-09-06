@@ -26,8 +26,8 @@ setupMiddlewares = (app, config) ->
       req.headers['content-type'] = req.headers['content-type'].replace(/euc-kr/ig, 'utf-8')
     next()
   app.use require('compression')()
-  app.use bodyParser.json limit: '10mb'
-  app.use bodyParser.urlencoded limit: '10mb', extended: true
+  app.use bodyParser.json limit: config.body_parser_limit or '10mb'
+  app.use bodyParser.urlencoded limit: config.body_parser_limit or '10mb', extended: true
   app.use require('cookie-parser')()
   return
 
