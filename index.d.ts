@@ -19,8 +19,8 @@ export interface ExpressResponse extends express_core.Response {
 interface ExpressConfig {
   project_root: string;
   log4js_config?: log4js.IConfig;
-  redis_host?: string;
-  redis_port?: number;
+  session_redis_host?: string;
+  session_redis_port?: number;
   session_ttl: number;
   session_secret: string;
   session_save_uninitialized?: boolean;
