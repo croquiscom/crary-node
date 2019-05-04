@@ -27,6 +27,7 @@
     "express": "^4.16.4",
     "express-session": "^1.16.1",
     "log4js": "^4.1.0",
+    "on-finished": "^2.3.0",
     "redis": "^2.8.0"
   },
   "devDependencies": {

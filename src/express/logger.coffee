@@ -2,6 +2,8 @@ module.exports = (config) ->
   log4js = require 'log4js'
   log4js.configure config.log4js_config
 
+  onFinished = require 'on-finished'
+
   logger = log4js.getLogger 'express'
 
   project_root = config.project_root + '/'
@@ -79,4 +81,36 @@ module.exports = (config) ->
         r: res.result
     }
 
-  log4js.connectLogger logger, format: format, level: 'auto'
+  return (req, res, next) ->
+    # mount safety
+    if req._logging
+      return next()
+
+    start = new Date()
+    writeHead = res.writeHead
+
+    # flag as logging
+    req._logging = true;
+
+    # proxy for statusCode.
+    res.writeHead = (code, headers) ->
+      res.writeHead = writeHead
+      res.writeHead(code, headers)
+
+      res.__statusCode = code
+      res.__headers = headers or {};
+
+    onFinished res, () ->
+      res.responseTime = new Date() - start
+      # status code response level handling
+      level = log4js.levels.INFO;
+      if res.statusCode >= 300
+        level = log4js.levels.WARN;
+      if res.statusCode >= 400
+        level = log4js.levels.ERROR;
+
+      line = format req, res
+      if line
+        logger.log(level, line)
+
+    return next()
