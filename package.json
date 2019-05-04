@@ -28,5 +28,8 @@
     "express-session": "^1.16.1",
     "log4js": "^4.1.0",
     "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.26"
   }
 }
