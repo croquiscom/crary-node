@@ -4,7 +4,9 @@
   "description": "Croquis's common libraries for Node.js",
   "main": "./lib",
   "types": "./index.d.ts",
-  "scripts": {},
+  "scripts": {
+    "build": "coffee -c -o lib src"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/croquiscom/Crary-Node.git"
@@ -16,16 +18,15 @@
   },
   "homepage": "https://github.com/croquiscom/Crary-Node",
   "dependencies": {
-    "@types/express-serve-static-core": "^4.16.0",
-    "@types/log4js": "0.0.32",
-    "bluebird": "^3.5.2",
-    "body-parser": "^1.18.3",
-    "compression": "^1.7.3",
-    "connect-redis": "^3.3.3",
-    "cookie-parser": "^1.4.3",
-    "express": "^4.16.3",
-    "express-session": "^1.15.6",
-    "log4js": "^1.0.0",
+    "@types/express-serve-static-core": "^4.16.4",
+    "bluebird": "^3.5.4",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "connect-redis": "^3.4.1",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "express-session": "^1.16.1",
+    "log4js": "^4.1.0",
     "redis": "^2.8.0"
   }
 }

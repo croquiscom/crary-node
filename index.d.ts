@@ -1,5 +1,5 @@
-import * as express_core from 'express-serve-static-core';
-import * as log4js from 'log4js';
+import express_core from 'express-serve-static-core';
+import log4js from 'log4js';
 
 export interface ExpressApp extends express_core.Express { }
 
@@ -18,7 +18,7 @@ export interface ExpressResponse extends express_core.Response {
 
 interface ExpressConfig {
   project_root: string;
-  log4js_config?: log4js.IConfig;
+  log4js_config?: log4js.Configuration;
   redis_host?: string;
   redis_port?: number;
   session_ttl: number;
