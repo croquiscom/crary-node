@@ -1,4 +1,3 @@
-import Bluebird from 'bluebird';
 import crary from '../../..';
 
 const checkItemsLength: crary.express.RequestHandler = (req, res, next) => {
@@ -10,7 +9,7 @@ const checkItemsLength: crary.express.RequestHandler = (req, res, next) => {
 };
 
 async function processItems(items: Array<number | string>) {
-  return await Bluebird.resolve(items).map((item) => Number(item) * 5);
+  return await Promise.all(items.map(async (item) => Number(item) * 5));
 }
 
 export default (router: crary.express.Router) => {
