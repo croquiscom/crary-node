@@ -2,7 +2,7 @@ import crary from '../..';
 
 import routes_api from './api';
 
-function routes_root(router: crary.ExpressRouter) {
+function routes_root(router: crary.express.Router) {
   router.all('*', (req, res) => {
     res.sendError(404, new Error('missing api'));
   });

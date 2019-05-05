@@ -1,5 +1,5 @@
 import http from 'http';
-import crary from '..';
+import * as crary from '..';
 import routes from './routes';
 
 const app = crary.express.createApp({
