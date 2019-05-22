@@ -9,6 +9,7 @@ export interface IExpressConfig {
   redis_password?: string;
   session_ttl: number;
   session_secret: string;
+  session_name?: string;
   session_save_uninitialized?: boolean;
   session_domain?: string;
   errors?: { [key: string]: Error };
