@@ -1,0 +1,31 @@
+{
+  "name": "@croquiscom/crary-graphql",
+  "version": "0.0.0",
+  "description": "Croquis's library - graphql extension",
+  "main": "./lib",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "prepublishOnly": "npm run lint && npm run build",
+    "build": "rimraf lib && tsc -p src/tsconfig.build.json",
+    "lint": "tslint -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/croquiscom/Crary-Node.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/croquiscom/Crary-Node/issues"
+  },
+  "homepage": "https://github.com/croquiscom/Crary-Node",
+  "dependencies": {
+    "graphql": "^14.4.1"
+  },
+  "devDependencies": {
+    "@types/graphql": "^14.2.2",
+    "rimraf": "^2.6.3",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.2"
+  }
+}
