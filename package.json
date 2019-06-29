@@ -1,43 +1,7 @@
 {
-  "name": "@croquiscom/crary",
-  "version": "0.8.1",
-  "description": "Croquis's common libraries for Node.js",
-  "main": "./lib",
-  "types": "./lib/index.d.ts",
-  "scripts": {
-    "prepublishOnly": "npm run lint && npm run build",
-    "build": "rimraf lib && tsc -p src/tsconfig.build.json",
-    "lint": "tslint -p tsconfig.json"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/croquiscom/Crary-Node.git"
-  },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/croquiscom/Crary-Node/issues"
-  },
-  "homepage": "https://github.com/croquiscom/Crary-Node",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "compression": "^1.7.4",
-    "connect-redis": "^3.4.1",
-    "cookie-parser": "^1.4.4",
-    "express": "^4.17.0",
-    "express-session": "^1.16.1",
-    "log4js": "^4.2.0",
-    "on-finished": "^2.3.0",
-    "redis": "^2.8.0"
-  },
+  "name": "root",
+  "private": true,
   "devDependencies": {
-    "@types/compression": "0.0.36",
-    "@types/connect-redis": "0.0.10",
-    "@types/cookie-parser": "^1.4.1",
-    "@types/express": "^4.16.1",
-    "@types/express-session": "^1.15.12",
-    "@types/on-finished": "^2.3.1",
-    "@types/redis": "^2.8.12",
-    "rimraf": "^2.6.3"
+    "lerna": "^3.15.0"
   }
 }

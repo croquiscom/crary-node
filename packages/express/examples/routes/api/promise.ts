@@ -1,6 +1,6 @@
-import crary from '../../..';
+import { RequestHandler, Router } from '../../..';
 
-const checkItemsLength: crary.express.RequestHandler = (req, res, next) => {
+const checkItemsLength: RequestHandler = (req, res, next) => {
   if (req.body.items.length < 3) {
     res.sendError(new Error('too little items'));
   } else {
@@ -12,7 +12,7 @@ async function processItems(items: Array<number | string>) {
   return await Promise.all(items.map(async (item) => Number(item) * 5));
 }
 
-export default (router: crary.express.Router) => {
+export default (router: Router) => {
   // Promise 테스트
   // $ curl -X POST http://localhost:3000/api/promise -d items=1 -d items=2
   // $ curl -X POST http://localhost:3000/api/promise -d items=1 -d items=2 -d items=3

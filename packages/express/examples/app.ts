@@ -1,8 +1,8 @@
 import http from 'http';
-import * as crary from '..';
+import { createApp } from '..';
 import routes from './routes';
 
-const app = crary.express.createApp({
+const app = createApp({
   log4js_config: {
     appenders: {
       console: {
