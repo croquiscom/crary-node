@@ -1,0 +1,1 @@
+export { hookResolver } from './hookResolver';
