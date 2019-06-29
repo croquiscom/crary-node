@@ -1,3 +1,2 @@
-import { GraphQLResolveInfo } from 'graphql';
-export declare function getFieldList(info: GraphQLResolveInfo, fieldName?: string): string[];
-export declare function getFieldList1st(info: GraphQLResolveInfo, fieldName?: string): string[];
+export { getFieldList, getFieldList1st } from './getFieldList';
+export { getFieldString } from './getFieldString';

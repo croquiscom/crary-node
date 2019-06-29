@@ -9,7 +9,7 @@ import { getFieldList } from '../..';
 
 async function testGetFields(
   query: string,
-  expected: any,
+  expected: string[],
   variables: { [key: string]: any } | undefined,
   func: (info: GraphQLResolveInfo) => string[],
 ) {

@@ -5,13 +5,13 @@ import {
   graphql, GraphQLBoolean, GraphQLEnumType, GraphQLInputObjectType,
   GraphQLObjectType, GraphQLResolveInfo, GraphQLSchema, GraphQLString,
 } from 'graphql';
-import { getFieldList1st } from '../..';
+import { getFieldString } from '../..';
 
 async function testGetFields(
   query: string,
-  expected: string[],
+  expected: string,
   variables: { [key: string]: any } | undefined,
-  func: (info: GraphQLResolveInfo) => string[],
+  func: (info: GraphQLResolveInfo) => string,
 ) {
   let actual;
   function resolver(parent: any, args: { [key: string]: any }, context: any, info: GraphQLResolveInfo) {
@@ -68,13 +68,35 @@ async function testGetFields(
   expect(actual).to.eql(expected);
 }
 
-describe('getFieldList1st', () => {
+describe('getFieldString', () => {
   it('basic query', async () => {
-    await testGetFields('{ someType { a b } }', ['a', 'b'], undefined, getFieldList1st);
+    await testGetFields('{ someType { a b } }', 'a b', undefined, getFieldString);
   });
 
   it('get fields on scalar field', async () => {
-    await testGetFields('{ scalarField }', [], undefined, getFieldList1st);
+    await testGetFields('{ scalarField }', '', undefined, getFieldString);
+  });
+
+  it('argument', async () => {
+    await testGetFields(`
+      {
+        someType {
+          a(y: "text", z: { g: RED, h: false })
+          b
+        }
+      }
+    `, 'a(y: "text", z: { g: RED, h: false }) b', undefined, getFieldString);
+  });
+
+  it('argument (with variables)', async () => {
+    await testGetFields(`
+      query($y: String) {
+        someType {
+          a(y: $y)
+          b
+        }
+      }
+    `, 'a(y: $y) b', { value: 'text' }, getFieldString);
   });
 
   it('fragment', async () => {
@@ -85,7 +107,7 @@ describe('getFieldList1st', () => {
       }
       { someType { ...Frag } }
       `,
-      ['a'], undefined, getFieldList1st,
+      'a', undefined, getFieldString,
     );
   });
 
@@ -94,7 +116,7 @@ describe('getFieldList1st', () => {
       `
       { someType { ...on SomeType { a } } }
       `,
-      ['a'], undefined, getFieldList1st,
+      '... on SomeType { a }', undefined, getFieldString,
     );
   });
 
@@ -108,7 +130,7 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a'], undefined, getFieldList1st,
+      'a', undefined, getFieldString,
     );
   });
 
@@ -122,7 +144,7 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a', 'b'], undefined, getFieldList1st,
+      'a b', undefined, getFieldString,
     );
   });
 
@@ -136,7 +158,7 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a', 'b'], undefined, getFieldList1st,
+      'a b', undefined, getFieldString,
     );
   });
 
@@ -150,7 +172,7 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a'], undefined, getFieldList1st,
+      'a', undefined, getFieldString,
     );
   });
 
@@ -163,7 +185,7 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      [], undefined, getFieldList1st,
+      '', undefined, getFieldString,
     );
   });
 
@@ -176,7 +198,7 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      [], undefined, getFieldList1st,
+      '', undefined, getFieldString,
     );
   });
 
@@ -189,7 +211,7 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['b'], undefined, getFieldList1st,
+      'b', undefined, getFieldString,
     );
   });
 
@@ -202,10 +224,9 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      [], undefined, getFieldList1st,
+      '', undefined, getFieldString,
     );
   });
-
   it('@include variable false', async () => {
     await testGetFields(
       `
@@ -215,9 +236,9 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      [],
+      '',
       { test: false },
-      getFieldList1st,
+      getFieldString,
     );
   });
 
@@ -230,9 +251,9 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      [],
+      '',
       { test: true },
-      getFieldList1st,
+      getFieldString,
     );
   });
 
@@ -252,7 +273,7 @@ describe('getFieldList1st', () => {
         b
       }
       `,
-      ['a', 'b'], undefined, getFieldList1st,
+      'a b', undefined, getFieldString,
     );
   });
 
@@ -269,7 +290,7 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a', 'b', 'e'], undefined, getFieldList1st,
+      'a b e { x }', undefined, getFieldString,
     );
   });
 
@@ -288,7 +309,7 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a', 'b', 'e'], undefined, getFieldList1st,
+      'a b e { e { x } }', undefined, getFieldString,
     );
   });
 
@@ -308,7 +329,7 @@ describe('getFieldList1st', () => {
         x
       }
       `,
-      ['a', 'b', 'e'], undefined, getFieldList1st,
+      'a b e { x }', undefined, getFieldString,
     );
   });
 
@@ -327,7 +348,7 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a', 'b', 'e'], undefined, getFieldList1st,
+      'a b e { ... on NestedType { x } }', undefined, getFieldString,
     );
   });
 
@@ -352,90 +373,7 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a', 'b', 'e'], undefined, getFieldList1st,
+      'a b e { e { e { e { e { x } } } } }', undefined, getFieldString,
     );
-  });
-
-  it('handles undefined directives', () => {
-    // Relevant ast info bits included
-    const info: any = {
-      fieldName: 'someType',
-      fieldNodes: [
-        {
-          kind: 'Field',
-          alias: null,
-          name: {
-            kind: 'Name',
-            value: 'someType',
-            loc: {
-              start: 2,
-              end: 10,
-            },
-          },
-          arguments: [],
-          directives: [],
-          selectionSet: {
-            kind: 'SelectionSet',
-            selections: [
-              {
-                kind: 'Field',
-                alias: null,
-                name: {
-                  kind: 'Name',
-                  value: 'a',
-                  loc: {
-                    start: 13,
-                    end: 14,
-                  },
-                },
-                arguments: [],
-                // deliberately excluded for test "directives": [],
-                selectionSet: null,
-                loc: {
-                  start: 13,
-                  end: 14,
-                },
-              },
-              {
-                kind: 'Field',
-                alias: null,
-                name: {
-                  kind: 'Name',
-                  value: 'b',
-                  loc: {
-                    start: 15,
-                    end: 16,
-                  },
-                },
-                arguments: [],
-                directives: [],
-                selectionSet: null,
-                loc: {
-                  start: 15,
-                  end: 16,
-                },
-              },
-            ],
-            loc: {
-              start: 11,
-              end: 18,
-            },
-          },
-          loc: {
-            start: 2,
-            end: 18,
-          },
-        },
-      ],
-      returnType: 'SomeType',
-      parentType: 'Query',
-      path: {
-        key: 'someType',
-      },
-      fragments: {},
-      variableValues: {},
-    };
-
-    expect(getFieldList1st(info)).to.eql(['a', 'b']);
   });
 });
