@@ -6,11 +6,13 @@ export interface IExpressConfig {
     redis_host?: string;
     redis_port?: number;
     redis_password?: string;
-    session_ttl: number;
-    session_secret: string;
-    session_name?: string;
-    session_save_uninitialized?: boolean;
-    session_domain?: string;
+    session?: {
+        ttl: number;
+        secret: string;
+        name?: string;
+        save_uninitialized?: boolean;
+        domain?: string;
+    };
     errors?: {
         [key: string]: Error;
     };

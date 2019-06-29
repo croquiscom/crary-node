@@ -18,8 +18,10 @@ const app = createApp({
   },
   project_root: __dirname,
   routers: routes,
-  session_secret: 'secret',
-  session_ttl: 360,
+  session: {
+    secret: 'secret',
+    ttl: 360,
+  },
 });
 
 const server = http.createServer(app);

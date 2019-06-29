@@ -58,13 +58,16 @@ function setupMiddlewares(app: express.Express, config: IExpressConfig) {
 }
 
 function setupSession(app: express.Express, config: IExpressConfig) {
+  if (!config.session) {
+    return;
+  }
   // tslint:disable-next-line: variable-name
   const RedisStore = connectRedis(expressSession);
   const redis_client = redis.createClient(config.redis_port || 6379, config.redis_host || '127.0.0.1');
   const session_store = new RedisStore({
     client: redis_client,
     pass: config.redis_password,
-    ttl: config.session_ttl,
+    ttl: config.session.ttl,
   });
   session_store.on('disconnect', () => {
     console.log('RedisStore for express is disconnected. Exit the process...');
@@ -74,13 +77,13 @@ function setupSession(app: express.Express, config: IExpressConfig) {
   });
   app.use(expressSession({
     cookie: {
-      domain: config.session_domain,
-      maxAge: config.session_ttl * 1000,
+      domain: config.session.domain,
+      maxAge: config.session.ttl * 1000,
     },
-    name: config.session_name,
+    name: config.session.name,
     resave: true, // session expire를 초기로 돌리기 위해서 매번 다시 저장한다
-    saveUninitialized: config.session_save_uninitialized || false,
-    secret: config.session_secret,
+    saveUninitialized: config.session.save_uninitialized || false,
+    secret: config.session.secret,
     store: session_store,
   }));
 }

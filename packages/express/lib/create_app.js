@@ -62,13 +62,16 @@ function setupMiddlewares(app, config) {
     app.use(cookie_parser_1.default());
 }
 function setupSession(app, config) {
+    if (!config.session) {
+        return;
+    }
     // tslint:disable-next-line: variable-name
     const RedisStore = connect_redis_1.default(express_session_1.default);
     const redis_client = redis_1.default.createClient(config.redis_port || 6379, config.redis_host || '127.0.0.1');
     const session_store = new RedisStore({
         client: redis_client,
         pass: config.redis_password,
-        ttl: config.session_ttl,
+        ttl: config.session.ttl,
     });
     session_store.on('disconnect', () => {
         console.log('RedisStore for express is disconnected. Exit the process...');
@@ -78,13 +81,13 @@ function setupSession(app, config) {
     });
     app.use(express_session_1.default({
         cookie: {
-            domain: config.session_domain,
-            maxAge: config.session_ttl * 1000,
+            domain: config.session.domain,
+            maxAge: config.session.ttl * 1000,
         },
-        name: config.session_name,
+        name: config.session.name,
         resave: true,
-        saveUninitialized: config.session_save_uninitialized || false,
-        secret: config.session_secret,
+        saveUninitialized: config.session.save_uninitialized || false,
+        secret: config.session.secret,
         store: session_store,
     }));
 }
