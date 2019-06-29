@@ -3,10 +3,12 @@ import log4js from 'log4js';
 export interface IExpressConfig {
     project_root: string;
     log4js_config?: log4js.Configuration;
-    redis_host?: string;
-    redis_port?: number;
-    redis_password?: string;
     session?: {
+        redis?: {
+            host?: string;
+            port?: number;
+            password?: string;
+        };
         ttl: number;
         secret: string;
         name?: string;

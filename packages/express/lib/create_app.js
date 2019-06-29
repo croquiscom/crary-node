@@ -67,10 +67,12 @@ function setupSession(app, config) {
     }
     // tslint:disable-next-line: variable-name
     const RedisStore = connect_redis_1.default(express_session_1.default);
-    const redis_client = redis_1.default.createClient(config.redis_port || 6379, config.redis_host || '127.0.0.1');
+    const port = (config.session.redis && config.session.redis.port) || 6379;
+    const host = (config.session.redis && config.session.redis.host) || '127.0.0.1';
+    const redis_client = redis_1.default.createClient(port, host);
     const session_store = new RedisStore({
         client: redis_client,
-        pass: config.redis_password,
+        pass: config.session.redis && config.session.redis.password,
         ttl: config.session.ttl,
     });
     session_store.on('disconnect', () => {
