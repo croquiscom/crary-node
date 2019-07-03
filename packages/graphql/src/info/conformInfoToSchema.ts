@@ -1,11 +1,11 @@
 import { DocumentNode, FieldNode, GraphQLResolveInfo, GraphQLSchema, Kind, OperationDefinitionNode } from 'graphql';
 import { FilterToSchema, MergeInfo, ReplaceFieldWithFragment, Request } from 'graphql-tools';
 
-export function conformInfoToSchema(
-  info: GraphQLResolveInfo & { mergeInfo: MergeInfo },
+export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolveInfo>(
+  info: T,
   schema: GraphQLSchema,
   fragments: Array<{ field: string; fragment: string; }>,
-): GraphQLResolveInfo & { mergeInfo: MergeInfo } {
+): T {
   const document: DocumentNode = {
     definitions: [
       {
