@@ -17,6 +17,14 @@ function conformInfoToSchema(info, schema, fragments) {
         ],
         kind: graphql_1.Kind.DOCUMENT,
     };
+    if (!fragments) {
+        if (info.mergeInfo) {
+            fragments = info.mergeInfo.fragments;
+        }
+        else {
+            fragments = [];
+        }
+    }
     const request = { document, variables: {} };
     const transformed = new graphql_tools_1.FilterToSchema(schema).transformRequest(new graphql_tools_1.ReplaceFieldWithFragment(schema, fragments).transformRequest(request));
     const definition = transformed.document.definitions[0];

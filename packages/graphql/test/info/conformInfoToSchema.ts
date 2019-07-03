@@ -76,7 +76,7 @@ describe('conformInfoToSchema', () => {
               expect(order_called).to.eql(false);
               order_called = true;
               expect(getFieldString(info)).to.eql('product_id product { name price }');
-              const conformed = conformInfoToSchema(info, order_schema, info.mergeInfo.fragments);
+              const conformed = conformInfoToSchema(info, order_schema);
               expect(getFieldString(conformed)).to.eql('product_id');
               return {
                 product_id: 3,
@@ -161,7 +161,7 @@ describe('conformInfoToSchema', () => {
               expect(info.mergeInfo.fragments).to.eql([
                 { field: 'product', fragment: '... on Order { product_id }' },
               ]);
-              const conformed = conformInfoToSchema(info, order_schema, info.mergeInfo.fragments);
+              const conformed = conformInfoToSchema(info, order_schema);
               expect(getFieldString(conformed)).to.eql('... on Order { product_id }');
               return {
                 product_id: 3,
@@ -239,7 +239,7 @@ describe('conformInfoToSchema', () => {
               expect(order_called).to.eql(false);
               order_called = true;
               expect(getFieldString(info)).to.eql('product_id product { name price }');
-              const conformed = wrapInfo(info).conformToSchema(order_schema, info.mergeInfo.fragments);
+              const conformed = wrapInfo(info).conformToSchema(order_schema);
               expect(getFieldString(conformed)).to.eql('product_id');
               return {
                 product_id: 3,

@@ -1,5 +1,8 @@
 import { GraphQLResolveInfo, GraphQLSchema } from 'graphql';
-export declare function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolveInfo>(info: T, schema: GraphQLSchema, fragments: Array<{
+import { MergeInfo } from 'graphql-tools';
+export declare function conformInfoToSchema<T extends GraphQLResolveInfo & {
+    mergeInfo?: MergeInfo;
+} = GraphQLResolveInfo>(info: T, schema: GraphQLSchema, fragments?: Array<{
     field: string;
     fragment: string;
 }>): T;

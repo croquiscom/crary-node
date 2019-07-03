@@ -1,10 +1,10 @@
 import { DocumentNode, FieldNode, GraphQLResolveInfo, GraphQLSchema, Kind, OperationDefinitionNode } from 'graphql';
 import { FilterToSchema, MergeInfo, ReplaceFieldWithFragment, Request } from 'graphql-tools';
 
-export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolveInfo>(
+export function conformInfoToSchema<T extends GraphQLResolveInfo & { mergeInfo?: MergeInfo } = GraphQLResolveInfo>(
   info: T,
   schema: GraphQLSchema,
-  fragments: Array<{ field: string; fragment: string; }>,
+  fragments?: Array<{ field: string; fragment: string; }>,
 ): T {
   const document: DocumentNode = {
     definitions: [
@@ -20,6 +20,13 @@ export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolv
     ],
     kind: Kind.DOCUMENT,
   };
+  if (!fragments) {
+    if (info.mergeInfo) {
+      fragments = info.mergeInfo.fragments;
+    } else {
+      fragments = [];
+    }
+  }
   const request: Request = { document, variables: {} };
   const transformed = new FilterToSchema(schema).transformRequest(
     new ReplaceFieldWithFragment(schema, fragments).transformRequest(request),
