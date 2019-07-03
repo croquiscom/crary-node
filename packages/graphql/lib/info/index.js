@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var addArgumentToInfo_1 = require("./addArgumentToInfo");
 exports.addArgumentToInfo = addArgumentToInfo_1.addArgumentToInfo;
+var conformInfoToSchema_1 = require("./conformInfoToSchema");
+exports.conformInfoToSchema = conformInfoToSchema_1.conformInfoToSchema;
 var getFieldList_1 = require("./getFieldList");
 exports.getFieldList = getFieldList_1.getFieldList;
 exports.getFieldList1st = getFieldList_1.getFieldList1st;
