@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const log4js_1 = __importDefault(require("log4js"));
 const on_finished_1 = __importDefault(require("on-finished"));
+const util_1 = __importDefault(require("util"));
 exports.default = (config) => {
     log4js_1.default.configure(config.log4js_config);
     const logger = log4js_1.default.getLogger('express');
@@ -44,7 +45,7 @@ exports.default = (config) => {
             url = url.substr(0, url.length - 1);
         }
         return {
-            inspect() {
+            [util_1.default.inspect.custom]() {
                 let msg = `<${this.C.s.substr(0, 6)}> [${this.C.t}ms] ${this.C.a} - -`;
                 msg += ` "${this.I.m} ${this.I.u} HTTP/${this.I.v}" ${this.O.s} ${this.O.l} "${this.I.r}" "${this.I.a}"`;
                 msg += `\n\tI] q: ${JSON.stringify(this.I.q)}, b: ${JSON.stringify(this.I.b)}, f: ${JSON.stringify(this.I.f)}`;

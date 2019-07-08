@@ -1,6 +1,7 @@
 import express from 'express';
 import log4js from 'log4js';
 import onFinished from 'on-finished';
+import util from 'util';
 import { IExpressConfig } from './config';
 
 export default (config: IExpressConfig) => {
@@ -42,7 +43,7 @@ export default (config: IExpressConfig) => {
       url = url.substr(0, url.length - 1);
     }
     return {
-      inspect() {
+      [util.inspect.custom]() {
         let msg = `<${this.C.s.substr(0, 6)}> [${this.C.t}ms] ${this.C.a} - -`;
         msg += ` "${this.I.m} ${this.I.u} HTTP/${this.I.v}" ${this.O.s} ${this.O.l} "${this.I.r}" "${this.I.a}"`;
         msg += `\n\tI] q: ${JSON.stringify(this.I.q)}, b: ${JSON.stringify(this.I.b)}, f: ${JSON.stringify(this.I.f)}`;
