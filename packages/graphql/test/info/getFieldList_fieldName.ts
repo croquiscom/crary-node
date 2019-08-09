@@ -1,84 +1,78 @@
 // tslint:disable:object-literal-sort-keys variable-name
 
 import { expect } from 'chai';
-import {
-  graphql, GraphQLBoolean, GraphQLEnumType, GraphQLInputObjectType,
-  GraphQLObjectType, GraphQLResolveInfo, GraphQLSchema, GraphQLString,
-} from 'graphql';
+import { buildSchema, graphql, GraphQLResolveInfo } from 'graphql';
 import { getFieldList } from '../..';
 
-async function testGetFields(
+const schema = buildSchema(`
+type NestedType {
+  x: String
+  e: NestedType
+}
+
+enum RGB {
+  RED
+  GREEN
+  BLUE
+}
+
+input NestedInput {
+  g: RGB
+  h: Boolean
+}
+
+type SomeType {
+  a(y: String, z: NestedInput): String
+  b: String
+  c: String
+  d: String
+  e: NestedType
+}
+
+type Query {
+  scalarField: String
+  someType: SomeType
+}
+`);
+
+async function getInfo(query: string, variables: { [key: string]: any } | undefined) {
+  let info!: GraphQLResolveInfo;
+  await graphql(schema, query, {
+    scalarField: (args: any, context: any, _info: GraphQLResolveInfo) => {
+      info = _info;
+      return 'str';
+    },
+    someType: (args: any, context: any, _info: GraphQLResolveInfo) => {
+      info = _info;
+      return { a: 1, b: 2, c: 3, d: 4, e: { x: 'str' } };
+    },
+  }, {}, variables);
+  return info;
+}
+
+async function test(
   query: string,
   expected: string[],
   variables: { [key: string]: any } | undefined,
-  func: (info: GraphQLResolveInfo) => string[],
+  fieldName: string,
 ) {
-  let actual;
-  function resolver(parent: any, args: { [key: string]: any }, context: any, info: GraphQLResolveInfo) {
-    actual = func(info);
-    return { a: 1, b: 2, c: 3, d: 4, e: { a: 5 } };
-  }
-  const EType: GraphQLObjectType = new GraphQLObjectType({
-    name: 'NestedType',
-    fields: () => ({
-      x: { type: GraphQLString },
-      e: { type: EType },
-    }),
-  });
-  const GEnum = new GraphQLEnumType({
-    name: 'RGB',
-    values: {
-      RED: { value: 0 },
-      GREEN: { value: 1 },
-      BLUE: { value: 2 },
-    },
-  });
-  const ZInput = new GraphQLInputObjectType({
-    name: 'NestedInput',
-    fields: () => ({
-      g: { type: GEnum },
-      h: { type: GraphQLBoolean },
-    }),
-  });
-  const QueryType = new GraphQLObjectType({
-    name: 'Query',
-    fields: {
-      scalarField: {
-        type: GraphQLString,
-        resolve: resolver,
-      },
-      someType: {
-        type: new GraphQLObjectType({
-          name: 'SomeType',
-          fields: {
-            a: { type: GraphQLString, args: { y: { type: GraphQLString }, z: { type: ZInput } } },
-            b: { type: GraphQLString },
-            c: { type: GraphQLString },
-            d: { type: GraphQLString },
-            e: { type: EType },
-          },
-        }),
-        resolve: resolver,
-      },
-    },
-  });
-  const schema = new GraphQLSchema({ query: QueryType });
-
+  const info = await getInfo(query, variables);
+  const actual = getFieldList(info, fieldName);
   await graphql(schema, query, undefined, undefined, variables);
   expect(actual).to.eql(expected);
 }
 
 describe('getFieldList with fieldName', () => {
   it('basic query', async () => {
-    await testGetFields('{ someType { a b e { x } } }', ['x'], undefined, (info) => getFieldList(info, 'e'));
+    await test('{ someType { a b e { x } } }', ['x'], undefined, 'e');
   });
 
   it('get fields on scalar field', async () => {
-    await testGetFields('{ scalarField }', [], undefined, (info) => getFieldList(info, 'e'));
+    await test('{ scalarField }', [], undefined, 'e');
   });
 
   it('fragment', async () => {
-    await testGetFields(
+    await test(
       `
       fragment Frag on SomeType {
         a
@@ -86,21 +80,21 @@ describe('getFieldList with fieldName', () => {
       }
       { someType { ...Frag } }
       `,
-      ['x'], undefined, (info) => getFieldList(info, 'e'),
+      ['x'], undefined, 'e',
     );
   });
 
   it('inline fragment', async () => {
-    await testGetFields(
+    await test(
       `
       { someType { ...on SomeType { a e { x } } } }
       `,
-      ['x'], undefined, (info) => getFieldList(info, 'e'),
+      ['x'], undefined, 'e',
     );
   });
 
   it('@include false', async () => {
-    await testGetFields(
+    await test(
       `
       {
         someType {
@@ -111,12 +105,12 @@ describe('getFieldList with fieldName', () => {
         }
       }
       `,
-      [], undefined, (info) => getFieldList(info, 'e'),
+      [], undefined, 'e',
     );
   });
 
   it('@include true', async () => {
-    await testGetFields(
+    await test(
       `
       {
         someType {
@@ -127,12 +121,12 @@ describe('getFieldList with fieldName', () => {
         }
       }
       `,
-      ['x'], undefined, (info) => getFieldList(info, 'e'),
+      ['x'], undefined, 'e',
     );
   });
 
   it('@skip false', async () => {
-    await testGetFields(
+    await test(
       `
       {
         someType {
@@ -143,12 +137,12 @@ describe('getFieldList with fieldName', () => {
         }
       }
       `,
-      ['x'], undefined, (info) => getFieldList(info, 'e'),
+      ['x'], undefined, 'e',
     );
   });
 
   it('@skip true', async () => {
-    await testGetFields(
+    await test(
       `
       {
         someType {
@@ -159,12 +153,12 @@ describe('getFieldList with fieldName', () => {
         }
       }
       `,
-      [], undefined, (info) => getFieldList(info, 'e'),
+      [], undefined, 'e',
     );
   });
 
   it('@include variable false', async () => {
-    await testGetFields(
+    await test(
       `
       query($test: Boolean!){
         someType {
@@ -176,12 +170,12 @@ describe('getFieldList with fieldName', () => {
       `,
       [],
       { test: false },
-      (info) => getFieldList(info, 'e'),
+      'e',
     );
   });
 
   it('@skip variable true', async () => {
-    await testGetFields(
+    await test(
       `
       query($test: Boolean!){
         someType {
@@ -193,12 +187,12 @@ describe('getFieldList with fieldName', () => {
       `,
       [],
       { test: true },
-      (info) => getFieldList(info, 'e'),
+      'e',
     );
   });
 
   it('nested fragments', async () => {
-    await testGetFields(
+    await test(
       `
       {
         someType {
@@ -215,12 +209,12 @@ describe('getFieldList with fieldName', () => {
         }
       }
       `,
-      ['x'], undefined, (info) => getFieldList(info, 'e'),
+      ['x'], undefined, 'e',
     );
   });
 
   it('works with nested types', async () => {
-    await testGetFields(
+    await test(
       `
       {
         someType {
@@ -235,12 +229,12 @@ describe('getFieldList with fieldName', () => {
         }
       }
       `,
-      ['e.x', 'x'], undefined, (info) => getFieldList(info, 'e'),
+      ['e.x', 'x'], undefined, 'e',
     );
   });
 
   it('works with doubly nested types', async () => {
-    await testGetFields(
+    await test(
       `
       {
         someType {
@@ -257,12 +251,12 @@ describe('getFieldList with fieldName', () => {
         }
       }
       `,
-      ['e.e.x', 'x'], undefined, (info) => getFieldList(info, 'e'),
+      ['e.e.x', 'x'], undefined, 'e',
     );
   });
 
   it('works with super duper nested types', async () => {
-    await testGetFields(
+    await test(
       `
       {
         someType {
@@ -282,7 +276,7 @@ describe('getFieldList with fieldName', () => {
         }
       }
       `,
-      ['e.e.e.e.x'], undefined, (info) => getFieldList(info, 'e'),
+      ['e.e.e.e.x'], undefined, 'e',
     );
   });
 });
