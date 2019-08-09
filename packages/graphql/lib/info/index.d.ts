@@ -8,7 +8,7 @@ export { getFieldString } from './getFieldString';
 import { removeArgumentFromInfo } from './removeArgumentFromInfo';
 export { removeArgumentFromInfo };
 export interface IGraphQLResolveInfoMethods {
-    addArgument(name: string, value: any, type: GraphQLInputType): this;
+    addArgument(name: string, value: any, type: GraphQLInputType, path?: string): this;
     removeArgument(name: string): this;
     conformToSchema(schema: GraphQLSchema, fragments?: Array<{
         field: string;

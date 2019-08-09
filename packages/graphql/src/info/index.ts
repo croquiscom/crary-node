@@ -10,7 +10,7 @@ import { removeArgumentFromInfo } from './removeArgumentFromInfo';
 export { removeArgumentFromInfo };
 
 export interface IGraphQLResolveInfoMethods {
-  addArgument(name: string, value: any, type: GraphQLInputType): this;
+  addArgument(name: string, value: any, type: GraphQLInputType, path?: string): this;
   removeArgument(name: string): this;
   conformToSchema(schema: GraphQLSchema, fragments?: Array<{ field: string; fragment: string; }>): this;
 }
@@ -18,7 +18,7 @@ export interface IGraphQLResolveInfoMethods {
 export function wrapInfo<T extends GraphQLResolveInfo = GraphQLResolveInfo>(info: T): T & IGraphQLResolveInfoMethods {
   return {
     ...info,
-    addArgument(name, value, type) { return addArgumentToInfo(this, name, value, type); },
+    addArgument(name, value, type, path) { return addArgumentToInfo(this, name, value, type, path); },
     removeArgument(name) { return removeArgumentFromInfo(this, name); },
     conformToSchema(schema, fragments) { return conformInfoToSchema(this, schema, fragments); },
   };

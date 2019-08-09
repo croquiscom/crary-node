@@ -1,4 +1,4 @@
-import { GraphQLInputType, GraphQLList, GraphQLNonNull, GraphQLResolveInfo, Kind, TypeNode } from 'graphql';
+import { FieldNode, GraphQLInputType, GraphQLList, GraphQLNonNull, GraphQLResolveInfo, Kind, TypeNode } from 'graphql';
 
 function typeToAst(type: GraphQLInputType): TypeNode {
   if (type instanceof GraphQLNonNull) {
@@ -30,10 +30,53 @@ function typeToAst(type: GraphQLInputType): TypeNode {
   }
 }
 
+function addArgumentToFieldNode(fieldNode: FieldNode, path: string[], name: string, variable_name: string): FieldNode {
+  if (path.length === 0) {
+    return {
+      ...fieldNode,
+      arguments: [
+        ...(fieldNode.arguments || []),
+        {
+          kind: Kind.ARGUMENT,
+          name: {
+            kind: Kind.NAME,
+            value: name,
+          },
+          value: {
+            kind: Kind.VARIABLE,
+            name: {
+              kind: Kind.NAME,
+              value: variable_name,
+            },
+          },
+        },
+      ],
+    };
+  }
+
+  if (!fieldNode.selectionSet) {
+    return fieldNode;
+  }
+
+  const selections = fieldNode.selectionSet.selections.map((selection) => {
+    if (selection.kind === 'Field' && selection.name.value === path[0]) {
+      return addArgumentToFieldNode(selection, path.slice(1), name, variable_name);
+    }
+    return selection;
+  });
+  return {
+    ...fieldNode,
+    selectionSet: {
+      ...fieldNode.selectionSet,
+      selections,
+    },
+  };
+}
+
 export function addArgumentToInfo<T extends GraphQLResolveInfo = GraphQLResolveInfo>(
-  info: T, name: string, value: any, type: GraphQLInputType,
+  info: T, name: string, value: any, type: GraphQLInputType, path?: string,
 ): T {
-  const varaiable_name = `_c_${name}`;
+  const variable_name = `_c_${name}`;
   const variableDefinitions = [
     ...(info.operation.variableDefinitions || []),
     {
@@ -43,31 +86,12 @@ export function addArgumentToInfo<T extends GraphQLResolveInfo = GraphQLResolveI
         kind: Kind.VARIABLE,
         name: {
           kind: Kind.NAME,
-          value: varaiable_name,
+          value: variable_name,
         },
       },
     },
   ];
-  const fieldNode = {
-    ...info.fieldNodes[0],
-    arguments: [
-      ...(info.fieldNodes[0].arguments || []),
-      {
-        kind: Kind.ARGUMENT,
-        name: {
-          kind: Kind.NAME,
-          value: name,
-        },
-        value: {
-          kind: Kind.VARIABLE,
-          name: {
-            kind: Kind.NAME,
-            value: varaiable_name,
-          },
-        },
-      },
-    ],
-  };
+  const fieldNode = addArgumentToFieldNode(info.fieldNodes[0], path ? path.split('.') : [], name, variable_name);
   return {
     ...info,
     fieldNodes: [fieldNode],
@@ -81,7 +105,7 @@ export function addArgumentToInfo<T extends GraphQLResolveInfo = GraphQLResolveI
     },
     variableValues: {
       ...info.variableValues,
-      [varaiable_name]: value,
+      [variable_name]: value,
     },
   };
 }

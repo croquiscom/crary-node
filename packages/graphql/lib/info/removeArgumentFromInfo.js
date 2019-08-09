@@ -14,10 +14,10 @@ function removeArgumentFromInfo(info, name) {
     if (arg_to_remove.value.kind !== graphql_1.Kind.VARIABLE) {
         return info;
     }
-    const varaiable_name = arg_to_remove.value.name.value;
+    const variable_name = arg_to_remove.value.name.value;
     const fieldNode = Object.assign({}, info.fieldNodes[0], { arguments: info.fieldNodes[0].arguments.filter((arg) => arg !== arg_to_remove) });
     const variableDefinitions = (info.operation.variableDefinitions || [])
-        .filter((def) => def.variable.name.value !== varaiable_name);
+        .filter((def) => def.variable.name.value !== variable_name);
     return Object.assign({}, info, { fieldNodes: [fieldNode], operation: Object.assign({}, info.operation, { selectionSet: {
                 kind: graphql_1.Kind.SELECTION_SET,
                 selections: [fieldNode],

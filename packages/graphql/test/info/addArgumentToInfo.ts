@@ -3,9 +3,15 @@ import { buildSchema, DocumentNode, graphql, GraphQLInt, GraphQLResolveInfo, Kin
 import { addArgumentToInfo, wrapInfo } from '../..';
 
 const schema = buildSchema(`
+type Supplier {
+  id: Int
+  name: String
+}
+
 type Product {
   id: Int
   name: String
+  supplier: Supplier
 }
 
 type Query {
@@ -43,6 +49,39 @@ describe('addArgumentToInfo', () => {
       kind: Kind.DOCUMENT,
     };
     const expected = 'query ($_c_limit: Int) { getProducts(limit: $_c_limit) { id name } }';
+    expect(print(document).replace(/\s+/g, ' ').trim()).to.eql(expected);
+  });
+
+  it('add in path', async () => {
+    let info!: GraphQLResolveInfo;
+    await graphql(schema, 'query($text: String) { getProducts(text: $text) { id name } }', {
+      getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
+        info = _info;
+      },
+    }, {}, { text: 'my' });
+    const newInfo = addArgumentToInfo(info, 'limit', 5, GraphQLInt, 'name');
+    const document: DocumentNode = {
+      definitions: [newInfo.operation],
+      kind: Kind.DOCUMENT,
+    };
+    const expected = 'query ($text: String, $_c_limit: Int) { getProducts(text: $text) { id name(limit: $_c_limit) } }';
+    expect(print(document).replace(/\s+/g, ' ').trim()).to.eql(expected);
+  });
+
+  it('add in deep path', async () => {
+    let info!: GraphQLResolveInfo;
+    await graphql(schema, 'query($text: String) { getProducts(text: $text) { id name supplier { id name } } }', {
+      getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
+        info = _info;
+      },
+    }, {}, { text: 'my' });
+    const newInfo = addArgumentToInfo(info, 'limit', 5, GraphQLInt, 'supplier.name');
+    const document: DocumentNode = {
+      definitions: [newInfo.operation],
+      kind: Kind.DOCUMENT,
+    };
+    // tslint:disable-next-line:max-line-length
+    const expected = 'query ($text: String, $_c_limit: Int) { getProducts(text: $text) { id name supplier { id name(limit: $_c_limit) } } }';
     expect(print(document).replace(/\s+/g, ' ').trim()).to.eql(expected);
   });
 

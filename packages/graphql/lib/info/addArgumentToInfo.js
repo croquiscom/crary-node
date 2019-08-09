@@ -31,8 +31,39 @@ function typeToAst(type) {
         };
     }
 }
-function addArgumentToInfo(info, name, value, type) {
-    const varaiable_name = `_c_${name}`;
+function addArgumentToFieldNode(fieldNode, path, name, variable_name) {
+    if (path.length === 0) {
+        return Object.assign({}, fieldNode, { arguments: [
+                ...(fieldNode.arguments || []),
+                {
+                    kind: graphql_1.Kind.ARGUMENT,
+                    name: {
+                        kind: graphql_1.Kind.NAME,
+                        value: name,
+                    },
+                    value: {
+                        kind: graphql_1.Kind.VARIABLE,
+                        name: {
+                            kind: graphql_1.Kind.NAME,
+                            value: variable_name,
+                        },
+                    },
+                },
+            ] });
+    }
+    if (!fieldNode.selectionSet) {
+        return fieldNode;
+    }
+    const selections = fieldNode.selectionSet.selections.map((selection) => {
+        if (selection.kind === 'Field' && selection.name.value === path[0]) {
+            return addArgumentToFieldNode(selection, path.slice(1), name, variable_name);
+        }
+        return selection;
+    });
+    return Object.assign({}, fieldNode, { selectionSet: Object.assign({}, fieldNode.selectionSet, { selections }) });
+}
+function addArgumentToInfo(info, name, value, type, path) {
+    const variable_name = `_c_${name}`;
     const variableDefinitions = [
         ...(info.operation.variableDefinitions || []),
         {
@@ -42,31 +73,15 @@ function addArgumentToInfo(info, name, value, type) {
                 kind: graphql_1.Kind.VARIABLE,
                 name: {
                     kind: graphql_1.Kind.NAME,
-                    value: varaiable_name,
+                    value: variable_name,
                 },
             },
         },
     ];
-    const fieldNode = Object.assign({}, info.fieldNodes[0], { arguments: [
-            ...(info.fieldNodes[0].arguments || []),
-            {
-                kind: graphql_1.Kind.ARGUMENT,
-                name: {
-                    kind: graphql_1.Kind.NAME,
-                    value: name,
-                },
-                value: {
-                    kind: graphql_1.Kind.VARIABLE,
-                    name: {
-                        kind: graphql_1.Kind.NAME,
-                        value: varaiable_name,
-                    },
-                },
-            },
-        ] });
+    const fieldNode = addArgumentToFieldNode(info.fieldNodes[0], path ? path.split('.') : [], name, variable_name);
     return Object.assign({}, info, { fieldNodes: [fieldNode], operation: Object.assign({}, info.operation, { selectionSet: {
                 kind: graphql_1.Kind.SELECTION_SET,
                 selections: [fieldNode],
-            }, variableDefinitions }), variableValues: Object.assign({}, info.variableValues, { [varaiable_name]: value }) });
+            }, variableDefinitions }), variableValues: Object.assign({}, info.variableValues, { [variable_name]: value }) });
 }
 exports.addArgumentToInfo = addArgumentToInfo;

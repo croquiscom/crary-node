@@ -13,13 +13,13 @@ export function removeArgumentFromInfo<T extends GraphQLResolveInfo = GraphQLRes
   if (arg_to_remove.value.kind !== Kind.VARIABLE) {
     return info;
   }
-  const varaiable_name = (arg_to_remove.value as VariableNode).name.value;
+  const variable_name = (arg_to_remove.value as VariableNode).name.value;
   const fieldNode = {
     ...info.fieldNodes[0],
     arguments: info.fieldNodes[0].arguments.filter((arg) => arg !== arg_to_remove),
   };
   const variableDefinitions = (info.operation.variableDefinitions || [])
-    .filter((def) => def.variable.name.value !== varaiable_name);
+    .filter((def) => def.variable.name.value !== variable_name);
   return {
     ...info,
     fieldNodes: [fieldNode],
