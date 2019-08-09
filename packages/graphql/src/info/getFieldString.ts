@@ -1,25 +1,13 @@
 import {
   ArgumentNode, FieldNode, FragmentDefinitionNode,
-  GraphQLResolveInfo, InlineFragmentNode, SelectionNode,
+  GraphQLResolveInfo, InlineFragmentNode, print, SelectionNode,
 } from 'graphql';
 import { isExcludedByDirective } from './common';
 
 function getArgumentStringNode(nodes: readonly ArgumentNode[]): string {
   const result = nodes.reduce((values: string[], node: any) => {
-    switch (node.value.kind) {
-      case 'Variable':
-        values.push(`${node.name.value}: $${node.value.name.value}`);
-        return values;
-      case 'StringValue':
-        values.push(`${node.name.value}: "${node.value.value}"`);
-        return values;
-      case 'ObjectValue':
-        values.push(`${node.name.value}: { ${getArgumentStringNode(node.value.fields)} }`);
-        return values;
-      default:
-        values.push(`${node.name.value}: ${node.value.value}`);
-        return values;
-    }
+    values.push(print(node));
+    return values;
   }, []);
 
   return result.join(', ');

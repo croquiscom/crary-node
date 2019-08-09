@@ -1,22 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const graphql_1 = require("graphql");
 const common_1 = require("./common");
 function getArgumentStringNode(nodes) {
     const result = nodes.reduce((values, node) => {
-        switch (node.value.kind) {
-            case 'Variable':
-                values.push(`${node.name.value}: $${node.value.name.value}`);
-                return values;
-            case 'StringValue':
-                values.push(`${node.name.value}: "${node.value.value}"`);
-                return values;
-            case 'ObjectValue':
-                values.push(`${node.name.value}: { ${getArgumentStringNode(node.value.fields)} }`);
-                return values;
-            default:
-                values.push(`${node.name.value}: ${node.value.value}`);
-                return values;
-        }
+        values.push(graphql_1.print(node));
+        return values;
     }, []);
     return result.join(', ');
 }

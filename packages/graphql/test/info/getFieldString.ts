@@ -23,7 +23,7 @@ input NestedInput {
 
 type SomeType {
   a(y: String, z: NestedInput): String
-  b: String
+  b(k: [Int]): String
   c: String
   d: String
   e: NestedType
@@ -74,21 +74,21 @@ describe('getFieldString', () => {
       {
         someType {
           a(y: "text", z: { g: RED, h: false })
-          b
+          b(k: [1, null, 3])
         }
       }
-    `, 'a(y: "text", z: { g: RED, h: false }) b', undefined);
+    `, 'a(y: "text", z: {g: RED, h: false}) b(k: [1, null, 3])', undefined);
   });
 
   it('argument (with variables)', async () => {
     await test(`
-      query($y: String) {
+      query($k: [Int], $y: String) {
         someType {
           a(y: $y)
-          b
+          b(k: $k)
         }
       }
-    `, 'a(y: $y) b', { value: 'text' });
+    `, 'a(y: $y) b(k: $k)', { y: 'text', k: [1, null, 3] });
   });
 
   it('fragment', async () => {
