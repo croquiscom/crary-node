@@ -1,8 +1,8 @@
 import { GraphQLInputType, GraphQLResolveInfo, GraphQLSchema } from 'graphql';
 
-import { addArgumentToInfo } from './addArgumentToInfo';
+import { addArgumentToInfo, IAddArgumentToInfoOptions } from './addArgumentToInfo';
 export { addArgumentToInfo };
-import { addFieldToInfo } from './addFieldToInfo';
+import { addFieldToInfo, IAddFieldToInfoOptions } from './addFieldToInfo';
 export { addFieldToInfo };
 import { conformInfoToSchema } from './conformInfoToSchema';
 export { conformInfoToSchema };
@@ -12,8 +12,8 @@ import { removeArgumentFromInfo } from './removeArgumentFromInfo';
 export { removeArgumentFromInfo };
 
 export interface IGraphQLResolveInfoMethods {
-  addArgument(name: string, value: any, type: GraphQLInputType, path?: string): this;
-  addField(name: string, path?: string): this;
+  addArgument(name: string, value: any, type: GraphQLInputType, options?: IAddArgumentToInfoOptions): this;
+  addField(name: string, options?: IAddFieldToInfoOptions): this;
   removeArgument(name: string): this;
   conformToSchema(schema: GraphQLSchema, fragments?: Array<{ field: string; fragment: string; }>): this;
 }
@@ -21,8 +21,8 @@ export interface IGraphQLResolveInfoMethods {
 export function wrapInfo<T extends GraphQLResolveInfo = GraphQLResolveInfo>(info: T): T & IGraphQLResolveInfoMethods {
   return {
     ...info,
-    addArgument(name, value, type, path) { return addArgumentToInfo(this, name, value, type, path); },
-    addField(name, path) { return addFieldToInfo(this, name, path); },
+    addArgument(name, value, type, options) { return addArgumentToInfo(this, name, value, type, options); },
+    addField(name, options) { return addFieldToInfo(this, name, options); },
     removeArgument(name) { return removeArgumentFromInfo(this, name); },
     conformToSchema(schema, fragments) { return conformInfoToSchema(this, schema, fragments); },
   };

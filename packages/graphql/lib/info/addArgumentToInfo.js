@@ -62,7 +62,7 @@ function addArgumentToFieldNode(fieldNode, path, name, variable_name) {
     });
     return Object.assign({}, fieldNode, { selectionSet: Object.assign({}, fieldNode.selectionSet, { selections }) });
 }
-function addArgumentToInfo(info, name, value, type, path) {
+function addArgumentToInfo(info, name, value, type, options = {}) {
     const variable_name = `_c_${name}`;
     const variableDefinitions = [
         ...(info.operation.variableDefinitions || []),
@@ -78,7 +78,8 @@ function addArgumentToInfo(info, name, value, type, path) {
             },
         },
     ];
-    const fieldNode = addArgumentToFieldNode(info.fieldNodes[0], path ? path.split('.') : [], name, variable_name);
+    const path = options.path ? options.path.split('.') : [];
+    const fieldNode = addArgumentToFieldNode(info.fieldNodes[0], path, name, variable_name);
     return Object.assign({}, info, { fieldNodes: [fieldNode], operation: Object.assign({}, info.operation, { selectionSet: {
                 kind: graphql_1.Kind.SELECTION_SET,
                 selections: [fieldNode],

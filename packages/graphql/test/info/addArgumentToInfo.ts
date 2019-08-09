@@ -59,7 +59,7 @@ describe('addArgumentToInfo', () => {
         info = _info;
       },
     }, {}, { text: 'my' });
-    const newInfo = addArgumentToInfo(info, 'limit', 5, GraphQLInt, 'name');
+    const newInfo = addArgumentToInfo(info, 'limit', 5, GraphQLInt, { path: 'name' });
     const document: DocumentNode = {
       definitions: [newInfo.operation],
       kind: Kind.DOCUMENT,
@@ -75,7 +75,7 @@ describe('addArgumentToInfo', () => {
         info = _info;
       },
     }, {}, { text: 'my' });
-    const newInfo = addArgumentToInfo(info, 'limit', 5, GraphQLInt, 'supplier.name');
+    const newInfo = addArgumentToInfo(info, 'limit', 5, GraphQLInt, { path: 'supplier.name' });
     const document: DocumentNode = {
       definitions: [newInfo.operation],
       kind: Kind.DOCUMENT,

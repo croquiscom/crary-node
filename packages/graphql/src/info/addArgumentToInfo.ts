@@ -1,5 +1,9 @@
 import { FieldNode, GraphQLInputType, GraphQLList, GraphQLNonNull, GraphQLResolveInfo, Kind, TypeNode } from 'graphql';
 
+export interface IAddArgumentToInfoOptions {
+  path?: string;
+}
+
 function typeToAst(type: GraphQLInputType): TypeNode {
   if (type instanceof GraphQLNonNull) {
     const innerType = typeToAst(type.ofType);
@@ -74,7 +78,7 @@ function addArgumentToFieldNode(fieldNode: FieldNode, path: string[], name: stri
 }
 
 export function addArgumentToInfo<T extends GraphQLResolveInfo = GraphQLResolveInfo>(
-  info: T, name: string, value: any, type: GraphQLInputType, path?: string,
+  info: T, name: string, value: any, type: GraphQLInputType, options: IAddArgumentToInfoOptions = {},
 ): T {
   const variable_name = `_c_${name}`;
   const variableDefinitions = [
@@ -91,7 +95,8 @@ export function addArgumentToInfo<T extends GraphQLResolveInfo = GraphQLResolveI
       },
     },
   ];
-  const fieldNode = addArgumentToFieldNode(info.fieldNodes[0], path ? path.split('.') : [], name, variable_name);
+  const path = options.path ? options.path.split('.') : [];
+  const fieldNode = addArgumentToFieldNode(info.fieldNodes[0], path, name, variable_name);
   return {
     ...info,
     fieldNodes: [fieldNode],

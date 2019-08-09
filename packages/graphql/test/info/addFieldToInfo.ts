@@ -59,7 +59,7 @@ describe('addFieldToInfo', () => {
         info = _info;
       },
     }, {}, { text: 'my' });
-    const newInfo = addFieldToInfo(info, 'id', 'supplier');
+    const newInfo = addFieldToInfo(info, 'id', { path: 'supplier' });
     const document: DocumentNode = {
       definitions: [newInfo.operation],
       kind: Kind.DOCUMENT,

@@ -32,8 +32,9 @@ function addFieldToFieldNode(fieldNode, path, name) {
         return Object.assign({}, fieldNode, { selectionSet: Object.assign({}, fieldNode.selectionSet, { selections }) });
     }
 }
-function addFieldToInfo(info, name, path) {
-    const fieldNode = addFieldToFieldNode(info.fieldNodes[0], path ? path.split('.') : [], name);
+function addFieldToInfo(info, name, options = {}) {
+    const path = options.path ? options.path.split('.') : [];
+    const fieldNode = addFieldToFieldNode(info.fieldNodes[0], path, name);
     return Object.assign({}, info, { fieldNodes: [fieldNode], operation: Object.assign({}, info.operation, { selectionSet: {
                 kind: graphql_1.Kind.SELECTION_SET,
                 selections: [fieldNode],

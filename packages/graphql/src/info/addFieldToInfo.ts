@@ -1,5 +1,9 @@
 import { FieldNode, GraphQLResolveInfo, Kind } from 'graphql';
 
+export interface IAddFieldToInfoOptions {
+  path?: string;
+}
+
 function addFieldToFieldNode(fieldNode: FieldNode, path: string[], name: string): FieldNode {
   if (!fieldNode.selectionSet) {
     return fieldNode;
@@ -45,9 +49,10 @@ function addFieldToFieldNode(fieldNode: FieldNode, path: string[], name: string)
 }
 
 export function addFieldToInfo<T extends GraphQLResolveInfo = GraphQLResolveInfo>(
-  info: T, name: string, path?: string,
+  info: T, name: string, options: IAddFieldToInfoOptions = {},
 ): T {
-  const fieldNode = addFieldToFieldNode(info.fieldNodes[0], path ? path.split('.') : [], name);
+  const path = options.path ? options.path.split('.') : [];
+  const fieldNode = addFieldToFieldNode(info.fieldNodes[0], path, name);
   return {
     ...info,
     fieldNodes: [fieldNode],
