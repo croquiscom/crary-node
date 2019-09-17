@@ -8,7 +8,7 @@ const on_finished_1 = __importDefault(require("on-finished"));
 const util_1 = __importDefault(require("util"));
 exports.default = (config) => {
     log4js_1.default.configure(config.log4js_config);
-    const logger = log4js_1.default.getLogger('express');
+    const logger = log4js_1.default.getLogger(config.project_name || 'express');
     const project_root = config.project_root + '/';
     const format = (req, res) => {
         if (req.skip_logging) {

@@ -2,6 +2,7 @@ import express from 'express';
 import log4js from 'log4js';
 
 export interface IExpressConfig {
+  project_name?: string;
   project_root: string;
   log4js_config?: log4js.Configuration;
   session?: {

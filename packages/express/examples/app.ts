@@ -16,6 +16,7 @@ const app = createApp({
       },
     },
   },
+  project_name: 'examples',
   project_root: __dirname,
   routers: routes,
   session: {

@@ -6,7 +6,7 @@ import { IExpressConfig } from './config';
 
 export default (config: IExpressConfig) => {
   log4js.configure(config.log4js_config!);
-  const logger = log4js.getLogger('express');
+  const logger = log4js.getLogger(config.project_name || 'express');
   const project_root = config.project_root + '/';
   const format = (req: express.Request, res: express.Response) => {
     if (req.skip_logging) {
