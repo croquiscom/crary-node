@@ -28,6 +28,6 @@ function conformInfoToSchema(info, schema, fragments) {
     const request = { document, variables: {} };
     const transformed = new graphql_tools_1.FilterToSchema(schema).transformRequest(new graphql_tools_1.ReplaceFieldWithFragment(schema, fragments).transformRequest(request));
     const definition = transformed.document.definitions[0];
-    return Object.assign({}, info, { fieldNodes: definition.selectionSet.selections });
+    return Object.assign(Object.assign({}, info), { fieldNodes: definition.selectionSet.selections });
 }
 exports.conformInfoToSchema = conformInfoToSchema;

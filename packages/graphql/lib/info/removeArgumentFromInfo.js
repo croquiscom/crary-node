@@ -15,10 +15,10 @@ function removeArgumentFromInfo(info, name) {
         return info;
     }
     const variable_name = arg_to_remove.value.name.value;
-    const fieldNode = Object.assign({}, info.fieldNodes[0], { arguments: info.fieldNodes[0].arguments.filter((arg) => arg !== arg_to_remove) });
+    const fieldNode = Object.assign(Object.assign({}, info.fieldNodes[0]), { arguments: info.fieldNodes[0].arguments.filter((arg) => arg !== arg_to_remove) });
     const variableDefinitions = (info.operation.variableDefinitions || [])
         .filter((def) => def.variable.name.value !== variable_name);
-    return Object.assign({}, info, { fieldNodes: [fieldNode], operation: Object.assign({}, info.operation, { selectionSet: {
+    return Object.assign(Object.assign({}, info), { fieldNodes: [fieldNode], operation: Object.assign(Object.assign({}, info.operation), { selectionSet: {
                 kind: graphql_1.Kind.SELECTION_SET,
                 selections: [fieldNode],
             }, variableDefinitions }) });
