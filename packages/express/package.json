@@ -1,6 +1,6 @@
 {
   "name": "@croquiscom/crary-express",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Croquis's library - express extension",
   "main": "./lib",
   "types": "./lib/index.d.ts",
