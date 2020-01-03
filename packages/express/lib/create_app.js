@@ -16,6 +16,7 @@ const connect_redis_1 = __importDefault(require("connect-redis"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const express_1 = __importDefault(require("express"));
 const express_session_1 = __importDefault(require("express-session"));
+const helmet_1 = __importDefault(require("helmet"));
 const os_1 = __importDefault(require("os"));
 const redis_1 = __importDefault(require("redis"));
 const logger_1 = __importDefault(require("./logger"));
@@ -56,6 +57,7 @@ function setupMiddlewares(app, config) {
         }
         next();
     });
+    app.use(helmet_1.default.hidePoweredBy());
     app.use(compression_1.default());
     app.use(body_parser_1.default.json({ limit: config.max_body_size || '10mb' }));
     app.use(body_parser_1.default.urlencoded({ limit: config.max_body_size || '10mb', extended: true }));
