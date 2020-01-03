@@ -6,6 +6,7 @@ const app = createApp({
   log4js_config: {
     appenders: {
       console: {
+        layout: { type: 'json' },
         type: 'console',
       },
     },

@@ -6,6 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const log4js_1 = __importDefault(require("log4js"));
 const on_finished_1 = __importDefault(require("on-finished"));
 const util_1 = __importDefault(require("util"));
+log4js_1.default.addLayout('json', (config) => {
+    return (logEvent) => JSON.stringify(Object.assign({ logdate: logEvent.startTime.getTime(), loglevel: logEvent.level.toString(), service_name: logEvent.categoryName }, logEvent.data[0].toJSON()));
+});
 exports.default = (config) => {
     log4js_1.default.configure(config.log4js_config);
     const logger = log4js_1.default.getLogger(config.project_name || 'express');
@@ -45,6 +48,26 @@ exports.default = (config) => {
             url = url.substr(0, url.length - 1);
         }
         return {
+            toJSON() {
+                // tslint:disable:object-literal-sort-keys
+                return {
+                    session: this.C.s.substr(0, 6),
+                    response_time: this.C.t,
+                    clientip: this.C.a,
+                    request_method: this.I.m,
+                    request_url: this.I.u,
+                    httpversion: this.I.v,
+                    response: this.O.s,
+                    bytes: this.O.l,
+                    referrer: this.I.r,
+                    agent: this.I.a,
+                    request_params: this.I.q,
+                    request_body: this.I.b,
+                    response_data: this.O.r,
+                    error_message: this.O.e,
+                    error_stack: this.O.es,
+                };
+            },
             [util_1.default.inspect.custom]() {
                 let msg = `<${this.C.s.substr(0, 6)}> [${this.C.t}ms] ${this.C.a} - -`;
                 msg += ` "${this.I.m} ${this.I.u} HTTP/${this.I.v}" ${this.O.s} ${this.O.l} "${this.I.r}" "${this.I.a}"`;

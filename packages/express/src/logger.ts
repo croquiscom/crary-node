@@ -4,6 +4,15 @@ import onFinished from 'on-finished';
 import util from 'util';
 import { IExpressConfig } from './config';
 
+log4js.addLayout('json', (config) => {
+  return (logEvent) => JSON.stringify({
+    logdate: logEvent.startTime.getTime(),
+    loglevel: logEvent.level.toString(),
+    service_name: logEvent.categoryName,
+    ...logEvent.data[0].toJSON(),
+  });
+});
+
 export default (config: IExpressConfig) => {
   log4js.configure(config.log4js_config!);
   const logger = log4js.getLogger(config.project_name || 'express');
@@ -43,6 +52,26 @@ export default (config: IExpressConfig) => {
       url = url.substr(0, url.length - 1);
     }
     return {
+      toJSON() {
+        // tslint:disable:object-literal-sort-keys
+        return {
+          session: this.C.s.substr(0, 6),
+          response_time: this.C.t,
+          clientip: this.C.a,
+          request_method: this.I.m,
+          request_url: this.I.u,
+          httpversion: this.I.v,
+          response: this.O.s,
+          bytes: this.O.l,
+          referrer: this.I.r,
+          agent: this.I.a,
+          request_params: this.I.q,
+          request_body: this.I.b,
+          response_data: this.O.r,
+          error_message: this.O.e,
+          error_stack: this.O.es,
+        };
+      },
       [util.inspect.custom]() {
         let msg = `<${this.C.s.substr(0, 6)}> [${this.C.t}ms] ${this.C.a} - -`;
         msg += ` "${this.I.m} ${this.I.u} HTTP/${this.I.v}" ${this.O.s} ${this.O.l} "${this.I.r}" "${this.I.a}"`;
