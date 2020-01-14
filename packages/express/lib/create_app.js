@@ -129,6 +129,7 @@ function installCheck(router, config) {
             data.session = false;
             res.status(400);
         }
+        req.sessionID = undefined; // session이 생성되지 않도록 한다
         res.type('application/json; charset=utf-8');
         res.json(data);
     });
