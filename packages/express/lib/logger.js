@@ -127,7 +127,7 @@ exports.default = (config) => {
                 // content_length
                 l: (res.__headers && res.__headers['Content-Length']) || '-',
                 // result
-                r: res.result,
+                r: res.result_for_logging || res.result,
                 // status
                 s: res.__statusCode || res.statusCode,
             },

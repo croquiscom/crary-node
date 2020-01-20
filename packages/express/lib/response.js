@@ -7,7 +7,7 @@ function install(response) {
             obj = status;
             status = this.statusCode || 200;
         }
-        this.result = this.result_for_logging || for_logging || obj;
+        this.result = for_logging || obj;
         this.type('application/json; charset=utf-8').status(status).json(obj);
     };
     response.setError = function (error, cause) {
