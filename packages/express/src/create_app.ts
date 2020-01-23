@@ -85,7 +85,8 @@ function setupSession(app: express.Express, config: IExpressConfig) {
       maxAge: config.session.ttl * 1000,
     },
     name: config.session.name,
-    resave: true, // session expire를 초기로 돌리기 위해서 매번 다시 저장한다
+    resave: false,
+    rolling: true,
     saveUninitialized: config.session.save_uninitialized || false,
     secret: config.session.secret,
     store: session_store,
