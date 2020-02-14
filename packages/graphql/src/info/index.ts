@@ -15,7 +15,7 @@ export interface IGraphQLResolveInfoMethods {
   addArgument(name: string, value: any, type: GraphQLInputType, options?: IAddArgumentToInfoOptions): this;
   addField(name: string, options?: IAddFieldToInfoOptions): this;
   removeArgument(name: string): this;
-  conformToSchema(schema: GraphQLSchema, fragments?: Array<{ field: string; fragment: string; }>): this;
+  conformToSchema(schema: GraphQLSchema, fragments?: { field: string; fragment: string; }[]): this;
 }
 
 export function wrapInfo<T extends GraphQLResolveInfo = GraphQLResolveInfo>(info: T): T & IGraphQLResolveInfoMethods {

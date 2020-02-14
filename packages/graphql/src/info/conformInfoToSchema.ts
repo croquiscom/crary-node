@@ -4,7 +4,7 @@ import { FilterToSchema, MergeInfo, ReplaceFieldWithFragment, Request } from 'gr
 export function conformInfoToSchema<T extends GraphQLResolveInfo & { mergeInfo?: MergeInfo } = GraphQLResolveInfo>(
   info: T,
   schema: GraphQLSchema,
-  fragments?: Array<{ field: string; fragment: string; }>,
+  fragments?: { field: string; fragment: string; }[],
 ): T {
   const document: DocumentNode = {
     definitions: [
