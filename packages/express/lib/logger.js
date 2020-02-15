@@ -18,10 +18,12 @@ exports.default = (config) => {
             return '';
         }
         let e = res.error;
+        let error_code;
         let error_message;
         let error_stack;
         let error_cause_message;
         if (e) {
+            error_code = e.code || e._code;
             error_message = e._code || e.message;
             if (!e._code && e.stack) {
                 let stack = e.stack;
@@ -65,6 +67,7 @@ exports.default = (config) => {
                     request_body: this.I.b,
                     response_data: this.O.r,
                     error_message: this.O.e,
+                    error_code: this.O.c,
                     error_stack: this.O.es,
                 };
             },
@@ -124,6 +127,8 @@ exports.default = (config) => {
                 ec: error_cause_message,
                 // error.stack
                 es: error_stack,
+                // error.code
+                c: error_code,
                 // content_length
                 l: (res.__headers && res.__headers['Content-Length']) || '-',
                 // result
