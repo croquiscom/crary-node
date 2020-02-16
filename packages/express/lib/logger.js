@@ -20,11 +20,13 @@ exports.default = (config) => {
         }
         let e = res.error;
         let error_code;
+        let error_ignorable;
         let error_message;
         let error_stack;
         let error_cause_message;
         if (e) {
             error_code = e.code || e._code;
+            error_ignorable = e.ignorable;
             error_message = e._code || e.message;
             if (!e._code && e.stack) {
                 error_stack = util_2.shrinkStackTrace(e.stack, project_root, 3);
@@ -62,6 +64,7 @@ exports.default = (config) => {
                     error_message: this.O.e,
                     error_code: this.O.c,
                     error_stack: this.O.es,
+                    error_ignorable: this.O.i,
                 };
             },
             [util_1.default.inspect.custom]() {
@@ -122,6 +125,8 @@ exports.default = (config) => {
                 es: error_stack,
                 // error.code
                 c: error_code,
+                // error.ignorable
+                i: error_ignorable,
                 // content_length
                 l: (res.__headers && res.__headers['Content-Length']) || '-',
                 // result

@@ -24,11 +24,13 @@ export default (config: IExpressConfig) => {
     }
     let e = res.error as any;
     let error_code;
+    let error_ignorable: boolean | undefined;
     let error_message;
     let error_stack: string[] | undefined;
     let error_cause_message;
     if (e) {
       error_code = e.code || e._code;
+      error_ignorable = e.ignorable;
       error_message = e._code || e.message;
       if (!e._code && e.stack) {
         error_stack = shrinkStackTrace(e.stack, project_root, 3);
@@ -66,6 +68,7 @@ export default (config: IExpressConfig) => {
           error_message: this.O.e,
           error_code: this.O.c,
           error_stack: this.O.es,
+          error_ignorable: this.O.i,
         };
       },
       [util.inspect.custom]() {
@@ -126,6 +129,8 @@ export default (config: IExpressConfig) => {
         es: error_stack,
         // error.code
         c: error_code,
+        // error.ignorable
+        i: error_ignorable,
         // content_length
         l: (res.__headers && res.__headers['Content-Length']) || '-',
         // result
