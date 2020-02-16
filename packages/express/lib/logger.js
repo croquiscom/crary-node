@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const log4js_1 = __importDefault(require("log4js"));
 const on_finished_1 = __importDefault(require("on-finished"));
 const util_1 = __importDefault(require("util"));
+const util_2 = require("./util");
 log4js_1.default.addLayout('json', (config) => {
     return (logEvent) => JSON.stringify(Object.assign({ logdate: logEvent.startTime.getTime(), loglevel: logEvent.level.toString(), service_name: logEvent.categoryName }, logEvent.data[0].toJSON()));
 });
@@ -26,15 +27,7 @@ exports.default = (config) => {
             error_code = e.code || e._code;
             error_message = e._code || e.message;
             if (!e._code && e.stack) {
-                let stack = e.stack;
-                stack = stack.substr(stack.indexOf('\n') + 1);
-                const pos = stack.indexOf('response.setError');
-                if (pos >= 0) {
-                    stack = stack.substr(stack.indexOf('\n', pos) + 1);
-                }
-                error_stack = stack.split('\n', 3).map((line) => {
-                    return line.replace(project_root, '').trim();
-                });
+                error_stack = util_2.shrinkStackTrace(e.stack, project_root, 3);
             }
             e = e.cause;
             if (e) {

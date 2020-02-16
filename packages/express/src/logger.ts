@@ -3,6 +3,7 @@ import log4js from 'log4js';
 import onFinished from 'on-finished';
 import util from 'util';
 import { IExpressConfig } from './config';
+import { shrinkStackTrace } from './util';
 
 log4js.addLayout('json', (config) => {
   return (logEvent) => JSON.stringify({
@@ -24,21 +25,13 @@ export default (config: IExpressConfig) => {
     let e = res.error as any;
     let error_code;
     let error_message;
-    let error_stack;
+    let error_stack: string[] | undefined;
     let error_cause_message;
     if (e) {
       error_code = e.code || e._code;
       error_message = e._code || e.message;
       if (!e._code && e.stack) {
-        let stack: string = e.stack;
-        stack = stack.substr(stack.indexOf('\n') + 1);
-        const pos = stack.indexOf('response.setError');
-        if (pos >= 0) {
-          stack = stack.substr(stack.indexOf('\n', pos) + 1);
-        }
-        error_stack = stack.split('\n', 3).map((line) => {
-          return line.replace(project_root, '').trim();
-        });
+        error_stack = shrinkStackTrace(e.stack, project_root, 3);
       }
       e = e.cause;
       if (e) {

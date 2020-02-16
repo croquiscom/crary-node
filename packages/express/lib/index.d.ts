@@ -1,6 +1,7 @@
 import express from 'express';
 import createApp from './create_app';
 export { createApp };
+export { shrinkStackTrace } from './util';
 export declare type Router = express.Router;
 export declare type Request = express.Request;
 export declare type Response = express.Response;

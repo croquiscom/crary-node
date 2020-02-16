@@ -1,4 +1,5 @@
 import http from 'http';
+import path from 'path';
 import { createApp } from '..';
 import routes from './routes';
 
@@ -18,7 +19,7 @@ const app = createApp({
     },
   },
   project_name: 'examples',
-  project_root: __dirname,
+  project_root: path.resolve(__dirname, '..'),
   routers: routes,
   session: {
     secret: 'secret',
