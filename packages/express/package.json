@@ -39,7 +39,7 @@
     "@types/express-session": "^1.15.16",
     "@types/helmet": "0.0.45",
     "@types/on-finished": "^2.3.1",
-    "@types/redis": "^2.8.15",
+    "@types/redis": "^2.8.16",
     "rimraf": "^3.0.2",
     "tslint": "^6.0.0",
     "typescript": "^3.7.5"
