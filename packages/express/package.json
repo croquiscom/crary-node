@@ -42,6 +42,6 @@
     "@types/redis": "^2.8.15",
     "rimraf": "^3.0.2",
     "tslint": "^6.0.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.2"
   }
 }
