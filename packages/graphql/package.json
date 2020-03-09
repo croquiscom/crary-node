@@ -29,7 +29,7 @@
   "devDependencies": {
     "@types/chai": "^4.2.9",
     "@types/graphql": "^14.5.0",
-    "@types/mocha": "^7.0.1",
+    "@types/mocha": "^7.0.2",
     "chai": "^4.2.0",
     "mocha": "^7.0.1",
     "rimraf": "^3.0.2",
