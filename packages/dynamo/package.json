@@ -1,0 +1,39 @@
+{
+  "name": "@croquiscom/crary-dynamo",
+  "version": "0.1.0",
+  "description": "Croquis's library - DynamoDB ORM",
+  "main": "./lib",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "prepublishOnly": "npm run lint && npm run build",
+    "build": "rimraf lib && tsc -p src/tsconfig.build.json",
+    "lint": "eslint --ext .js,.ts src",
+    "test:type": "tsc --noEmit",
+    "test": "npm run test:type && npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/croquiscom/Crary-Node.git"
+  },
+  "keywords": [
+    "DynamoDB"
+  ],
+  "author": "Croquis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/croquiscom/Crary-Node/issues"
+  },
+  "homepage": "https://github.com/croquiscom/Crary-Node",
+  "dependencies": {
+    "dynogels": "^9.1.0",
+    "dynogels-promisified": "^1.0.4",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@croquiscom/eslint-config": "^1.0.0",
+    "@types/lodash": "^4.14.149",
+    "eslint": "^6.8.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
+  }
+}
