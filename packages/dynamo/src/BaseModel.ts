@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as Dynogels from './Dynogels';
-import Query from './Query';
+import { Query } from './Query';
 import { ResultMapper } from './ResultMapper';
 
 export class BaseModel {
