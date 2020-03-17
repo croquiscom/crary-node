@@ -4,7 +4,7 @@ interface RawQueryResult {
     Count: number;
     Items?: any[];
 }
-interface Query {
+export interface Query {
     usingIndex(index: IndexType): Query;
     descending(): Query;
     ascending(): Query;
@@ -37,4 +37,4 @@ interface Query {
     expressionAttributeNames(params: any): Query;
     execAsync(): Promise<RawQueryResult>;
 }
-export default Query;
+export {};

@@ -1,4 +1,4 @@
-import { IndexType, QueryResult, ValueTypes } from './Types';
+import { IndexType, ValueTypes } from './Types';
 
 interface RawQueryResult {
   LastEvaluatedKey?: ValueTypes;
@@ -6,7 +6,7 @@ interface RawQueryResult {
   Items?: any[];
 }
 
-interface Query {
+export interface Query {
   usingIndex(index: IndexType): Query;
   descending(): Query;
   ascending(): Query;
@@ -45,5 +45,3 @@ interface Query {
   expressionAttributeNames(params: any): Query;
   execAsync(): Promise<RawQueryResult>;
 }
-
-export default Query;

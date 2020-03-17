@@ -1,4 +1,4 @@
-import Query from './Query';
+import { Query } from './Query';
 export declare class BaseModel {
     static dynogelsModel: any;
     static setSchema(name: any, schema: any): void;
