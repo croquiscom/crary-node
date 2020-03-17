@@ -17,12 +17,12 @@ const _ = __importStar(require("lodash"));
 // import * as logger from 'winston';
 // dynogels.log = logger;
 const { NODE_ENV } = process.env;
-const useRealDatabase = Boolean(NODE_ENV && ['real-prod', 'production', 'real-alpha', 'alpha'].indexOf(NODE_ENV) > -1);
+exports.is_real_db = Boolean(NODE_ENV && ['real-prod', 'production', 'real-alpha', 'alpha'].indexOf(NODE_ENV) > -1);
 function getEndPoint() {
     return 'http://localhost:11505';
 }
 exports.getEndPoint = getEndPoint;
-if (!useRealDatabase) {
+if (!exports.is_real_db) {
     if (NODE_ENV === 'test') {
         const dynamodb = new AWS.DynamoDB({
             endpoint: getEndPoint(),
