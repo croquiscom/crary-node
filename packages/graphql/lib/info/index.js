@@ -13,9 +13,12 @@ var getFieldString_1 = require("./getFieldString");
 exports.getFieldString = getFieldString_1.getFieldString;
 const removeArgumentFromInfo_1 = require("./removeArgumentFromInfo");
 exports.removeArgumentFromInfo = removeArgumentFromInfo_1.removeArgumentFromInfo;
+const removeFieldFromInfo_1 = require("./removeFieldFromInfo");
+exports.removeFieldFromInfo = removeFieldFromInfo_1.removeFieldFromInfo;
 function wrapInfo(info) {
     return Object.assign(Object.assign({}, info), { addArgument(name, value, type, options) { return addArgumentToInfo_1.addArgumentToInfo(this, name, value, type, options); },
         addField(name, options) { return addFieldToInfo_1.addFieldToInfo(this, name, options); },
+        removeField(name, options) { return removeFieldFromInfo_1.removeFieldFromInfo(this, name, options); },
         removeArgument(name) { return removeArgumentFromInfo_1.removeArgumentFromInfo(this, name); },
         conformToSchema(schema, fragments) { return conformInfoToSchema_1.conformInfoToSchema(this, schema, fragments); } });
 }
