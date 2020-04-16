@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { QueryResult } from './Types';
 
-const DateFields = ['date_created', 'date_updated', 'dateCreated', 'dateUpdated', 'locked_at'];
+const DateFields = ['date_created', 'date_updated', 'dateCreated', 'dateUpdated', 'locked_at', 'start_time', 'end_time'];
 
 export class ResultMapper {
   static mapQueryResultItems<T>(result): T[] {

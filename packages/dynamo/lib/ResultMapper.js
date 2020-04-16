@@ -8,7 +8,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const _ = __importStar(require("lodash"));
-const DateFields = ['date_created', 'date_updated', 'dateCreated', 'dateUpdated', 'locked_at'];
+const DateFields = ['date_created', 'date_updated', 'dateCreated', 'dateUpdated', 'locked_at', 'start_time', 'end_time'];
 class ResultMapper {
     static mapQueryResultItems(result) {
         let items = [];
