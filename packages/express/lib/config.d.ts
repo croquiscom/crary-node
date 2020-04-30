@@ -8,6 +8,7 @@ export interface IExpressConfig {
         redis?: {
             host?: string;
             port?: number;
+            db?: number;
             password?: string;
         };
         ttl: number;

@@ -5,8 +5,8 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import expressSession from 'express-session';
 import helmet from 'helmet';
+import Redis from 'ioredis';
 import os from 'os';
-import redis from 'redis';
 import { IExpressConfig } from './config';
 import logger from './logger';
 import * as response from './response';
@@ -65,9 +65,13 @@ function setupSession(app: express.Express, config: IExpressConfig) {
   }
   // tslint:disable-next-line: variable-name
   const RedisStore = connectRedis(expressSession);
-  const port = (config.session.redis && config.session.redis.port) || 6379;
-  const host = (config.session.redis && config.session.redis.host) || '127.0.0.1';
-  const redis_client = redis.createClient(port, host);
+  const port = config.session.redis?.port ?? 6379;
+  const host = config.session.redis?.host ?? '127.0.0.1';
+  const redis_client = new Redis({
+    port,
+    host,
+    db: config.session.redis?.db,
+  });
   const session_store = new RedisStore({
     client: redis_client,
     pass: config.session.redis && config.session.redis.password,
