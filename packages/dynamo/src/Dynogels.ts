@@ -34,7 +34,7 @@ if (!is_real_db) {
     });
     dynogels.dynamoDriver(dynamodb);
   }
-} else if (NODE_ENV === 'real-prod' || NODE_ENV === 'real-alpha') {
+} else {
   const dynamodb = new AWS.DynamoDB({
     region: 'ap-northeast-2',
   });
