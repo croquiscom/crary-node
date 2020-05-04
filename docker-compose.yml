@@ -1,0 +1,9 @@
+version: '3'
+services:
+  dynamodb:
+    image: amazon/dynamodb-local
+    container_name: crary-dynamodb
+    ports:
+      - 11505:8000
+    volumes:
+      - ./data/dynamodb:/dynamodb_local_db
