@@ -1,6 +1,14 @@
 import { Query } from './Query';
+import { QueryResult } from './Types';
 export declare class BaseModel {
     static dynogelsModel: any;
+    static schema: {
+        schema: {
+            [field: string]: {
+                _type: string;
+            };
+        };
+    };
     static setSchema(name: any, schema: any): void;
     private static checkHasModelInstance;
     static query(hashKey: any): Query;
@@ -20,6 +28,10 @@ export declare class BaseModel {
     static destroy(hashKey: string | number, rangeKey: string | number, options?: object): Promise<any>;
     static updateTable(params?: any): Promise<any>;
     static describeTable(): Promise<any>;
-    static list(cursor?: string): Promise<import("./Types").QueryResult<unknown>>;
+    static list(cursor?: string): Promise<QueryResult<unknown>>;
     static getItems(keys: any[], options?: any): Promise<any[]>;
+    static mapQueryResultItems<T>(result: any): T[];
+    static mapQueryResult<T>(result: any): QueryResult<T>;
+    static mapItem<T>(result: any): T;
+    static convertDateFields(data: any): any;
 }

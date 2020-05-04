@@ -4,7 +4,6 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./BaseModel"));
-__export(require("./ResultMapper"));
 __export(require("./Decorators"));
 __export(require("./Dynogels"));
 __export(require("./TestUtil"));

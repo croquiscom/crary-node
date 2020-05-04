@@ -1,12 +1,15 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
+
 import * as Dynogels from './Dynogels';
 import { Query } from './Query';
-import { ResultMapper } from './ResultMapper';
+import { QueryResult } from './Types';
 
 export class BaseModel {
   static dynogelsModel: any;
+  static schema: { schema: { [field: string]: { _type: string } } };
 
   static setSchema(name, schema) {
+    this.schema = schema;
     this.dynogelsModel = Dynogels.define(name, schema);
   }
 
@@ -71,7 +74,7 @@ export class BaseModel {
     this.checkHasModelInstance();
 
     const createResult = await this.dynogelsModel.createAsync(data, options);
-    return ResultMapper.mapItem(createResult);
+    return this.mapItem(createResult);
   }
 
   static async createBulk<M extends BaseModel>(this: (new () => M) & typeof BaseModel, data: any[], options?: object): Promise<M[]> {
@@ -80,7 +83,7 @@ export class BaseModel {
       return [];
     }
     const results = await this.dynogelsModel.createAsync(data, options);
-    return results.map((result) => ResultMapper.mapItem(result));
+    return results.map((result) => this.mapItem(result));
   }
 
   static async get(hashKey: string | number, options?: object): Promise<any>;
@@ -94,7 +97,7 @@ export class BaseModel {
     } else {
       getResult = await this.dynogelsModel.getAsync(hashKey, rangeKeyOrOptions);
     }
-    return ResultMapper.mapItem(getResult);
+    return this.mapItem(getResult);
   }
 
   static async update<M extends BaseModel>(this: (new () => M) & typeof BaseModel, data: any, options?: object): Promise<M> {
@@ -108,7 +111,7 @@ export class BaseModel {
     });
     this.checkHasModelInstance();
     const updateResult = await this.dynogelsModel.updateAsync(data, options);
-    return ResultMapper.mapItem(updateResult);
+    return this.mapItem(updateResult);
   }
 
   static async destroy(hashKey: string | number, options?: object): Promise<any>;
@@ -122,7 +125,7 @@ export class BaseModel {
     } else {
       destroyResult = await this.dynogelsModel.destroyAsync(hashKey, rangeKeyOrOptions);
     }
-    return ResultMapper.mapItem(destroyResult);
+    return this.mapItem(destroyResult);
   }
 
   static updateTable(params?: any): Promise<any> {
@@ -138,11 +141,47 @@ export class BaseModel {
     if (cursor) {
       scan.startKey(cursor);
     }
-    return ResultMapper.mapQueryResult(await scan.execAsync());
+    return this.mapQueryResult(await scan.execAsync());
   }
 
   static async getItems(keys: any[], options?): Promise<any[]> {
     const getResult = await this.dynogelsModel.getItemsAsync(keys, options);
-    return _.map(getResult, (item) => ResultMapper.mapItem(item));
+    return _.map(getResult, (item) => this.mapItem(item));
+  }
+
+  static mapQueryResultItems<T>(result): T[] {
+    return _.map<any, T>(result?.Items, (item) => this.mapItem(item));
+  }
+
+  static mapQueryResult<T>(result): QueryResult<T> {
+    const output: QueryResult<T> = { count: 0, items: [], nextCursor: undefined };
+    if (result.Items) {
+      output.items = _.map<any, T>(result.Items, (item) => this.mapItem(item));
+    }
+    if (result.Count) {
+      output.count = result.Count;
+    }
+    if (result.LastEvaluatedKey) {
+      output.nextCursor = JSON.stringify(result.LastEvaluatedKey);
+    } else {
+      delete output.nextCursor;
+    }
+
+    return output;
+  }
+
+  static mapItem<T>(result): T {
+    return result && this.convertDateFields(result.toJSON());
+  }
+
+  static convertDateFields(data) {
+    for (const field_name of Object.keys(data)) {
+      if (this.schema.schema[field_name]?._type === 'date') {
+        data[field_name] = new Date(data[field_name]);
+      } else if (typeof data[field_name] === 'object') {
+        //  todo : implement
+      }
+    }
+    return data;
   }
 }

@@ -1,4 +1,7 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -7,11 +10,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const _ = __importStar(require("lodash"));
+const lodash_1 = __importDefault(require("lodash"));
 const Dynogels = __importStar(require("./Dynogels"));
-const ResultMapper_1 = require("./ResultMapper");
 class BaseModel {
     static setSchema(name, schema) {
+        this.schema = schema;
         this.dynogelsModel = Dynogels.define(name, schema);
     }
     static checkHasModelInstance() {
@@ -27,7 +30,7 @@ class BaseModel {
         this.checkHasModelInstance();
         const scan = this.dynogelsModel.scan();
         if (indexName) {
-            _.assign(scan.request, { IndexName: indexName });
+            lodash_1.default.assign(scan.request, { IndexName: indexName });
         }
         return scan;
     }
@@ -61,7 +64,7 @@ class BaseModel {
     static async create(data, options) {
         this.checkHasModelInstance();
         const createResult = await this.dynogelsModel.createAsync(data, options);
-        return ResultMapper_1.ResultMapper.mapItem(createResult);
+        return this.mapItem(createResult);
     }
     static async createBulk(data, options) {
         this.checkHasModelInstance();
@@ -69,7 +72,7 @@ class BaseModel {
             return [];
         }
         const results = await this.dynogelsModel.createAsync(data, options);
-        return results.map((result) => ResultMapper_1.ResultMapper.mapItem(result));
+        return results.map((result) => this.mapItem(result));
     }
     static async get(hashKey, rangeKeyOrOptions, options) {
         this.checkHasModelInstance();
@@ -80,7 +83,7 @@ class BaseModel {
         else {
             getResult = await this.dynogelsModel.getAsync(hashKey, rangeKeyOrOptions);
         }
-        return ResultMapper_1.ResultMapper.mapItem(getResult);
+        return this.mapItem(getResult);
     }
     static async update(data, options) {
         /**
@@ -93,7 +96,7 @@ class BaseModel {
         });
         this.checkHasModelInstance();
         const updateResult = await this.dynogelsModel.updateAsync(data, options);
-        return ResultMapper_1.ResultMapper.mapItem(updateResult);
+        return this.mapItem(updateResult);
     }
     static async destroy(hashKey, rangeKeyOrOptions, options) {
         this.checkHasModelInstance();
@@ -104,7 +107,7 @@ class BaseModel {
         else {
             destroyResult = await this.dynogelsModel.destroyAsync(hashKey, rangeKeyOrOptions);
         }
-        return ResultMapper_1.ResultMapper.mapItem(destroyResult);
+        return this.mapItem(destroyResult);
     }
     static updateTable(params) {
         return this.dynogelsModel.updateTableAsync(params);
@@ -117,11 +120,45 @@ class BaseModel {
         if (cursor) {
             scan.startKey(cursor);
         }
-        return ResultMapper_1.ResultMapper.mapQueryResult(await scan.execAsync());
+        return this.mapQueryResult(await scan.execAsync());
     }
     static async getItems(keys, options) {
         const getResult = await this.dynogelsModel.getItemsAsync(keys, options);
-        return _.map(getResult, (item) => ResultMapper_1.ResultMapper.mapItem(item));
+        return lodash_1.default.map(getResult, (item) => this.mapItem(item));
+    }
+    static mapQueryResultItems(result) {
+        return lodash_1.default.map(result === null || result === void 0 ? void 0 : result.Items, (item) => this.mapItem(item));
+    }
+    static mapQueryResult(result) {
+        const output = { count: 0, items: [], nextCursor: undefined };
+        if (result.Items) {
+            output.items = lodash_1.default.map(result.Items, (item) => this.mapItem(item));
+        }
+        if (result.Count) {
+            output.count = result.Count;
+        }
+        if (result.LastEvaluatedKey) {
+            output.nextCursor = JSON.stringify(result.LastEvaluatedKey);
+        }
+        else {
+            delete output.nextCursor;
+        }
+        return output;
+    }
+    static mapItem(result) {
+        return result && this.convertDateFields(result.toJSON());
+    }
+    static convertDateFields(data) {
+        var _a;
+        for (const field_name of Object.keys(data)) {
+            if (((_a = this.schema.schema[field_name]) === null || _a === void 0 ? void 0 : _a._type) === 'date') {
+                data[field_name] = new Date(data[field_name]);
+            }
+            else if (typeof data[field_name] === 'object') {
+                //  todo : implement
+            }
+        }
+        return data;
     }
 }
 exports.BaseModel = BaseModel;
