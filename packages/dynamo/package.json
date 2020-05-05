@@ -1,6 +1,6 @@
 {
   "name": "@croquiscom/crary-dynamo",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Croquis's library - DynamoDB ORM",
   "main": "./lib",
   "types": "./lib/index.d.ts",
