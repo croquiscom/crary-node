@@ -301,7 +301,7 @@ describe('CrJson', () => {
       });
       const result = await graphql(schema, `{ query(input: ACCEPT) }`);
       expect(result.data).to.eql(undefined);
-      const msg = 'Expected type CrJson, found ACCEPT; Do not support EnumValue type';
+      const msg = 'Do not support EnumValue type';
       expect(result.errors![0].message).to.eql(msg);
       expect(value).to.eql(undefined);
     });
