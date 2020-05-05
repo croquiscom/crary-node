@@ -1,6 +1,18 @@
+dist: bionic
+
 language: node_js
+
 node_js:
+  - 12
   - 10
-  - 8
-script: lerna run test
+
 sudo: false
+
+services:
+  - docker
+
+before_install:
+  - docker pull amazon/dynamodb-local
+  - docker run -d -p 11505:8000 amazon/dynamodb-local
+
+script: lerna run test
