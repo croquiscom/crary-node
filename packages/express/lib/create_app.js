@@ -88,7 +88,7 @@ function setupSession(app, config) {
             process.exit(0);
         }, 1000);
     });
-    app.use(express_session_1.default({
+    const session_middleware = express_session_1.default({
         cookie: {
             domain: config.session.domain,
             maxAge: config.session.ttl * 1000,
@@ -99,7 +99,9 @@ function setupSession(app, config) {
         saveUninitialized: config.session.save_uninitialized || false,
         secret: config.session.secret,
         store: session_store,
-    }));
+    });
+    app.session_middleware = session_middleware;
+    app.use(session_middleware);
 }
 function setupRouters(app, config) {
     // tslint:disable-next-line:forin
