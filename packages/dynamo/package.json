@@ -34,6 +34,6 @@
     "@types/lodash": "^4.14.150",
     "eslint": "^6.8.0",
     "rimraf": "^3.0.2",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.3"
   }
 }
