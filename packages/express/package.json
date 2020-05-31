@@ -27,7 +27,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "helmet": "^3.22.0",
-    "ioredis": "^4.16.3",
+    "ioredis": "^4.17.3",
     "log4js": "^6.2.1",
     "on-finished": "^2.3.0"
   },
