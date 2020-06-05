@@ -23,4 +23,7 @@ declare module 'express-serve-static-core' {
         sendError(error: Error, cause?: Error): void;
         sendError(status: number, error: Error, cause?: Error): void;
     }
+    interface Express {
+        session_middleware: express.RequestHandler;
+    }
 }

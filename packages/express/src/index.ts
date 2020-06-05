@@ -51,4 +51,8 @@ declare module 'express-serve-static-core' {
     /** @internal */
     setError(error: Error, cause?: Error): Error;
   }
+
+  export interface Express {
+    session_middleware: express.RequestHandler;
+  }
 }

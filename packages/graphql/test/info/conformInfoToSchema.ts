@@ -158,7 +158,7 @@ describe('conformInfoToSchema', () => {
               expect(order_called).to.eql(false);
               order_called = true;
               expect(getFieldString(info)).to.eql('product { name price }');
-              expect(info.mergeInfo.fragments).to.eql([
+              expect(info.mergeInfo!.fragments).to.eql([
                 { field: 'product', fragment: '... on Order { product_id }' },
               ]);
               const conformed = conformInfoToSchema(info, order_schema);
