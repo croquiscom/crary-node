@@ -36,7 +36,7 @@ if (is_real_db) {
   };
 }
 
-const dynamodb = new DynamoDB(options);
+export const dynamodb = new DynamoDB(options);
 
 dynogels.dynamoDriver(dynamodb);
 

@@ -40,8 +40,8 @@ else {
         region: 'localhost',
     };
 }
-const dynamodb = new aws_sdk_1.DynamoDB(options);
-dynogels.dynamoDriver(dynamodb);
+exports.dynamodb = new aws_sdk_1.DynamoDB(options);
+dynogels.dynamoDriver(exports.dynamodb);
 function define(name, schema) {
     if (process.env.NODE_ENV === 'test') {
         schema.tableName = 'test-' + name;
