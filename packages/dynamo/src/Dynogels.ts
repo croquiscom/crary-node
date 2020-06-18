@@ -1,4 +1,4 @@
-import * as AWS from 'aws-sdk';
+import { DynamoDB } from 'aws-sdk';
 
 import * as dynogels from 'dynogels-promisified';
 import * as Joi from 'joi';
@@ -18,28 +18,27 @@ function getEndPoint() {
   return 'http://localhost:11505';
 }
 
-if (!is_real_db) {
-  if (NODE_ENV === 'test') {
-    const dynamodb = new AWS.DynamoDB({
-      endpoint: getEndPoint(),
-      accessKeyId: 'mock',
-      secretAccessKey: 'mock',
-      region: 'us-east-1',
-    });
-    dynogels.dynamoDriver(dynamodb);
-  } else {
-    const dynamodb = new AWS.DynamoDB({
-      endpoint: getEndPoint(),
-      region: 'localhost',
-    });
-    dynogels.dynamoDriver(dynamodb);
-  }
+let options: DynamoDB.Types.ClientConfiguration;
+
+if (is_real_db) {
+  options = { region: 'ap-northeast-2' };
+} else if (NODE_ENV === 'test') {
+  options = {
+    endpoint: getEndPoint(),
+    accessKeyId: 'mock',
+    secretAccessKey: 'mock',
+    region: 'us-east-1',
+  };
 } else {
-  const dynamodb = new AWS.DynamoDB({
-    region: 'ap-northeast-2',
-  });
-  dynogels.dynamoDriver(dynamodb);
+  options = {
+    endpoint: getEndPoint(),
+    region: 'localhost',
+  };
 }
+
+export const dynamodb = new DynamoDB(options);
+
+dynogels.dynamoDriver(dynamodb);
 
 function define(name, schema) {
   if (process.env.NODE_ENV === 'test') {
