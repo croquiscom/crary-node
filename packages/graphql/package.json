@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/croquiscom/Crary-Node",
   "dependencies": {
-    "graphql": "^15.0.0",
+    "graphql": "^15.2.0",
     "graphql-tools": "^5.0.0"
   },
   "devDependencies": {
