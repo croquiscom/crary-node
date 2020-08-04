@@ -159,10 +159,10 @@ export default (config: IExpressConfig) => {
       res.responseTime = Date.now() - start;
       // status code response level handling
       let level = log4js.levels.INFO;
-      if (res.statusCode >= 300) {
+      if (res.statusCode >= 300 && res.statusCode !== 304) {
         level = log4js.levels.WARN;
       }
-      if (res.statusCode >= 400) {
+      if (res.statusCode >= 400 && res.statusCode !== 404) {
         level = log4js.levels.ERROR;
       }
       const line = format(req, res);
