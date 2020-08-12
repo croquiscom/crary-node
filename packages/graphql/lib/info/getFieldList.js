@@ -4,7 +4,11 @@ const common_1 = require("./common");
 function dotConcat(a, b) {
     return a ? `${a}.${b}` : b;
 }
-function getFieldSet(info, nodes, prefix, depth) {
+function mergeSet(target, source) {
+    source.forEach(target.add, target);
+    return target;
+}
+function getFieldSetWithPrefix(info, nodes, depth, prefix) {
     const selections = nodes.reduce((current, source) => {
         if (source && source.selectionSet && source.selectionSet.selections) {
             current.push(...source.selectionSet.selections);
@@ -18,24 +22,23 @@ function getFieldSet(info, nodes, prefix, depth) {
         switch (node.kind) {
             case 'Field':
                 if (depth === 1) {
-                    set[node.name.value] = true;
-                    return set;
+                    return set.add(node.name.value);
                 }
                 const newPrefix = dotConcat(prefix, node.name.value);
                 if (node.selectionSet) {
-                    return Object.assign({}, set, getFieldSet(info, [node], newPrefix, depth - 1));
+                    return mergeSet(set, getFieldSetWithPrefix(info, [node], depth - 1, newPrefix));
                 }
                 else {
-                    set[newPrefix] = true;
-                    return set;
+                    return set.add(newPrefix);
                 }
             case 'InlineFragment':
-                return Object.assign({}, set, getFieldSet(info, [node], prefix, depth));
+                return mergeSet(set, getFieldSetWithPrefix(info, [node], depth, prefix));
             case 'FragmentSpread':
-                return Object.assign({}, set, getFieldSet(info, [info.fragments[node.name.value]], prefix, depth));
+                return mergeSet(set, getFieldSetWithPrefix(info, [info.fragments[node.name.value]], depth, prefix));
         }
-    }, {});
+    }, new Set());
 }
+const getFieldSet = (info, nodes, depth = 99999) => getFieldSetWithPrefix(info, nodes, depth, '');
 function getSubFieldNode(info, nodes, fieldName) {
     const selections = nodes.reduce((current, source) => {
         if (source && source.selectionSet && source.selectionSet.selections) {
@@ -66,21 +69,18 @@ function getSubFieldNode(info, nodes, fieldName) {
 function getFieldList(info, fieldName) {
     if (fieldName) {
         const node = getSubFieldNode(info, info.fieldNodes, fieldName);
-        if (node) {
-            return Object.keys(getFieldSet(info, [node], '', 99999));
-        }
-        return [];
+        return node ? [...getFieldSet(info, [node])] : [];
     }
     else {
-        return Object.keys(getFieldSet(info, info.fieldNodes, '', 99999));
+        return [...getFieldSet(info, info.fieldNodes)];
     }
 }
 exports.getFieldList = getFieldList;
 function getFieldList1st(info, fieldName) {
     if (fieldName) {
         const node = getSubFieldNode(info, info.fieldNodes, fieldName);
-        return node ? Object.keys(getFieldSet(info, [node], '', 1)) : [];
+        return node ? [...getFieldSet(info, [node], 1)] : [];
     }
-    return Object.keys(getFieldSet(info, info.fieldNodes, '', 1));
+    return [...getFieldSet(info, info.fieldNodes, 1)];
 }
 exports.getFieldList1st = getFieldList1st;

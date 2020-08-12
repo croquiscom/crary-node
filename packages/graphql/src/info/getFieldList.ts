@@ -5,12 +5,17 @@ function dotConcat(a: string, b: string) {
   return a ? `${a}.${b}` : b;
 }
 
-function getFieldSet(
+function mergeSet<T>(target: Set<T>, source: Set<T>): Set<T> {
+  source.forEach(target.add, target);
+  return target;
+}
+
+function getFieldSetWithPrefix(
   info: GraphQLResolveInfo,
   nodes: ReadonlyArray<FieldNode | InlineFragmentNode | FragmentDefinitionNode>,
-  prefix: string,
   depth: number,
-): { [path: string]: boolean } {
+  prefix: string,
+): Set<string> {
   const selections = nodes.reduce((current, source) => {
     if (source && source.selectionSet && source.selectionSet.selections) {
       current.push(...source.selectionSet.selections);
@@ -25,23 +30,27 @@ function getFieldSet(
     switch (node.kind) {
       case 'Field':
         if (depth === 1) {
-          set[node.name.value] = true;
-          return set;
+          return set.add(node.name.value);
         }
         const newPrefix = dotConcat(prefix, node.name.value);
         if (node.selectionSet) {
-          return Object.assign({}, set, getFieldSet(info, [node], newPrefix, depth - 1));
+          return mergeSet(set, getFieldSetWithPrefix(info, [node], depth - 1, newPrefix));
         } else {
-          set[newPrefix] = true;
-          return set;
+          return set.add(newPrefix);
         }
       case 'InlineFragment':
-        return Object.assign({}, set, getFieldSet(info, [node], prefix, depth));
+        return mergeSet(set, getFieldSetWithPrefix(info, [node], depth, prefix));
       case 'FragmentSpread':
-        return Object.assign({}, set, getFieldSet(info, [info.fragments[node.name.value]], prefix, depth));
+        return mergeSet(set, getFieldSetWithPrefix(info, [info.fragments[node.name.value]], depth, prefix));
     }
-  }, {} as { [path: string]: boolean });
+  }, new Set<string>());
 }
+
+const getFieldSet = (
+  info: GraphQLResolveInfo,
+  nodes: ReadonlyArray<FieldNode | InlineFragmentNode | FragmentDefinitionNode>,
+  depth: number = 99999,
+): Set<string> => getFieldSetWithPrefix(info, nodes, depth, '');
 
 function getSubFieldNode(
   info: GraphQLResolveInfo,
@@ -76,19 +85,16 @@ function getSubFieldNode(
 export function getFieldList(info: GraphQLResolveInfo, fieldName?: string): string[] {
   if (fieldName) {
     const node = getSubFieldNode(info, info.fieldNodes, fieldName);
-    if (node) {
-      return Object.keys(getFieldSet(info, [node], '', 99999));
-    }
-    return [];
+    return node ? [...getFieldSet(info, [node])] : [];
   } else {
-    return Object.keys(getFieldSet(info, info.fieldNodes, '', 99999));
+    return [...getFieldSet(info, info.fieldNodes)];
   }
 }
 
 export function getFieldList1st(info: GraphQLResolveInfo, fieldName?: string) {
   if (fieldName) {
     const node = getSubFieldNode(info, info.fieldNodes, fieldName);
-    return node ? Object.keys(getFieldSet(info, [node], '', 1)) : [];
+    return node ? [...getFieldSet(info, [node], 1)] : [];
   }
-  return Object.keys(getFieldSet(info, info.fieldNodes, '', 1));
+  return [...getFieldSet(info, info.fieldNodes, 1)];
 }
