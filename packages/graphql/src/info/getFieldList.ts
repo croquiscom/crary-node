@@ -46,13 +46,13 @@ function getFieldSetWithPrefix(
   }, new Set<string>());
 }
 
-const getFieldSet = (
+export const getFieldSet = (
   info: GraphQLResolveInfo,
   nodes: ReadonlyArray<FieldNode | InlineFragmentNode | FragmentDefinitionNode>,
   depth: number = 99999,
 ): Set<string> => getFieldSetWithPrefix(info, nodes, depth, '');
 
-function getSubFieldNode(
+export function getSubFieldNode(
   info: GraphQLResolveInfo,
   nodes: ReadonlyArray<FieldNode | InlineFragmentNode | FragmentDefinitionNode>,
   fieldName?: string,

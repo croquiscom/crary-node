@@ -38,7 +38,7 @@ function getFieldSetWithPrefix(info, nodes, depth, prefix) {
         }
     }, new Set());
 }
-const getFieldSet = (info, nodes, depth = 99999) => getFieldSetWithPrefix(info, nodes, depth, '');
+exports.getFieldSet = (info, nodes, depth = 99999) => getFieldSetWithPrefix(info, nodes, depth, '');
 function getSubFieldNode(info, nodes, fieldName) {
     const selections = nodes.reduce((current, source) => {
         if (source && source.selectionSet && source.selectionSet.selections) {
@@ -66,21 +66,22 @@ function getSubFieldNode(info, nodes, fieldName) {
         }
     }
 }
+exports.getSubFieldNode = getSubFieldNode;
 function getFieldList(info, fieldName) {
     if (fieldName) {
         const node = getSubFieldNode(info, info.fieldNodes, fieldName);
-        return node ? [...getFieldSet(info, [node])] : [];
+        return node ? [...exports.getFieldSet(info, [node])] : [];
     }
     else {
-        return [...getFieldSet(info, info.fieldNodes)];
+        return [...exports.getFieldSet(info, info.fieldNodes)];
     }
 }
 exports.getFieldList = getFieldList;
 function getFieldList1st(info, fieldName) {
     if (fieldName) {
         const node = getSubFieldNode(info, info.fieldNodes, fieldName);
-        return node ? [...getFieldSet(info, [node], 1)] : [];
+        return node ? [...exports.getFieldSet(info, [node], 1)] : [];
     }
-    return [...getFieldSet(info, info.fieldNodes, 1)];
+    return [...exports.getFieldSet(info, info.fieldNodes, 1)];
 }
 exports.getFieldList1st = getFieldList1st;
