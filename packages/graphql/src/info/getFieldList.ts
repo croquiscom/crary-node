@@ -73,22 +73,29 @@ function getSubFieldNode(
   }
 }
 
-export function getFieldList(info: GraphQLResolveInfo, fieldName?: string): string[] {
-  if (fieldName) {
-    const node = getSubFieldNode(info, info.fieldNodes, fieldName);
-    if (node) {
-      return Object.keys(getFieldSet(info, [node], '', 99999));
-    }
-    return [];
-  } else {
-    return Object.keys(getFieldSet(info, info.fieldNodes, '', 99999));
+function getFieldListByDepth(info: GraphQLResolveInfo, field_path: string | string[], depth: number): string[] {
+  if (typeof field_path === 'string') {
+    field_path = [field_path]
   }
+  let nodes = info.fieldNodes;
+  if (field_path.length > 0) {
+    const field_node = field_path.slice(1).reduce(
+      (node, field_name) => node && getSubFieldNode(info, [node], field_name),
+      getSubFieldNode(info, nodes, field_path[0]),
+    );
+    if (field_node) {
+      nodes = [field_node];
+    } else {
+      return [];
+    }
+  }
+  return Object.keys(getFieldSet(info, nodes, '', depth));
 }
 
-export function getFieldList1st(info: GraphQLResolveInfo, fieldName?: string) {
-  if (fieldName) {
-    const node = getSubFieldNode(info, info.fieldNodes, fieldName);
-    return node ? Object.keys(getFieldSet(info, [node], '', 1)) : [];
-  }
-  return Object.keys(getFieldSet(info, info.fieldNodes, '', 1));
+export function getFieldList(info: GraphQLResolveInfo, field_path: string | string[] = []): string[] {
+  return getFieldListByDepth(info, field_path, 99999);
+}
+
+export function getFieldList1st(info: GraphQLResolveInfo, field_path: string | string[] = []) {
+  return getFieldListByDepth(info, field_path, 1);
 }
