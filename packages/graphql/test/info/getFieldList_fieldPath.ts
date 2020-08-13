@@ -2,7 +2,7 @@
 
 import { expect } from 'chai';
 import { buildSchema, graphql, GraphQLResolveInfo } from 'graphql';
-import { getFieldList } from '../..';
+import { getFieldList } from '../../lib';
 
 const schema = buildSchema(`
 type NestedType {
@@ -54,7 +54,7 @@ async function test(
   query: string,
   expected: string[],
   variables: { [key: string]: any } | undefined,
-  fieldName: string,
+  fieldName: string | string[],
 ) {
   const info = await getInfo(query, variables);
   const actual = getFieldList(info, fieldName);
@@ -62,7 +62,7 @@ async function test(
   expect(actual).to.eql(expected);
 }
 
-describe('getFieldList with fieldName', () => {
+describe('getFieldList with field_path', () => {
   it('basic query', async () => {
     await test('{ someType { a b e { x } } }', ['x'], undefined, 'e');
   });
@@ -279,4 +279,58 @@ describe('getFieldList with fieldName', () => {
       ['e.e.e.e.x'], undefined, 'e',
     );
   });
+
+  it('works with length-1 array input', () => test(`{
+    someType {
+      e {
+        e {
+          e {
+            e {
+              e {
+                x
+              }
+            }
+            x
+          }
+        }
+        x
+      }
+    }
+  }`, ['e.e.e.e.x', 'e.e.x', 'x'], undefined, ['e']));
+
+  it('works with length-2 array input', () => test(`{
+    someType {
+      e {
+        e {
+          e {
+            e {
+              e {
+                x
+              }
+            }
+            x
+          }
+        }
+        x
+      }
+    }
+  }`, ['e.e.e.x', 'e.x'], undefined, ['e', 'e']));
+
+  it('works with length-3 array input', () => test(`{
+    someType {
+      e {
+        e {
+          e {
+            e {
+              e {
+                x
+              }
+            }
+            x
+          }
+        }
+        x
+      }
+    }
+  }`, ['e.e.x', 'x'], undefined, ['e', 'e', 'e']));
 });

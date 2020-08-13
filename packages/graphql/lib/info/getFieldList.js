@@ -63,24 +63,27 @@ function getSubFieldNode(info, nodes, fieldName) {
         }
     }
 }
-function getFieldList(info, fieldName) {
-    if (fieldName) {
-        const node = getSubFieldNode(info, info.fieldNodes, fieldName);
-        if (node) {
-            return Object.keys(getFieldSet(info, [node], '', 99999));
+function getFieldListByDepth(info, field_path, depth) {
+    if (typeof field_path === 'string') {
+        field_path = [field_path];
+    }
+    let nodes = info.fieldNodes;
+    if (field_path.length > 0) {
+        const field_node = field_path.slice(1).reduce((node, field_name) => node && getSubFieldNode(info, [node], field_name), getSubFieldNode(info, nodes, field_path[0]));
+        if (field_node) {
+            nodes = [field_node];
         }
-        return [];
+        else {
+            return [];
+        }
     }
-    else {
-        return Object.keys(getFieldSet(info, info.fieldNodes, '', 99999));
-    }
+    return Object.keys(getFieldSet(info, nodes, '', depth));
+}
+function getFieldList(info, field_path = []) {
+    return getFieldListByDepth(info, field_path, 99999);
 }
 exports.getFieldList = getFieldList;
-function getFieldList1st(info, fieldName) {
-    if (fieldName) {
-        const node = getSubFieldNode(info, info.fieldNodes, fieldName);
-        return node ? Object.keys(getFieldSet(info, [node], '', 1)) : [];
-    }
-    return Object.keys(getFieldSet(info, info.fieldNodes, '', 1));
+function getFieldList1st(info, field_path = []) {
+    return getFieldListByDepth(info, field_path, 1);
 }
 exports.getFieldList1st = getFieldList1st;
