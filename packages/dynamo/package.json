@@ -27,7 +27,7 @@
   "dependencies": {
     "dynogels": "^9.1.0",
     "dynogels-promisified": "^1.0.4",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
     "@croquiscom/eslint-config": "^1.0.2",
