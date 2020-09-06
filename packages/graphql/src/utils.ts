@@ -1,21 +1,29 @@
 import { GraphQLError } from 'graphql';
 
+export class CraryGraphQLError extends GraphQLError {
+  code?: string;
+  ignorable?: boolean;
+
+  constructor(graphql_error_object: any) {
+    const { ...extensions } = graphql_error_object.extensions;
+    delete extensions.stack;
+    super(
+      graphql_error_object.message,
+      graphql_error_object.nodes,
+      graphql_error_object.source,
+      graphql_error_object.positions,
+      graphql_error_object.path,
+      undefined,
+      extensions,
+    );
+    this.code = extensions?.code;
+    this.ignorable = extensions?.ignorable;
+  }
+}
+
 /**
- * 네트워크를 통해 받은 GraphQL 에러 객체를 GraphQLError 인스턴스로 변경한다
+ * 네트워크를 통해 받은 GraphQL 에러 객체를 CraryGraphQLError 인스턴스로 변경한다
  */
-export function convertToGraphQLError(error: any): GraphQLError {
-  const { ...extensions } = error.extensions;
-  delete extensions.stack;
-  const converted = new GraphQLError(
-    error.message,
-    error.nodes,
-    error.source,
-    error.positions,
-    error.path,
-    undefined,
-    extensions,
-  );
-  (converted as any).code = extensions?.code;
-  (converted as any).ignorable = extensions?.ignorable;
-  return converted;
+export function convertToCraryGraphQLError(graphql_error_object: any): CraryGraphQLError {
+  return new CraryGraphQLError(graphql_error_object);
 }
