@@ -5,6 +5,15 @@
     "postinstall": "lerna bootstrap"
   },
   "devDependencies": {
-    "lerna": "^3.20.2"
+    "husky": "^4.2.5",
+    "lerna": "^3.22.1",
+    "lint-staged": "^10.3.0",
+    "post-merge-install": "^0.4.0"
+  },
+  "husky": {
+    "hooks": {
+      "post-merge": "post-merge-install",
+      "post-rebase": "post-merge-install"
+    }
   }
 }
