@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.addArgumentToInfo = void 0;
 const graphql_1 = require("graphql");
 function valueToNode(value, type) {
     if (type instanceof graphql_1.GraphQLNonNull) {

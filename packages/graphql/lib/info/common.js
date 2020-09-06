@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isExcludedByDirective = void 0;
 function getBooleanArgumentValue(info, node) {
     if (!node.arguments || node.arguments.length === 0) {
         return false;

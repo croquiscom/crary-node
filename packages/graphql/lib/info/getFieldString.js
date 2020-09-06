@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getFieldString = void 0;
 const graphql_1 = require("graphql");
 const common_1 = require("./common");
 function getArgumentStringNode(nodes) {

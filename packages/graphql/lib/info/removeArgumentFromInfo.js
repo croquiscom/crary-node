@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.removeArgumentFromInfo = void 0;
 const graphql_1 = require("graphql");
 function removeArgumentFromInfo(info, name) {
     if (!info.fieldNodes[0].arguments) {

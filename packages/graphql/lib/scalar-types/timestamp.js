@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CrTimestamp = void 0;
 const graphql_1 = require("graphql");
 const error_1 = require("graphql/error");
 const language_1 = require("graphql/language");

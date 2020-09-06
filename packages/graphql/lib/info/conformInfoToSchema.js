@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.conformInfoToSchema = void 0;
 const graphql_1 = require("graphql");
 const graphql_tools_1 = require("graphql-tools");
 function conformInfoToSchema(info, schema, fragments) {

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var json_1 = require("./json");
-exports.CrJson = json_1.CrJson;
+Object.defineProperty(exports, "CrJson", { enumerable: true, get: function () { return json_1.CrJson; } });
 var timestamp_1 = require("./timestamp");
-exports.CrTimestamp = timestamp_1.CrTimestamp;
+Object.defineProperty(exports, "CrTimestamp", { enumerable: true, get: function () { return timestamp_1.CrTimestamp; } });
