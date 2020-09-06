@@ -13,3 +13,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./info"), exports);
 __exportStar(require("./resolver"), exports);
 __exportStar(require("./scalar-types"), exports);
+__exportStar(require("./utils"), exports);
