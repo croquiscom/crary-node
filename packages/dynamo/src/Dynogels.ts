@@ -42,7 +42,7 @@ dynogels.dynamoDriver(dynamodb);
 
 function define(name, schema) {
   if (process.env.NODE_ENV === 'test') {
-    schema.tableName = 'test-' + name;
+    schema.tableName = `test-${name}`;
   } else {
     schema.tableName = name;
   }

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.shrinkStackTrace = void 0;
 function shrinkStackTrace(stack, project_root, limit = 3) {
     // cut first line
     stack = stack.substr(stack.indexOf('\n') + 1);
