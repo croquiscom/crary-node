@@ -23,10 +23,12 @@
   },
   "homepage": "https://github.com/croquiscom/Crary-Node",
   "dependencies": {
-    "graphql": "^15.3.0",
-    "graphql-tools": "^5.0.0"
+    "@graphql-tools/delegate": "^6.2.4",
+    "@graphql-tools/utils": "^6.2.4",
+    "graphql": "^15.3.0"
   },
   "devDependencies": {
+    "@graphql-tools/stitch": "^6.2.4",
     "@types/chai": "^4.2.12",
     "@types/graphql": "^14.5.0",
     "@types/mocha": "^8.0.3",

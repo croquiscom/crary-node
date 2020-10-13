@@ -21,6 +21,6 @@ function wrapInfo(info) {
         addField(name, options) { return addFieldToInfo_1.addFieldToInfo(this, name, options); },
         removeField(name, options) { return removeFieldFromInfo_1.removeFieldFromInfo(this, name, options); },
         removeArgument(name) { return removeArgumentFromInfo_1.removeArgumentFromInfo(this, name); },
-        conformToSchema(schema, fragments) { return conformInfoToSchema_1.conformInfoToSchema(this, schema, fragments); } });
+        conformToSchema(schema) { return conformInfoToSchema_1.conformInfoToSchema(this, schema); } });
 }
 exports.wrapInfo = wrapInfo;

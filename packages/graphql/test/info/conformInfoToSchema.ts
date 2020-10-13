@@ -1,6 +1,6 @@
+import { stitchSchemas } from '@graphql-tools/stitch';
 import { expect } from 'chai';
 import { buildSchema, graphql } from 'graphql';
-import { mergeSchemas } from 'graphql-tools';
 import { conformInfoToSchema, getFieldString, wrapInfo } from '../..';
 
 const product_schema = buildSchema(`
@@ -42,7 +42,7 @@ describe('conformInfoToSchema', () => {
     let user_called = false;
     let order_called = false;
     let product_called = false;
-    const merged_schema = mergeSchemas({
+    const merged_schema = stitchSchemas({
       resolvers: {
         Order: {
           product: {
@@ -123,7 +123,7 @@ describe('conformInfoToSchema', () => {
     let user_called = false;
     let order_called = false;
     let product_called = false;
-    const merged_schema = mergeSchemas({
+    const merged_schema = stitchSchemas({
       resolvers: {
         Order: {
           product: {
@@ -158,9 +158,6 @@ describe('conformInfoToSchema', () => {
               expect(order_called).to.eql(false);
               order_called = true;
               expect(getFieldString(info)).to.eql('product { name price }');
-              expect(info.mergeInfo!.fragments).to.eql([
-                { field: 'product', fragment: '... on Order { product_id }' },
-              ]);
               const conformed = conformInfoToSchema(info, order_schema);
               expect(getFieldString(conformed)).to.eql('... on Order { product_id }');
               return {
@@ -205,7 +202,7 @@ describe('conformInfoToSchema', () => {
     let user_called = false;
     let order_called = false;
     let product_called = false;
-    const merged_schema = mergeSchemas({
+    const merged_schema = stitchSchemas({
       resolvers: {
         Order: {
           product: {

@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.conformInfoToSchema = void 0;
+const delegate_1 = require("@graphql-tools/delegate");
 const graphql_1 = require("graphql");
-const graphql_tools_1 = require("graphql-tools");
-function conformInfoToSchema(info, schema, fragments) {
+function conformInfoToSchema(info, schema) {
+    var _a;
     const document = {
         definitions: [
             {
@@ -18,16 +19,8 @@ function conformInfoToSchema(info, schema, fragments) {
         ],
         kind: graphql_1.Kind.DOCUMENT,
     };
-    if (!fragments) {
-        if (info.mergeInfo) {
-            fragments = info.mergeInfo.fragments;
-        }
-        else {
-            fragments = [];
-        }
-    }
     const request = { document, variables: {} };
-    const transformed = new graphql_tools_1.FilterToSchema(schema).transformRequest(new graphql_tools_1.ReplaceFieldWithFragment(schema, fragments).transformRequest(request));
+    const transformed = new delegate_1.FilterToSchema(schema).transformRequest(new delegate_1.AddFragmentsByField(schema, (_a = info === null || info === void 0 ? void 0 : info.schema.extensions) === null || _a === void 0 ? void 0 : _a.stitchingInfo.fragmentsByField).transformRequest(request));
     const definition = transformed.document.definitions[0];
     return Object.assign(Object.assign({}, info), { fieldNodes: definition.selectionSet.selections });
 }
