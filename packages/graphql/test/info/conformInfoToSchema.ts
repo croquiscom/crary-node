@@ -85,17 +85,18 @@ describe('conformInfoToSchema', () => {
           },
         },
       },
-      schemas: [
+      subschemas: [
         product_schema,
         order_schema,
         user_schema,
-        `extend type Order {
+      ],
+      typeDefs: `
+        extend type Order {
           product: Product!
         }
         extend type User {
           order: Order!
         }`,
-      ],
     });
     const query = '{ user(id: 1) { id order_id order { product_id product { name price } } } }';
     const result = await graphql(merged_schema, query, {}, {}, {});
@@ -167,17 +168,18 @@ describe('conformInfoToSchema', () => {
           },
         },
       },
-      schemas: [
+      subschemas: [
         product_schema,
         order_schema,
         user_schema,
-        `extend type Order {
+      ],
+      typeDefs: `
+        extend type Order {
           product: Product!
         }
         extend type User {
           order: Order!
         }`,
-      ],
     });
     const query = '{ user(id: 1) { order { product { name price } } } }';
     const result = await graphql(merged_schema, query, {}, {}, {});
@@ -246,17 +248,18 @@ describe('conformInfoToSchema', () => {
           },
         },
       },
-      schemas: [
+      subschemas: [
         product_schema,
         order_schema,
         user_schema,
-        `extend type Order {
+      ],
+      typeDefs: `
+        extend type Order {
           product: Product!
         }
         extend type User {
           my_order: Order!
         }`,
-      ],
     });
     const query = '{ user(id: 1) { my_order { product { name price } } } }';
     const result = await graphql(merged_schema, query, {}, {}, {});
@@ -324,17 +327,18 @@ describe('conformInfoToSchema', () => {
           },
         },
       },
-      schemas: [
+      subschemas: [
         product_schema,
         order_schema,
         user_schema,
-        `extend type Order {
+      ],
+      typeDefs: `
+        extend type Order {
           product: Product!
         }
         extend type User {
           order: Order!
         }`,
-      ],
     });
     const query = '{ user(id: 1) { id order_id order { product_id product { name price } } } }';
     const result = await graphql(merged_schema, query, {}, {}, {});
