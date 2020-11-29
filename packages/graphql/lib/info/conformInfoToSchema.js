@@ -55,8 +55,18 @@ function conformInfoToSchema(info, schema, field_name) {
             ...Object.keys(info.fragments).map((fragmentName) => info.fragments[fragmentName]),
         ],
     };
-    const request = { document, variables: {} };
-    const transformed = new delegate_1.FilterToSchema(schema).transformRequest(new delegate_1.AddFragmentsByField(schema, (_a = info === null || info === void 0 ? void 0 : info.schema.extensions) === null || _a === void 0 ? void 0 : _a.stitchingInfo.fragmentsByField).transformRequest(request));
+    const original_request = { document, variables: {} };
+    const stitchingInfo = (_a = info === null || info === void 0 ? void 0 : info.schema.extensions) === null || _a === void 0 ? void 0 : _a.stitchingInfo;
+    const transforms = [
+        new delegate_1.AddSelectionSets({}, stitchingInfo.selectionSetsByField, stitchingInfo.dynamicSelectionSetsByField),
+        new delegate_1.FilterToSchema(),
+    ];
+    const delegation_context = {
+        targetSchema: schema,
+        info: info,
+        returnType: info.returnType,
+    };
+    const transformed = transforms.reduce((request, transform) => transform.transformRequest(request, delegation_context, {}), original_request);
     const definition = transformed.document.definitions[0];
     return Object.assign(Object.assign({}, info), { fieldNodes: definition.selectionSet.selections });
 }

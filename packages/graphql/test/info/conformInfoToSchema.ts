@@ -128,7 +128,7 @@ describe('conformInfoToSchema', () => {
       resolvers: {
         Order: {
           product: {
-            fragment: '... on Order { product_id }',
+            selectionSet: '{ product_id }',
             resolve(source, args, context, info) {
               expect(product_called).to.eql(false);
               product_called = true;
@@ -160,7 +160,7 @@ describe('conformInfoToSchema', () => {
               order_called = true;
               expect(getFieldString(info)).to.eql('product { name price }');
               const conformed = conformInfoToSchema(info, order_schema);
-              expect(getFieldString(conformed)).to.eql('... on Order { product_id }');
+              expect(getFieldString(conformed)).to.eql('product_id');
               return {
                 product_id: 3,
               };
@@ -208,7 +208,7 @@ describe('conformInfoToSchema', () => {
       resolvers: {
         Order: {
           product: {
-            fragment: '... on Order { product_id }',
+            selectionSet: '{ product_id }',
             resolve(source, args, context, info) {
               expect(product_called).to.eql(false);
               product_called = true;
@@ -240,7 +240,7 @@ describe('conformInfoToSchema', () => {
               order_called = true;
               expect(getFieldString(info)).to.eql('product { name price }');
               const conformed = conformInfoToSchema(info, order_schema, 'order');
-              expect(getFieldString(conformed)).to.eql('... on Order { product_id }');
+              expect(getFieldString(conformed)).to.eql('product_id');
               return {
                 product_id: 3,
               };
