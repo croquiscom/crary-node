@@ -30,6 +30,22 @@ describe('removeArgumentFromInfo', () => {
     expect(print(document).replace(/\s+/g, ' ').trim()).to.eql(expected);
   });
 
+  it('remove value', async () => {
+    let info!: GraphQLResolveInfo;
+    await graphql(schema, '{ getProducts(text: "FOOBAR") { id name } }', {
+      getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
+        info = _info;
+      },
+    });
+    const newInfo = removeArgumentFromInfo(info, 'text');
+    const document: DocumentNode = {
+      definitions: [newInfo.operation],
+      kind: Kind.DOCUMENT,
+    };
+    const expected = '{ getProducts { id name } }';
+    expect(print(document).replace(/\s+/g, ' ').trim()).to.eql(expected);
+  });
+
   it('remove non-exist', async () => {
     let info!: GraphQLResolveInfo;
     await graphql(schema, 'query($text: String) { getProducts(text: $text) { id name } }', {
