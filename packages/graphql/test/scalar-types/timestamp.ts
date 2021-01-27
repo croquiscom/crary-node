@@ -91,7 +91,36 @@ describe('CrTimestamp', () => {
       expect(value).to.eql(date);
     });
 
-    it('invalid date', async () => {
+    it('invalid date - date string', async () => {
+      let value;
+      const schema = new GraphQLSchema({
+        query: new GraphQLObjectType({
+          fields: {
+            query: {
+              args: {
+                input: {
+                  type: CrTimestamp,
+                },
+              },
+              resolve: (_, { input }) => {
+                value = input;
+                return true;
+              },
+              type: GraphQLBoolean,
+            },
+          },
+          name: 'Query',
+        }),
+      });
+      const result = await graphql(schema, 'query($input: CrTimestamp) { query(input: $input) }',
+        null, null, { input: new Date('2021-01-15T04:20Z').toISOString() });
+      expect(result.data).to.eql(undefined);
+      const msg = 'Variable "$input" got invalid value "2021-01-15T04:20:00.000Z"; Expected type "CrTimestamp". Value is not a valid timestamp: 2021-01-15T04:20:00.000Z';
+      expect(result.errors![0].message).to.eql(msg);
+      expect(value).to.eql(undefined);
+    });
+
+    it('invalid date - normal string', async () => {
       let value;
       const schema = new GraphQLSchema({
         query: new GraphQLObjectType({
@@ -115,14 +144,14 @@ describe('CrTimestamp', () => {
       const result = await graphql(schema, 'query($input: CrTimestamp) { query(input: $input) }',
         null, null, { input: 'a' });
       expect(result.data).to.eql(undefined);
-      const msg = 'Variable "$input" got invalid value "a"; Expected type "CrTimestamp". Value is not a valid Date: a';
+      const msg = 'Variable "$input" got invalid value "a"; Expected type "CrTimestamp". Value is not a valid timestamp: a';
       expect(result.errors![0].message).to.eql(msg);
       expect(value).to.eql(undefined);
     });
   });
 
   describe('parseLiteral', () => {
-    it('valid date', async () => {
+    it('valid timestamp', async () => {
       const date = new Date(2018, 9, 12, 5, 20);
       let value;
       const schema = new GraphQLSchema({
@@ -151,7 +180,7 @@ describe('CrTimestamp', () => {
       expect(value).to.eql(date);
     });
 
-    it('invalid date', async () => {
+    it('invalid date - enum', async () => {
       let value;
       const schema = new GraphQLSchema({
         query: new GraphQLObjectType({
@@ -175,6 +204,34 @@ describe('CrTimestamp', () => {
       const result = await graphql(schema, `{ query(input: a) }`);
       expect(result.data).to.eql(undefined);
       const msg = 'Can only parse numbers but got a: EnumValue';
+      expect(result.errors![0].message).to.eql(msg);
+      expect(value).to.eql(undefined);
+    });
+
+    it('invalid date - string', async () => {
+      let value;
+      const schema = new GraphQLSchema({
+        query: new GraphQLObjectType({
+          fields: {
+            query: {
+              args: {
+                input: {
+                  type: CrTimestamp,
+                },
+              },
+              resolve: (_, { input }) => {
+                value = input;
+                return true;
+              },
+              type: GraphQLBoolean,
+            },
+          },
+          name: 'Query',
+        }),
+      });
+      const result = await graphql(schema, `{ query(input: "2021-01-15T04:20Z") }`);
+      expect(result.data).to.eql(undefined);
+      const msg = 'Can only parse numbers but got a: StringValue';
       expect(result.errors![0].message).to.eql(msg);
       expect(value).to.eql(undefined);
     });

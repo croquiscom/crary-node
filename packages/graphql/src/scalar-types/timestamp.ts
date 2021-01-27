@@ -22,6 +22,10 @@ export const CrTimestamp = new GraphQLScalarType({
   },
 
   parseValue(value) {
+    if (typeof value !== 'number') {
+      throw new TypeError(`Value is not a valid timestamp: ${value}`);
+    }
+
     const date = new Date(value);
 
     if (Number.isNaN(date.getTime())) {
