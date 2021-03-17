@@ -26,7 +26,7 @@ export function install(response: express.Response) {
     if (typeof status !== 'number') {
       cause = error;
       error = status;
-      status = 400;
+      status = this.statusCode === 200 ? 400 : this.statusCode;
     }
     error = this.setError(error, cause);
     const table = (error as any)._table;
