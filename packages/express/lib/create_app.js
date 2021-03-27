@@ -104,6 +104,7 @@ function setupSession(app, config) {
         cookie: {
             domain: config.session.domain,
             maxAge: config.session.ttl * 1000,
+            secure: config.session.secure,
         },
         name: config.session.name,
         resave: false,

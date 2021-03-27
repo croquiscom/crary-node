@@ -17,6 +17,10 @@ export interface IExpressConfig {
     name?: string;
     save_uninitialized?: boolean;
     domain?: string;
+    /**
+     * set express-session cookie.secure option
+     */
+    secure?: boolean;
   };
   errors?: { [key: string]: Error };
   routers: { [path: string]: (router: express.Router, app: express.Application) => void };
