@@ -10,9 +10,7 @@ function conformInfoToSchema(info, schema, field_name) {
         let selections = [];
         let args = [];
         info.fieldNodes.forEach((field) => {
-            const fieldSelections = field.selectionSet
-                ? field.selectionSet.selections
-                : [];
+            const fieldSelections = field.selectionSet ? field.selectionSet.selections : [];
             selections = selections.concat(fieldSelections);
             args = args.concat(field.arguments || []);
         });

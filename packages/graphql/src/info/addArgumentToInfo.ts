@@ -1,6 +1,17 @@
 import {
-  FieldNode, GraphQLBoolean, GraphQLEnumType, GraphQLFloat, GraphQLInputType, GraphQLInt,
-  GraphQLList, GraphQLNonNull, GraphQLResolveInfo, Kind, KindEnum, TypeNode, ValueNode,
+  FieldNode,
+  GraphQLBoolean,
+  GraphQLEnumType,
+  GraphQLFloat,
+  GraphQLInputType,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLResolveInfo,
+  Kind,
+  KindEnum,
+  TypeNode,
+  ValueNode,
 } from 'graphql';
 
 export interface IAddArgumentToInfoOptions {
@@ -40,8 +51,11 @@ function valueToNode(value: any, type: GraphQLInputType): ValueNode {
 }
 
 function addArgumentToFieldNodeAsValue(
-  fieldNode: FieldNode, path: string[], name: string,
-  value: any, type: GraphQLInputType,
+  fieldNode: FieldNode,
+  path: string[],
+  name: string,
+  value: any,
+  type: GraphQLInputType,
 ): FieldNode {
   if (path.length === 0) {
     return {
@@ -82,10 +96,7 @@ function addArgumentToFieldNodeAsValue(
 function typeToAst(type: GraphQLInputType): TypeNode {
   if (type instanceof GraphQLNonNull) {
     const innerType = typeToAst(type.ofType);
-    if (
-      innerType.kind === Kind.LIST_TYPE ||
-      innerType.kind === Kind.NAMED_TYPE
-    ) {
+    if (innerType.kind === Kind.LIST_TYPE || innerType.kind === Kind.NAMED_TYPE) {
       return {
         kind: Kind.NON_NULL_TYPE,
         type: innerType,
@@ -153,7 +164,11 @@ function addArgumentToFieldNode(fieldNode: FieldNode, path: string[], name: stri
 }
 
 export function addArgumentToInfo<T extends GraphQLResolveInfo = GraphQLResolveInfo>(
-  info: T, name: string, value: any, type: GraphQLInputType, options: IAddArgumentToInfoOptions = {},
+  info: T,
+  name: string,
+  value: any,
+  type: GraphQLInputType,
+  options: IAddArgumentToInfoOptions = {},
 ): T {
   if (options.as_value) {
     const path = options.path ? options.path.split('.') : [];

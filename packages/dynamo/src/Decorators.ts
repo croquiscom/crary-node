@@ -45,7 +45,7 @@ function getModelDefinitionByVariantType(type: any) {
 }
 
 function Field(type: any) {
-  return function(target: any, property: string | symbol) {
+  return function (target: any, property: string | symbol) {
     const modelName = target.constructor.name;
     const def = getModelDefinition(modelName);
     def.schema[property] = getModelDefinitionByVariantType(type);
@@ -53,7 +53,7 @@ function Field(type: any) {
 }
 
 export function ArrayField(type: any) {
-  return function(target: any, property: string | symbol) {
+  return function (target: any, property: string | symbol) {
     const modelName = target.constructor.name; // AdDisplaySlot
     const def = getModelDefinition(modelName);
 
@@ -63,7 +63,7 @@ export function ArrayField(type: any) {
 }
 
 function GlobalIndex(hashKey: string, rangeKey?: string, projection?: object) {
-  return function(target: any, property: string | symbol) {
+  return function (target: any, property: string | symbol) {
     const modelName = target.prototype.constructor.name;
     const def = getModelDefinition(modelName);
     const globalIndex = { name: property, hashKey, type: 'global', projection };
@@ -76,7 +76,7 @@ function GlobalIndex(hashKey: string, rangeKey?: string, projection?: object) {
 }
 
 function LocalIndex(rangeKey: string) {
-  return function(target: any, property: string | symbol) {
+  return function (target: any, property: string | symbol) {
     const modelName = target.prototype.constructor.name;
     const def = getModelDefinition(modelName);
     const localIndex = { name: property, hashKey: def.hashKey, rangeKey, type: 'local' };

@@ -35,24 +35,26 @@ type Query {
 
 async function getInfo(query: string, variables: { [key: string]: any } | undefined) {
   let info!: GraphQLResolveInfo;
-  await graphql(schema, query, {
-    scalarField: (args: any, context: any, _info: GraphQLResolveInfo) => {
-      info = _info;
-      return 'str';
+  await graphql(
+    schema,
+    query,
+    {
+      scalarField: (args: any, context: any, _info: GraphQLResolveInfo) => {
+        info = _info;
+        return 'str';
+      },
+      someType: (args: any, context: any, _info: GraphQLResolveInfo) => {
+        info = _info;
+        return { a: 1, b: 2, c: 3, d: 4, e: { x: 'str' } };
+      },
     },
-    someType: (args: any, context: any, _info: GraphQLResolveInfo) => {
-      info = _info;
-      return { a: 1, b: 2, c: 3, d: 4, e: { x: 'str' } };
-    },
-  }, {}, variables);
+    {},
+    variables,
+  );
   return info;
 }
 
-async function test(
-  query: string,
-  expected: string,
-  variables: { [key: string]: any } | undefined,
-) {
+async function test(query: string, expected: string, variables: { [key: string]: any } | undefined) {
   const info = await getInfo(query, variables);
   const actual = getFieldString(info);
   expect(actual).to.eql(expected);
@@ -68,25 +70,33 @@ describe('getFieldString', () => {
   });
 
   it('argument', async () => {
-    await test(`
+    await test(
+      `
       {
         someType {
           a(y: "text", z: { g: RED, h: false })
           b(k: [1, null, 3])
         }
       }
-    `, 'a(y: "text", z: {g: RED, h: false}) b(k: [1, null, 3])', undefined);
+    `,
+      'a(y: "text", z: {g: RED, h: false}) b(k: [1, null, 3])',
+      undefined,
+    );
   });
 
   it('argument (with variables)', async () => {
-    await test(`
+    await test(
+      `
       query($k: [Int], $y: String) {
         someType {
           a(y: $y)
           b(k: $k)
         }
       }
-    `, 'a(y: $y) b(k: $k)', { y: 'text', k: [1, null, 3] });
+    `,
+      'a(y: $y) b(k: $k)',
+      { y: 'text', k: [1, null, 3] },
+    );
   });
 
   it('fragment', async () => {
@@ -97,7 +107,8 @@ describe('getFieldString', () => {
       }
       { someType { ...Frag } }
       `,
-      'a', undefined,
+      'a',
+      undefined,
     );
   });
 
@@ -106,7 +117,8 @@ describe('getFieldString', () => {
       `
       { someType { ...on SomeType { a } } }
       `,
-      '... on SomeType { a }', undefined,
+      '... on SomeType { a }',
+      undefined,
     );
   });
 
@@ -120,7 +132,8 @@ describe('getFieldString', () => {
         }
       }
       `,
-      'a', undefined,
+      'a',
+      undefined,
     );
   });
 
@@ -134,7 +147,8 @@ describe('getFieldString', () => {
         }
       }
       `,
-      'a b', undefined,
+      'a b',
+      undefined,
     );
   });
 
@@ -148,7 +162,8 @@ describe('getFieldString', () => {
         }
       }
       `,
-      'a b', undefined,
+      'a b',
+      undefined,
     );
   });
 
@@ -162,7 +177,8 @@ describe('getFieldString', () => {
         }
       }
       `,
-      'a', undefined,
+      'a',
+      undefined,
     );
   });
 
@@ -175,7 +191,8 @@ describe('getFieldString', () => {
         }
       }
       `,
-      '', undefined,
+      '',
+      undefined,
     );
   });
 
@@ -188,7 +205,8 @@ describe('getFieldString', () => {
         }
       }
       `,
-      '', undefined,
+      '',
+      undefined,
     );
   });
 
@@ -201,7 +219,8 @@ describe('getFieldString', () => {
         }
       }
       `,
-      'b', undefined,
+      'b',
+      undefined,
     );
   });
 
@@ -214,7 +233,8 @@ describe('getFieldString', () => {
         }
       }
       `,
-      '', undefined,
+      '',
+      undefined,
     );
   });
   it('@include variable false', async () => {
@@ -261,7 +281,8 @@ describe('getFieldString', () => {
         b
       }
       `,
-      'a b', undefined,
+      'a b',
+      undefined,
     );
   });
 
@@ -278,7 +299,8 @@ describe('getFieldString', () => {
         }
       }
       `,
-      'a b e { x }', undefined,
+      'a b e { x }',
+      undefined,
     );
   });
 
@@ -297,7 +319,8 @@ describe('getFieldString', () => {
         }
       }
       `,
-      'a b e { e { x } }', undefined,
+      'a b e { e { x } }',
+      undefined,
     );
   });
 
@@ -317,7 +340,8 @@ describe('getFieldString', () => {
         x
       }
       `,
-      'a b e { x }', undefined,
+      'a b e { x }',
+      undefined,
     );
   });
 
@@ -336,7 +360,8 @@ describe('getFieldString', () => {
         }
       }
       `,
-      'a b e { ... on NestedType { x } }', undefined,
+      'a b e { ... on NestedType { x } }',
+      undefined,
     );
   });
 
@@ -361,7 +386,8 @@ describe('getFieldString', () => {
         }
       }
       `,
-      'a b e { e { e { e { e { x } } } } }', undefined,
+      'a b e { e { e { e { e { x } } } } }',
+      undefined,
     );
   });
 });

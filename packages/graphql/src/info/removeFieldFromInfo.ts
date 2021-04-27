@@ -18,7 +18,12 @@ function removeFieldFromFragment(fragment: FragmentDefinitionNode, name: string)
   };
 }
 
-function removeFieldFromFieldNode(fieldNode: FieldNode, path: string[], name: string, fragments: Fragments): [FieldNode, Fragments] {
+function removeFieldFromFieldNode(
+  fieldNode: FieldNode,
+  path: string[],
+  name: string,
+  fragments: Fragments,
+): [FieldNode, Fragments] {
   if (!fieldNode.selectionSet) {
     return [fieldNode, fragments];
   }
@@ -62,7 +67,9 @@ function removeFieldFromFieldNode(fieldNode: FieldNode, path: string[], name: st
 }
 
 export function removeFieldFromInfo<T extends GraphQLResolveInfo = GraphQLResolveInfo>(
-  info: T, name: string, options: IRemoveFieldFromInfoOptions = {},
+  info: T,
+  name: string,
+  options: IRemoveFieldFromInfoOptions = {},
 ): T {
   const path = options.path ? options.path.split('.') : [];
   const [new_field_node, new_fragments] = removeFieldFromFieldNode(info.fieldNodes[0], path, name, info.fragments);

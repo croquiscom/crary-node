@@ -16,8 +16,9 @@ export function removeArgumentFromInfo<T extends GraphQLResolveInfo = GraphQLRes
       ...info.fieldNodes[0],
       arguments: info.fieldNodes[0].arguments.filter((arg) => arg !== arg_to_remove),
     };
-    const variableDefinitions = (info.operation.variableDefinitions || [])
-      .filter((def) => def.variable.name.value !== variable_name);
+    const variableDefinitions = (info.operation.variableDefinitions || []).filter(
+      (def) => def.variable.name.value !== variable_name,
+    );
     return {
       ...info,
       fieldNodes: [fieldNode],
@@ -30,7 +31,19 @@ export function removeArgumentFromInfo<T extends GraphQLResolveInfo = GraphQLRes
         variableDefinitions,
       },
     };
-  } else if ([Kind.INT, Kind.FLOAT, Kind.STRING, Kind.BOOLEAN, Kind.NULL, Kind.ENUM, Kind.LIST, Kind.OBJECT, Kind.OBJECT_FIELD].includes(arg_to_remove.value.kind)) {
+  } else if (
+    [
+      Kind.INT,
+      Kind.FLOAT,
+      Kind.STRING,
+      Kind.BOOLEAN,
+      Kind.NULL,
+      Kind.ENUM,
+      Kind.LIST,
+      Kind.OBJECT,
+      Kind.OBJECT_FIELD,
+    ].includes(arg_to_remove.value.kind)
+  ) {
     const fieldNode = {
       ...info.fieldNodes[0],
       arguments: info.fieldNodes[0].arguments.filter((arg) => arg !== arg_to_remove),

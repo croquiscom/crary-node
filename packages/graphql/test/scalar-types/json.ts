@@ -78,8 +78,9 @@ describe('CrJson', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, 'query($input: CrJson) { query(input: $input) }',
-        null, null, { input: 152.73 });
+      const result = await graphql(schema, 'query($input: CrJson) { query(input: $input) }', null, null, {
+        input: 152.73,
+      });
       expect(result.data).to.eql({ query: true });
       expect(result).to.not.have.property('errors');
       expect(value).to.eql(152.73);
@@ -106,8 +107,9 @@ describe('CrJson', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, 'query($input: CrJson) { query(input: $input) }',
-        null, null, { input: 'hello' });
+      const result = await graphql(schema, 'query($input: CrJson) { query(input: $input) }', null, null, {
+        input: 'hello',
+      });
       expect(result.data).to.eql({ query: true });
       expect(result).to.not.have.property('errors');
       expect(value).to.eql('hello');
@@ -134,8 +136,9 @@ describe('CrJson', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, 'query($input: CrJson) { query(input: $input) }',
-        null, null, { input: { foo: 59.12, bar: 'hello', doe: null } });
+      const result = await graphql(schema, 'query($input: CrJson) { query(input: $input) }', null, null, {
+        input: { foo: 59.12, bar: 'hello', doe: null },
+      });
       expect(result.data).to.eql({ query: true });
       expect(result).to.not.have.property('errors');
       expect(value).to.eql({ foo: 59.12, bar: 'hello', doe: null });
@@ -164,7 +167,14 @@ describe('CrJson', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, `{ query(input: 152) }`);
+      const result = await graphql(
+        schema,
+        `
+          {
+            query(input: 152)
+          }
+        `,
+      );
       expect(result.data).to.eql({ query: true });
       expect(result).to.not.have.property('errors');
       expect(value).to.eql(152);
@@ -191,7 +201,14 @@ describe('CrJson', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, `{ query(input: 152.73) }`);
+      const result = await graphql(
+        schema,
+        `
+          {
+            query(input: 152.73)
+          }
+        `,
+      );
       expect(result.data).to.eql({ query: true });
       expect(result).to.not.have.property('errors');
       expect(value).to.eql(152.73);
@@ -218,7 +235,14 @@ describe('CrJson', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, `{ query(input: "hello") }`);
+      const result = await graphql(
+        schema,
+        `
+          {
+            query(input: "hello")
+          }
+        `,
+      );
       expect(result.data).to.eql({ query: true });
       expect(result).to.not.have.property('errors');
       expect(value).to.eql('hello');
@@ -245,7 +269,14 @@ describe('CrJson', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, `{ query(input: null) }`);
+      const result = await graphql(
+        schema,
+        `
+          {
+            query(input: null)
+          }
+        `,
+      );
       expect(result.data).to.eql({ query: true });
       expect(result).to.not.have.property('errors');
       expect(value).to.eql(null);
@@ -272,7 +303,14 @@ describe('CrJson', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, `{ query(input: true) }`);
+      const result = await graphql(
+        schema,
+        `
+          {
+            query(input: true)
+          }
+        `,
+      );
       expect(result.data).to.eql({ query: true });
       expect(result).to.not.have.property('errors');
       expect(value).to.eql(true);
@@ -299,7 +337,14 @@ describe('CrJson', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, `{ query(input: ACCEPT) }`);
+      const result = await graphql(
+        schema,
+        `
+          {
+            query(input: ACCEPT)
+          }
+        `,
+      );
       expect(result.data).to.eql(undefined);
       const msg = 'Do not support EnumValue type';
       expect(result.errors![0].message).to.eql(msg);
@@ -326,25 +371,31 @@ describe('CrJson', () => {
           },
           name: 'Query',
         }),
-        types: [
-          GraphQLInt,
-        ],
+        types: [GraphQLInt],
       });
-      const result = await graphql(schema, `query($var: Int) { query(input: {
-          string: "string",
-          int: 152,
-          float: 152.73,
-          true: true,
-          false: false,
-          null: null,
-          var: $var,
-          nested: {
-            string: "string",
-            float: 152.73,
-            var: $var,
-          },
-          list: [ "string", null, $var, true, 152.73 ],
-        }) }`, null, null, { var: 59 });
+      const result = await graphql(
+        schema,
+        `
+          query($var: Int) {
+            query(
+              input: {
+                string: "string"
+                int: 152
+                float: 152.73
+                true: true
+                false: false
+                null: null
+                var: $var
+                nested: { string: "string", float: 152.73, var: $var }
+                list: ["string", null, $var, true, 152.73]
+              }
+            )
+          }
+        `,
+        null,
+        null,
+        { var: 59 },
+      );
       expect(result.data).to.eql({ query: true });
       expect(result).to.not.have.property('errors');
       expect(value).to.eql({

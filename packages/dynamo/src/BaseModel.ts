@@ -67,14 +67,22 @@ export class BaseModel {
   }
 
   // V2, with mapItem
-  static async create<M extends BaseModel>(this: (new () => M) & typeof BaseModel, data: any, options?: object): Promise<M> {
+  static async create<M extends BaseModel>(
+    this: (new () => M) & typeof BaseModel,
+    data: any,
+    options?: object,
+  ): Promise<M> {
     this.checkHasModelInstance();
 
     const createResult = await this.dynogelsModel.createAsync(data, options);
     return ResultMapper.mapItem(createResult);
   }
 
-  static async createBulk<M extends BaseModel>(this: (new () => M) & typeof BaseModel, data: any[], options?: object): Promise<M[]> {
+  static async createBulk<M extends BaseModel>(
+    this: (new () => M) & typeof BaseModel,
+    data: any[],
+    options?: object,
+  ): Promise<M[]> {
     this.checkHasModelInstance();
     if (data.length === 0) {
       return [];
@@ -97,7 +105,11 @@ export class BaseModel {
     return ResultMapper.mapItem(getResult);
   }
 
-  static async update<M extends BaseModel>(this: (new () => M) & typeof BaseModel, data: any, options?: object): Promise<M> {
+  static async update<M extends BaseModel>(
+    this: (new () => M) & typeof BaseModel,
+    data: any,
+    options?: object,
+  ): Promise<M> {
     /**
      * Dynogel이 undefined 처리를 못하므로 직접 null로 변경
      */

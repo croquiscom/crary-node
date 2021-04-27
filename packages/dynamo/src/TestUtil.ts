@@ -29,23 +29,27 @@ export class TestUtil {
     const dynamodb = dynogels.dynamoDriver();
     const listTableResult = await dynamodb.listTables().promise();
     if (listTableResult.TableNames.length > 0) {
-      await Promise.all(_.keys(dynogels.models).map(async (modelName) => {
-        const m = dynogels.models[modelName];
-        const describeTable = await m.describeTableAsync();
-        const hashKeyAttr = _.find<any>(describeTable.Table.KeySchema, (key) => key.KeyType === 'HASH');
+      await Promise.all(
+        _.keys(dynogels.models).map(async (modelName) => {
+          const m = dynogels.models[modelName];
+          const describeTable = await m.describeTableAsync();
+          const hashKeyAttr = _.find<any>(describeTable.Table.KeySchema, (key) => key.KeyType === 'HASH');
 
-        const rangeKeyAttr = _.find<any>(describeTable.Table.KeySchema, (key) => key.KeyType === 'RANGE');
-        const hashKeyName = hashKeyAttr.AttributeName;
-        const rangeKeyName = (rangeKeyAttr) ? rangeKeyAttr.AttributeName : null;
+          const rangeKeyAttr = _.find<any>(describeTable.Table.KeySchema, (key) => key.KeyType === 'RANGE');
+          const hashKeyName = hashKeyAttr.AttributeName;
+          const rangeKeyName = rangeKeyAttr ? rangeKeyAttr.AttributeName : null;
 
-        const scanResult = await m.scan().loadAll().execAsync();
-        await Promise.all(scanResult.Items.map((item) => {
-          item = item.toJSON();
-          const hashKey = item[hashKeyName];
-          const rangeKey = rangeKeyName ? item[rangeKeyName] : null;
-          return m.destroyAsync(hashKey, rangeKey);
-        }));
-      }));
+          const scanResult = await m.scan().loadAll().execAsync();
+          await Promise.all(
+            scanResult.Items.map((item) => {
+              item = item.toJSON();
+              const hashKey = item[hashKeyName];
+              const rangeKey = rangeKeyName ? item[rangeKeyName] : null;
+              return m.destroyAsync(hashKey, rangeKey);
+            }),
+          );
+        }),
+      );
     }
   }
 
@@ -54,11 +58,13 @@ export class TestUtil {
     const listTableResult = await dynamodb.listTables().promise();
 
     if (listTableResult.TableNames.length > 0) {
-      return Promise.all(_.keys(dynogels.models).map(async (modelName) => {
-        const m = dynogels.models[modelName];
-        const describeTable = await m.describeTableAsync();
-        return describeTable;
-      }));
+      return Promise.all(
+        _.keys(dynogels.models).map(async (modelName) => {
+          const m = dynogels.models[modelName];
+          const describeTable = await m.describeTableAsync();
+          return describeTable;
+        }),
+      );
     }
   }
 }

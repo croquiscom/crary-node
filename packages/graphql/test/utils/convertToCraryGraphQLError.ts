@@ -22,7 +22,10 @@ describe('convertToCraryGraphQLError', () => {
   });
 
   it('code', () => {
-    const error = convertToCraryGraphQLError({ message: 'User does not exist', extensions: { code: 'user_not_found' } });
+    const error = convertToCraryGraphQLError({
+      message: 'User does not exist',
+      extensions: { code: 'user_not_found' },
+    });
     expect(error).to.instanceOf(GraphQLError);
     expect(error.message).to.eql('User does not exist');
     expect(error.extensions).to.eql({ code: 'user_not_found' });

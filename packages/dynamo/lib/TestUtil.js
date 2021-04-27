@@ -58,7 +58,7 @@ class TestUtil {
                 const hashKeyAttr = lodash_1.default.find(describeTable.Table.KeySchema, (key) => key.KeyType === 'HASH');
                 const rangeKeyAttr = lodash_1.default.find(describeTable.Table.KeySchema, (key) => key.KeyType === 'RANGE');
                 const hashKeyName = hashKeyAttr.AttributeName;
-                const rangeKeyName = (rangeKeyAttr) ? rangeKeyAttr.AttributeName : null;
+                const rangeKeyName = rangeKeyAttr ? rangeKeyAttr.AttributeName : null;
                 const scanResult = await m.scan().loadAll().execAsync();
                 await Promise.all(scanResult.Items.map((item) => {
                     item = item.toJSON();

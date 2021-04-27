@@ -49,7 +49,9 @@ function addFieldToFieldNode(fieldNode: FieldNode, path: string[], name: string)
 }
 
 export function addFieldToInfo<T extends GraphQLResolveInfo = GraphQLResolveInfo>(
-  info: T, name: string, options: IAddFieldToInfoOptions = {},
+  info: T,
+  name: string,
+  options: IAddFieldToInfoOptions = {},
 ): T {
   const path = options.path ? options.path.split('.') : [];
   const fieldNode = addFieldToFieldNode(info.fieldNodes[0], path, name);

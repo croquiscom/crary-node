@@ -12,7 +12,9 @@ import * as _ from 'lodash';
 
 const { NODE_ENV } = process.env;
 
-export const is_real_db: boolean = Boolean(NODE_ENV && ['real-prod', 'production', 'real-alpha', 'alpha'].indexOf(NODE_ENV) > -1);
+export const is_real_db: boolean = Boolean(
+  NODE_ENV && ['real-prod', 'production', 'real-alpha', 'alpha'].indexOf(NODE_ENV) > -1,
+);
 
 function getEndPoint() {
   return 'http://localhost:11505';

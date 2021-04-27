@@ -30,7 +30,7 @@ function install(response) {
         error = this.setError(error, cause);
         const table = error._table;
         const session = this.req.session;
-        const description = table && table[session && session.language || 'en'];
+        const description = table && table[(session && session.language) || 'en'];
         return this.type('application/json; charset=utf-8').status(status).json({
             description,
             error: error.message,

@@ -11,7 +11,7 @@ export interface IExpressConfig {
       port?: number;
       db?: number;
       password?: string;
-    },
+    };
     ttl: number;
     secret: string;
     name?: string;

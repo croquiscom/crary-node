@@ -1,7 +1,7 @@
 import express from 'express';
 
 export function install(response: express.Response) {
-  response.sendResult = function(status: number | object, obj: object, for_logging?: object) {
+  response.sendResult = function (status: number | object, obj: object, for_logging?: object) {
     if (typeof status !== 'number') {
       for_logging = obj;
       obj = status;
@@ -11,7 +11,7 @@ export function install(response: express.Response) {
     this.type('application/json; charset=utf-8').status(status).json(obj);
   };
 
-  response.setError = function(error: Error, cause?: Error) {
+  response.setError = function (error: Error, cause?: Error) {
     if (!(error instanceof Error)) {
       error = this._errors[error] || new Error(error);
     }
@@ -22,7 +22,7 @@ export function install(response: express.Response) {
     return error;
   };
 
-  response.sendError = function(status: number | Error, error: Error, cause?: Error) {
+  response.sendError = function (status: number | Error, error: Error, cause?: Error) {
     if (typeof status !== 'number') {
       cause = error;
       error = status;
@@ -31,7 +31,7 @@ export function install(response: express.Response) {
     error = this.setError(error, cause);
     const table = (error as any)._table;
     const session = (this as any).req.session;
-    const description = table && table[session && session.language || 'en'];
+    const description = table && table[(session && session.language) || 'en'];
     return this.type('application/json; charset=utf-8').status(status).json({
       description,
       error: error.message,

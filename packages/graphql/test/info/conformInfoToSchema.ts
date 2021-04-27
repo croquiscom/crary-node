@@ -85,11 +85,7 @@ describe('conformInfoToSchema', () => {
           },
         },
       },
-      subschemas: [
-        product_schema,
-        order_schema,
-        user_schema,
-      ],
+      subschemas: [product_schema, order_schema, user_schema],
       typeDefs: `
         extend type Order {
           product: Product!
@@ -168,11 +164,7 @@ describe('conformInfoToSchema', () => {
           },
         },
       },
-      subschemas: [
-        product_schema,
-        order_schema,
-        user_schema,
-      ],
+      subschemas: [product_schema, order_schema, user_schema],
       typeDefs: `
         extend type Order {
           product: Product!
@@ -248,11 +240,7 @@ describe('conformInfoToSchema', () => {
           },
         },
       },
-      subschemas: [
-        product_schema,
-        order_schema,
-        user_schema,
-      ],
+      subschemas: [product_schema, order_schema, user_schema],
       typeDefs: `
         extend type Order {
           product: Product!
@@ -327,11 +315,7 @@ describe('conformInfoToSchema', () => {
           },
         },
       },
-      subschemas: [
-        product_schema,
-        order_schema,
-        user_schema,
-      ],
+      subschemas: [product_schema, order_schema, user_schema],
       typeDefs: `
         extend type Order {
           product: Product!

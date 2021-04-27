@@ -66,8 +66,7 @@ function addArgumentToFieldNodeAsValue(fieldNode, path, name, value, type) {
 function typeToAst(type) {
     if (type instanceof graphql_1.GraphQLNonNull) {
         const innerType = typeToAst(type.ofType);
-        if (innerType.kind === graphql_1.Kind.LIST_TYPE ||
-            innerType.kind === graphql_1.Kind.NAMED_TYPE) {
+        if (innerType.kind === graphql_1.Kind.LIST_TYPE || innerType.kind === graphql_1.Kind.NAMED_TYPE) {
             return {
                 kind: graphql_1.Kind.NON_NULL_TYPE,
                 type: innerType,

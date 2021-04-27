@@ -5,10 +5,10 @@ Croquis's library - GraphQL extension
 
 # Inspiration & Reference
 
-* [graphql-tools](https://github.com/ardatan/graphql-tools)
-* [graphql-list-fields](https://github.com/jakepusateri/graphql-list-fields)
-* [@okgrow/graphql-scalars](https://github.com/okgrow/graphql-scalars)
-* [graphql-type-json](https://github.com/taion/graphql-type-json)
+- [graphql-tools](https://github.com/ardatan/graphql-tools)
+- [graphql-list-fields](https://github.com/jakepusateri/graphql-list-fields)
+- [@okgrow/graphql-scalars](https://github.com/okgrow/graphql-scalars)
+- [graphql-type-json](https://github.com/taion/graphql-type-json)
 
 # License
 

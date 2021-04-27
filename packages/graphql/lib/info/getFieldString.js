@@ -23,10 +23,9 @@ function getFieldStringNode(info, nodes) {
         }
         switch (node.kind) {
             case 'Field': {
-                const name = (node.arguments && node.arguments.length > 0) ?
-                    `${node.name.value}(${getArgumentStringNode(node.arguments)})`
-                    :
-                        node.name.value;
+                const name = node.arguments && node.arguments.length > 0
+                    ? `${node.name.value}(${getArgumentStringNode(node.arguments)})`
+                    : node.name.value;
                 if (node.selectionSet) {
                     values.push(`${name} { ${getFieldStringNode(info, [node])} }`);
                     return values;

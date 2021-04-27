@@ -35,16 +35,22 @@ type Query {
 
 async function getInfo(query: string, variables: { [key: string]: any } | undefined) {
   let info!: GraphQLResolveInfo;
-  await graphql(schema, query, {
-    scalarField: (args: any, context: any, _info: GraphQLResolveInfo) => {
-      info = _info;
-      return 'str';
+  await graphql(
+    schema,
+    query,
+    {
+      scalarField: (args: any, context: any, _info: GraphQLResolveInfo) => {
+        info = _info;
+        return 'str';
+      },
+      someType: (args: any, context: any, _info: GraphQLResolveInfo) => {
+        info = _info;
+        return { a: 1, b: 2, c: 3, d: 4, e: { x: 'str' } };
+      },
     },
-    someType: (args: any, context: any, _info: GraphQLResolveInfo) => {
-      info = _info;
-      return { a: 1, b: 2, c: 3, d: 4, e: { x: 'str' } };
-    },
-  }, {}, variables);
+    {},
+    variables,
+  );
   return info;
 }
 
@@ -78,7 +84,9 @@ describe('getFieldList with field_path', () => {
       }
       { someType { ...Frag } }
       `,
-      ['x'], undefined, 'e',
+      ['x'],
+      undefined,
+      'e',
     );
   });
 
@@ -87,7 +95,9 @@ describe('getFieldList with field_path', () => {
       `
       { someType { ...on SomeType { a e { x } } } }
       `,
-      ['x'], undefined, 'e',
+      ['x'],
+      undefined,
+      'e',
     );
   });
 
@@ -103,7 +113,9 @@ describe('getFieldList with field_path', () => {
         }
       }
       `,
-      [], undefined, 'e',
+      [],
+      undefined,
+      'e',
     );
   });
 
@@ -119,7 +131,9 @@ describe('getFieldList with field_path', () => {
         }
       }
       `,
-      ['x'], undefined, 'e',
+      ['x'],
+      undefined,
+      'e',
     );
   });
 
@@ -135,7 +149,9 @@ describe('getFieldList with field_path', () => {
         }
       }
       `,
-      ['x'], undefined, 'e',
+      ['x'],
+      undefined,
+      'e',
     );
   });
 
@@ -151,7 +167,9 @@ describe('getFieldList with field_path', () => {
         }
       }
       `,
-      [], undefined, 'e',
+      [],
+      undefined,
+      'e',
     );
   });
 
@@ -207,7 +225,9 @@ describe('getFieldList with field_path', () => {
         }
       }
       `,
-      ['x'], undefined, 'e',
+      ['x'],
+      undefined,
+      'e',
     );
   });
 
@@ -227,7 +247,9 @@ describe('getFieldList with field_path', () => {
         }
       }
       `,
-      ['e.x', 'x'], undefined, 'e',
+      ['e.x', 'x'],
+      undefined,
+      'e',
     );
   });
 
@@ -249,7 +271,9 @@ describe('getFieldList with field_path', () => {
         }
       }
       `,
-      ['e.e.x', 'x'], undefined, 'e',
+      ['e.e.x', 'x'],
+      undefined,
+      'e',
     );
   });
 
@@ -274,11 +298,15 @@ describe('getFieldList with field_path', () => {
         }
       }
       `,
-      ['e.e.e.e.x'], undefined, 'e',
+      ['e.e.e.e.x'],
+      undefined,
+      'e',
     );
   });
 
-  it('works with length-1 array input', () => test(`{
+  it('works with length-1 array input', () =>
+    test(
+      `{
     someType {
       e {
         e {
@@ -294,9 +322,15 @@ describe('getFieldList with field_path', () => {
         x
       }
     }
-  }`, ['e.e.e.e.x', 'e.e.x', 'x'], undefined, ['e']));
+  }`,
+      ['e.e.e.e.x', 'e.e.x', 'x'],
+      undefined,
+      ['e'],
+    ));
 
-  it('works with length-2 array input', () => test(`{
+  it('works with length-2 array input', () =>
+    test(
+      `{
     someType {
       e {
         e {
@@ -312,9 +346,15 @@ describe('getFieldList with field_path', () => {
         x
       }
     }
-  }`, ['e.e.e.x', 'e.x'], undefined, ['e', 'e']));
+  }`,
+      ['e.e.e.x', 'e.x'],
+      undefined,
+      ['e', 'e'],
+    ));
 
-  it('works with length-3 array input', () => test(`{
+  it('works with length-3 array input', () =>
+    test(
+      `{
     someType {
       e {
         e {
@@ -330,5 +370,9 @@ describe('getFieldList with field_path', () => {
         x
       }
     }
-  }`, ['e.e.x', 'x'], undefined, ['e', 'e', 'e']));
+  }`,
+      ['e.e.x', 'x'],
+      undefined,
+      ['e', 'e', 'e'],
+    ));
 });

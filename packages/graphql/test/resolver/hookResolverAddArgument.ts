@@ -23,7 +23,8 @@ describe('hookResolverAddArgument', () => {
         definitions: [info.operation],
         kind: Kind.DOCUMENT,
       };
-      const expected = 'query ($text: String, $_c_limit: Int) { getProducts(text: $text, limit: $_c_limit) { id name } }';
+      const expected =
+        'query ($text: String, $_c_limit: Int) { getProducts(text: $text, limit: $_c_limit) { id name } }';
       expect(print(document).replace(/\s+/g, ' ').trim()).to.eql(expected);
       called = true;
       return [];

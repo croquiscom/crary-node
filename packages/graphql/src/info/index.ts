@@ -24,10 +24,20 @@ export interface IGraphQLResolveInfoMethods {
 export function wrapInfo<T extends GraphQLResolveInfo = GraphQLResolveInfo>(info: T): T & IGraphQLResolveInfoMethods {
   return {
     ...info,
-    addArgument(name, value, type, options) { return addArgumentToInfo(this, name, value, type, options); },
-    addField(name, options) { return addFieldToInfo(this, name, options); },
-    removeField(name, options) { return removeFieldFromInfo(this, name, options); },
-    removeArgument(name) { return removeArgumentFromInfo(this, name); },
-    conformToSchema(schema) { return conformInfoToSchema(this, schema); },
+    addArgument(name, value, type, options) {
+      return addArgumentToInfo(this, name, value, type, options);
+    },
+    addField(name, options) {
+      return addFieldToInfo(this, name, options);
+    },
+    removeField(name, options) {
+      return removeFieldFromInfo(this, name, options);
+    },
+    removeArgument(name) {
+      return removeArgumentFromInfo(this, name);
+    },
+    conformToSchema(schema) {
+      return conformInfoToSchema(this, schema);
+    },
   };
 }

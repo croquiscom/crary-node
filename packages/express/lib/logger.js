@@ -79,9 +79,11 @@ exports.default = (config) => {
                         msg += ` CAUSED BY ${this.O.ec}`;
                     }
                     if (this.O.es) {
-                        msg += this.O.es.map((line) => {
+                        msg += this.O.es
+                            .map((line) => {
                             return '\n\t' + line;
-                        }).join('');
+                        })
+                            .join('');
                     }
                 }
                 return msg;

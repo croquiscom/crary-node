@@ -28,28 +28,28 @@ function wrapPromise(args: any[]): any {
   return args;
 }
 
-const Router = express.Router as unknown as express.Router;
+const Router = (express.Router as unknown) as express.Router;
 
-Router.getPromise = function(...args: any[]) {
+Router.getPromise = function (...args: any[]) {
   return this.get.apply(this, wrapPromise(args));
 };
 
-Router.postPromise = function(...args: any[]) {
+Router.postPromise = function (...args: any[]) {
   return this.post.apply(this, wrapPromise(args));
 };
 
-Router.putPromise = function(...args: any[]) {
+Router.putPromise = function (...args: any[]) {
   return this.put.apply(this, wrapPromise(args));
 };
 
-Router.deletePromise = function(...args: any[]) {
+Router.deletePromise = function (...args: any[]) {
   return this.delete.apply(this, wrapPromise(args));
 };
 
 function setupMiddlewares(app: express.Express, config: IExpressConfig) {
   app.use((req, res, next) => {
     if (req.headers && req.headers['content-type']) {
-      req.headers['content-type'] = req.headers['content-type'].replace(/euc-kr/ig, 'utf-8');
+      req.headers['content-type'] = req.headers['content-type'].replace(/euc-kr/gi, 'utf-8');
     }
     next();
   });
@@ -149,9 +149,7 @@ function setupErrorHandler(app: express.Express, config: IExpressConfig) {
     if (code < 400) {
       code = 500;
     }
-    res.type('application/json; charset=utf-8')
-      .status(code)
-      .json({ error: err.message });
+    res.type('application/json; charset=utf-8').status(code).json({ error: err.message });
   });
 }
 

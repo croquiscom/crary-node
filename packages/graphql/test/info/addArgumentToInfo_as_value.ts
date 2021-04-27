@@ -22,11 +22,17 @@ type Query {
 describe('addArgumentToInfo', () => {
   it('add', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(schema, 'query($text: String) { getProducts(text: $text) { id name } }', {
-      getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
-        info = _info;
+    await graphql(
+      schema,
+      'query($text: String) { getProducts(text: $text) { id name } }',
+      {
+        getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
+          info = _info;
+        },
       },
-    }, {}, { text: 'my' });
+      {},
+      { text: 'my' },
+    );
     const newInfo = addArgumentToInfo(info, 'limit', 5, GraphQLInt, { as_value: true });
     const document: DocumentNode = {
       definitions: [newInfo.operation],
@@ -38,11 +44,17 @@ describe('addArgumentToInfo', () => {
 
   it('add to empty argument', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(schema, '{ getProducts { id name } }', {
-      getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
-        info = _info;
+    await graphql(
+      schema,
+      '{ getProducts { id name } }',
+      {
+        getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
+          info = _info;
+        },
       },
-    }, {}, { text: 'my' });
+      {},
+      { text: 'my' },
+    );
     const newInfo = addArgumentToInfo(info, 'limit', 5, GraphQLInt, { as_value: true });
     const document: DocumentNode = {
       definitions: [newInfo.operation],
@@ -54,11 +66,17 @@ describe('addArgumentToInfo', () => {
 
   it('add in path', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(schema, 'query($text: String) { getProducts(text: $text) { id name } }', {
-      getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
-        info = _info;
+    await graphql(
+      schema,
+      'query($text: String) { getProducts(text: $text) { id name } }',
+      {
+        getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
+          info = _info;
+        },
       },
-    }, {}, { text: 'my' });
+      {},
+      { text: 'my' },
+    );
     const newInfo = addArgumentToInfo(info, 'limit', 5, GraphQLInt, { path: 'name', as_value: true });
     const document: DocumentNode = {
       definitions: [newInfo.operation],
@@ -70,11 +88,17 @@ describe('addArgumentToInfo', () => {
 
   it('add in deep path', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(schema, 'query($text: String) { getProducts(text: $text) { id name supplier { id name } } }', {
-      getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
-        info = _info;
+    await graphql(
+      schema,
+      'query($text: String) { getProducts(text: $text) { id name supplier { id name } } }',
+      {
+        getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
+          info = _info;
+        },
       },
-    }, {}, { text: 'my' });
+      {},
+      { text: 'my' },
+    );
     const newInfo = addArgumentToInfo(info, 'limit', 5, GraphQLInt, { path: 'supplier.name', as_value: true });
     const document: DocumentNode = {
       definitions: [newInfo.operation],
@@ -86,11 +110,17 @@ describe('addArgumentToInfo', () => {
 
   it('wrap', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(schema, 'query($text: String) { getProducts(text: $text) { id name } }', {
-      getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
-        info = _info;
+    await graphql(
+      schema,
+      'query($text: String) { getProducts(text: $text) { id name } }',
+      {
+        getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
+          info = _info;
+        },
       },
-    }, {}, { text: 'my' });
+      {},
+      { text: 'my' },
+    );
     const newInfo = wrapInfo(info).addArgument('limit', 5, GraphQLInt, { as_value: true });
     const document: DocumentNode = {
       definitions: [newInfo.operation],

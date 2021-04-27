@@ -7,7 +7,9 @@
   "scripts": {
     "prepublishOnly": "npm run lint && npm run build",
     "build": "rimraf lib && tsc -p src/tsconfig.build.json",
-    "lint": "../../node_modules/.bin/eslint --ext .js,.ts ."
+    "lint": "../../node_modules/.bin/eslint --ext .js,.ts .",
+    "test:type": "tsc --noEmit",
+    "test": "npm run test:type && npm run lint"
   },
   "repository": {
     "type": "git",

@@ -71,7 +71,9 @@ function getFieldListByDepth(info, field_path, depth) {
     }
     let nodes = info.fieldNodes;
     if (field_path.length > 0) {
-        const field_node = field_path.slice(1).reduce((node, field_name) => node && getSubFieldNode(info, [node], field_name), getSubFieldNode(info, nodes, field_path[0]));
+        const field_node = field_path
+            .slice(1)
+            .reduce((node, field_name) => node && getSubFieldNode(info, [node], field_name), getSubFieldNode(info, nodes, field_path[0]));
         if (field_node) {
             nodes = [field_node];
         }

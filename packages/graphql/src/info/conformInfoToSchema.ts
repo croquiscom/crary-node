@@ -1,6 +1,16 @@
 import { AddSelectionSets, DelegationContext, FilterToSchema, StitchingInfo } from '@graphql-tools/delegate';
 import { Request as TransformRequest } from '@graphql-tools/utils';
-import { ArgumentNode, DocumentNode, FieldNode, GraphQLResolveInfo, GraphQLSchema, Kind, OperationDefinitionNode, SelectionNode, SelectionSetNode } from 'graphql';
+import {
+  ArgumentNode,
+  DocumentNode,
+  FieldNode,
+  GraphQLResolveInfo,
+  GraphQLSchema,
+  Kind,
+  OperationDefinitionNode,
+  SelectionNode,
+  SelectionSetNode,
+} from 'graphql';
 
 export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolveInfo>(
   info: T,
@@ -13,9 +23,7 @@ export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolv
     let args: ArgumentNode[] = [];
 
     info.fieldNodes.forEach((field: FieldNode) => {
-      const fieldSelections = field.selectionSet
-        ? field.selectionSet.selections
-        : [];
+      const fieldSelections = field.selectionSet ? field.selectionSet.selections : [];
       selections = selections.concat(fieldSelections);
       args = args.concat(field.arguments || []);
     });
@@ -58,9 +66,7 @@ export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolv
         selectionSet: rootSelectionSet,
         variableDefinitions: [],
       },
-      ...Object.keys(info.fragments).map(
-        (fragmentName) => info.fragments[fragmentName],
-      ),
+      ...Object.keys(info.fragments).map((fragmentName) => info.fragments[fragmentName]),
     ],
   };
   const original_request: TransformRequest = { document, variables: {} };
@@ -74,9 +80,10 @@ export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolv
     info: info as GraphQLResolveInfo,
     returnType: info.returnType,
   } as DelegationContext;
-  const transformed = transforms.reduce((request, transform) =>
-    transform.transformRequest(request, delegation_context, {})
-  , original_request);
+  const transformed = transforms.reduce(
+    (request, transform) => transform.transformRequest(request, delegation_context, {}),
+    original_request,
+  );
   const definition = transformed.document.definitions[0] as OperationDefinitionNode;
   return {
     ...info,

@@ -35,24 +35,26 @@ type Query {
 
 async function getInfo(query: string, variables: { [key: string]: any } | undefined) {
   let info!: GraphQLResolveInfo;
-  await graphql(schema, query, {
-    scalarField: (args: any, context: any, _info: GraphQLResolveInfo) => {
-      info = _info;
-      return 'str';
+  await graphql(
+    schema,
+    query,
+    {
+      scalarField: (args: any, context: any, _info: GraphQLResolveInfo) => {
+        info = _info;
+        return 'str';
+      },
+      someType: (args: any, context: any, _info: GraphQLResolveInfo) => {
+        info = _info;
+        return { a: 1, b: 2, c: 3, d: 4, e: { x: 'str' } };
+      },
     },
-    someType: (args: any, context: any, _info: GraphQLResolveInfo) => {
-      info = _info;
-      return { a: 1, b: 2, c: 3, d: 4, e: { x: 'str' } };
-    },
-  }, {}, variables);
+    {},
+    variables,
+  );
   return info;
 }
 
-async function test(
-  query: string,
-  expected: string[],
-  variables: { [key: string]: any } | undefined,
-) {
+async function test(query: string, expected: string[], variables: { [key: string]: any } | undefined) {
   const info = await getInfo(query, variables);
   const actual = getFieldList1st(info);
   expect(actual).to.eql(expected);
@@ -75,7 +77,8 @@ describe('getFieldList1st', () => {
       }
       { someType { ...Frag } }
       `,
-      ['a'], undefined,
+      ['a'],
+      undefined,
     );
   });
 
@@ -84,7 +87,8 @@ describe('getFieldList1st', () => {
       `
       { someType { ...on SomeType { a } } }
       `,
-      ['a'], undefined,
+      ['a'],
+      undefined,
     );
   });
 
@@ -98,7 +102,8 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a'], undefined,
+      ['a'],
+      undefined,
     );
   });
 
@@ -112,7 +117,8 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a', 'b'], undefined,
+      ['a', 'b'],
+      undefined,
     );
   });
 
@@ -126,7 +132,8 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a', 'b'], undefined,
+      ['a', 'b'],
+      undefined,
     );
   });
 
@@ -140,7 +147,8 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a'], undefined,
+      ['a'],
+      undefined,
     );
   });
 
@@ -153,7 +161,8 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      [], undefined,
+      [],
+      undefined,
     );
   });
 
@@ -166,7 +175,8 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      [], undefined,
+      [],
+      undefined,
     );
   });
 
@@ -179,7 +189,8 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['b'], undefined,
+      ['b'],
+      undefined,
     );
   });
 
@@ -192,7 +203,8 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      [], undefined,
+      [],
+      undefined,
     );
   });
 
@@ -240,7 +252,8 @@ describe('getFieldList1st', () => {
         b
       }
       `,
-      ['a', 'b'], undefined,
+      ['a', 'b'],
+      undefined,
     );
   });
 
@@ -257,7 +270,8 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a', 'b', 'e'], undefined,
+      ['a', 'b', 'e'],
+      undefined,
     );
   });
 
@@ -276,7 +290,8 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a', 'b', 'e'], undefined,
+      ['a', 'b', 'e'],
+      undefined,
     );
   });
 
@@ -296,7 +311,8 @@ describe('getFieldList1st', () => {
         x
       }
       `,
-      ['a', 'b', 'e'], undefined,
+      ['a', 'b', 'e'],
+      undefined,
     );
   });
 
@@ -315,7 +331,8 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a', 'b', 'e'], undefined,
+      ['a', 'b', 'e'],
+      undefined,
     );
   });
 
@@ -340,7 +357,8 @@ describe('getFieldList1st', () => {
         }
       }
       `,
-      ['a', 'b', 'e'], undefined,
+      ['a', 'b', 'e'],
+      undefined,
     );
   });
 

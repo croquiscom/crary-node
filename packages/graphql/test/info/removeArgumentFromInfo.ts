@@ -16,11 +16,17 @@ type Query {
 describe('removeArgumentFromInfo', () => {
   it('remove', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(schema, 'query($text: String) { getProducts(text: $text) { id name } }', {
-      getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
-        info = _info;
+    await graphql(
+      schema,
+      'query($text: String) { getProducts(text: $text) { id name } }',
+      {
+        getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
+          info = _info;
+        },
       },
-    }, {}, { text: 'my' });
+      {},
+      { text: 'my' },
+    );
     const newInfo = removeArgumentFromInfo(info, 'text');
     const document: DocumentNode = {
       definitions: [newInfo.operation],
@@ -48,11 +54,17 @@ describe('removeArgumentFromInfo', () => {
 
   it('remove non-exist', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(schema, 'query($text: String) { getProducts(text: $text) { id name } }', {
-      getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
-        info = _info;
+    await graphql(
+      schema,
+      'query($text: String) { getProducts(text: $text) { id name } }',
+      {
+        getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
+          info = _info;
+        },
       },
-    }, {}, { text: 'my' });
+      {},
+      { text: 'my' },
+    );
     const newInfo = removeArgumentFromInfo(info, 'limit');
     const document: DocumentNode = {
       definitions: [newInfo.operation],
@@ -64,11 +76,17 @@ describe('removeArgumentFromInfo', () => {
 
   it('wrap', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(schema, 'query($text: String) { getProducts(text: $text) { id name } }', {
-      getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
-        info = _info;
+    await graphql(
+      schema,
+      'query($text: String) { getProducts(text: $text) { id name } }',
+      {
+        getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
+          info = _info;
+        },
       },
-    }, {}, { text: 'my' });
+      {},
+      { text: 'my' },
+    );
     const newInfo = wrapInfo(info).removeArgument('text');
     const document: DocumentNode = {
       definitions: [newInfo.operation],

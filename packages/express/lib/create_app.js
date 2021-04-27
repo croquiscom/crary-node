@@ -65,7 +65,7 @@ Router.deletePromise = function (...args) {
 function setupMiddlewares(app, config) {
     app.use((req, res, next) => {
         if (req.headers && req.headers['content-type']) {
-            req.headers['content-type'] = req.headers['content-type'].replace(/euc-kr/ig, 'utf-8');
+            req.headers['content-type'] = req.headers['content-type'].replace(/euc-kr/gi, 'utf-8');
         }
         next();
     });
@@ -163,9 +163,7 @@ function setupErrorHandler(app, config) {
         if (code < 400) {
             code = 500;
         }
-        res.type('application/json; charset=utf-8')
-            .status(code)
-            .json({ error: err.message });
+        res.type('application/json; charset=utf-8').status(code).json({ error: err.message });
     });
 }
 exports.default = (config) => {

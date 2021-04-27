@@ -6,12 +6,13 @@ import { IExpressConfig } from './config';
 import { shrinkStackTrace } from './util';
 
 log4js.addLayout('json', (config) => {
-  return (logEvent) => JSON.stringify({
-    logdate: logEvent.startTime.getTime(),
-    loglevel: logEvent.level.toString(),
-    service_name: logEvent.categoryName,
-    ...logEvent.data[0].toJSON(),
-  });
+  return (logEvent) =>
+    JSON.stringify({
+      logdate: logEvent.startTime.getTime(),
+      loglevel: logEvent.level.toString(),
+      service_name: logEvent.categoryName,
+      ...logEvent.data[0].toJSON(),
+    });
 });
 
 export default (config: IExpressConfig) => {
@@ -83,9 +84,11 @@ export default (config: IExpressConfig) => {
             msg += ` CAUSED BY ${this.O.ec}`;
           }
           if (this.O.es) {
-            msg += this.O.es.map((line) => {
-              return '\n\t' + line;
-            }).join('');
+            msg += this.O.es
+              .map((line) => {
+                return '\n\t' + line;
+              })
+              .join('');
           }
         }
         return msg;
