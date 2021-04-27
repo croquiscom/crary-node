@@ -16,14 +16,13 @@ type Query {
 describe('hookResolverAddArgument', () => {
   it('hook', async () => {
     let called = false;
-    const originalResolve = async (source: any, args: any, context: any, info: GraphQLResolveInfo) => {
+    const originalResolve = (source: any, args: any, context: any, info: GraphQLResolveInfo) => {
       expect(called).to.eql(false);
       expect(args).to.eql({ text: 'my' });
       const document: DocumentNode = {
         definitions: [info.operation],
         kind: Kind.DOCUMENT,
       };
-      // tslint:disable-next-line: max-line-length
       const expected = 'query ($text: String, $_c_limit: Int) { getProducts(text: $text, limit: $_c_limit) { id name } }';
       expect(print(document).replace(/\s+/g, ' ').trim()).to.eql(expected);
       called = true;

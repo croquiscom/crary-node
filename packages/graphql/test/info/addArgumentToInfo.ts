@@ -80,7 +80,6 @@ describe('addArgumentToInfo', () => {
       definitions: [newInfo.operation],
       kind: Kind.DOCUMENT,
     };
-    // tslint:disable-next-line:max-line-length
     const expected = 'query ($text: String, $_c_limit: Int) { getProducts(text: $text) { id name supplier { id name(limit: $_c_limit) } } }';
     expect(print(document).replace(/\s+/g, ' ').trim()).to.eql(expected);
   });

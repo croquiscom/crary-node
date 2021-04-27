@@ -1,4 +1,5 @@
 "use strict";
+/* eslint-disable prefer-spread */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -22,6 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const os_1 = __importDefault(require("os"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const compression_1 = __importDefault(require("compression"));
 const connect_redis_1 = __importDefault(require("connect-redis"));
@@ -30,7 +32,6 @@ const express_1 = __importDefault(require("express"));
 const express_session_1 = __importDefault(require("express-session"));
 const helmet_1 = __importDefault(require("helmet"));
 const ioredis_1 = __importDefault(require("ioredis"));
-const os_1 = __importDefault(require("os"));
 const logger_1 = __importDefault(require("./logger"));
 const response = __importStar(require("./response"));
 function wrapPromise(args) {
@@ -48,7 +49,6 @@ function wrapPromise(args) {
     }
     return args;
 }
-// tslint:disable-next-line:variable-name
 const Router = express_1.default.Router;
 Router.getPromise = function (...args) {
     return this.get.apply(this, wrapPromise(args));
@@ -80,7 +80,6 @@ function setupSession(app, config) {
     if (!config.session) {
         return;
     }
-    // tslint:disable-next-line: variable-name
     const RedisStore = connect_redis_1.default(express_session_1.default);
     const port = (_b = (_a = config.session.redis) === null || _a === void 0 ? void 0 : _a.port) !== null && _b !== void 0 ? _b : 6379;
     const host = (_d = (_c = config.session.redis) === null || _c === void 0 ? void 0 : _c.host) !== null && _d !== void 0 ? _d : '127.0.0.1';
@@ -117,7 +116,6 @@ function setupSession(app, config) {
     app.use(session_middleware);
 }
 function setupRouters(app, config) {
-    // tslint:disable-next-line:forin
     for (const path in config.routers) {
         const ctor = config.routers[path];
         const router = express_1.default.Router();

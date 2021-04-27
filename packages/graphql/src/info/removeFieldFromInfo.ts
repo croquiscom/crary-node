@@ -15,7 +15,7 @@ function removeFieldFromFragment(fragment: FragmentDefinitionNode, name: string)
         return !(s.kind === 'Field' && s.name.value === name);
       }),
     },
-  }
+  };
 }
 
 function removeFieldFromFieldNode(fieldNode: FieldNode, path: string[], name: string, fragments: Fragments): [FieldNode, Fragments] {

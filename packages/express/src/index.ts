@@ -1,6 +1,6 @@
 import express from 'express';
 import createApp from './create_app';
-export { createApp }
+export { createApp };
 export { shrinkStackTrace } from './util';
 
 export type Router = express.Router;
@@ -16,7 +16,7 @@ declare module 'express-serve-static-core' {
     deletePromise: express.IRouterMatcher<this>;
   }
 
-  // tslint:disable-next-line:interface-name
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   export interface Request {
     skip_logging?: boolean;
 
@@ -26,7 +26,7 @@ declare module 'express-serve-static-core' {
     files: object;
   }
 
-  // tslint:disable-next-line:interface-name
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   export interface Response {
     result_for_logging: object;
 

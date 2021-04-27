@@ -23,7 +23,7 @@ function getFieldSet(
       return set;
     }
     switch (node.kind) {
-      case 'Field':
+      case 'Field': {
         if (depth === 1) {
           set[node.name.value] = true;
           return set;
@@ -35,6 +35,7 @@ function getFieldSet(
           set[newPrefix] = true;
           return set;
         }
+      }
       case 'InlineFragment':
         return Object.assign({}, set, getFieldSet(info, [node], prefix, depth));
       case 'FragmentSpread':
@@ -75,7 +76,7 @@ function getSubFieldNode(
 
 function getFieldListByDepth(info: GraphQLResolveInfo, field_path: string | string[], depth: number): string[] {
   if (typeof field_path === 'string') {
-    field_path = [field_path]
+    field_path = [field_path];
   }
   let nodes = info.fieldNodes;
   if (field_path.length > 0) {

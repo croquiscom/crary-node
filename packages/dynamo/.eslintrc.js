@@ -1,18 +1,21 @@
-{
-  "env": {
-    "node": true
+module.exports = {
+  root: true,
+  env: {
+    node: true,
   },
-  "extends": [
-    "@croquiscom/eslint-config/requiring-type-checking"
+  extends: [
+    '@croquiscom/eslint-config/requiring-type-checking',
   ],
-  "parserOptions": {
-    "project": [
-      "./tsconfig.json"
-    ]
+  parserOptions: {
+    project: [
+      `${__dirname}/tsconfig.json`,
+    ],
   },
-  "rules": {
-    "import/export": "off",
-    "@typescript-eslint/ban-types": "off",
+  ignorePatterns: [
+    '.eslintrc.js',
+    'lib/',
+  ],
+  rules: {
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
@@ -20,6 +23,7 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/restrict-template-expressions": "off",
-    "@typescript-eslint/no-misused-promises": "off"
-  }
-}
+    "@typescript-eslint/restrict-plus-operands": "off",
+    "@typescript-eslint/ban-types": "off",
+  },
+};

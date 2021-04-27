@@ -10,6 +10,5 @@ function routes_root(router: Router) {
 
 export default {
   '/api': routes_api,
-  // tslint:disable-next-line:object-literal-sort-keys
   '': routes_root,
 };

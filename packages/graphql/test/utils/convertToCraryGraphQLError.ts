@@ -1,6 +1,6 @@
-import { convertToCraryGraphQLError } from '../..';
 import { expect } from 'chai';
 import { GraphQLError } from 'graphql';
+import { convertToCraryGraphQLError } from '../..';
 
 describe('convertToCraryGraphQLError', () => {
   it('기본', () => {
@@ -8,9 +8,7 @@ describe('convertToCraryGraphQLError', () => {
     expect(error).to.instanceOf(GraphQLError);
     expect(error.message).to.eql('User does not exist');
     expect(error.extensions).to.eql({});
-    // tslint:disable-next-line: no-unused-expression
     expect(error.code).to.be.undefined;
-    // tslint:disable-next-line: no-unused-expression
     expect(error.ignorable).to.be.undefined;
   });
 
@@ -19,9 +17,7 @@ describe('convertToCraryGraphQLError', () => {
     expect(error).to.instanceOf(GraphQLError);
     expect(error.message).to.eql('User does not exist');
     expect(error.extensions).to.eql({ status: 404 });
-    // tslint:disable-next-line: no-unused-expression
     expect(error.code).to.be.undefined;
-    // tslint:disable-next-line: no-unused-expression
     expect(error.ignorable).to.be.undefined;
   });
 
@@ -31,7 +27,6 @@ describe('convertToCraryGraphQLError', () => {
     expect(error.message).to.eql('User does not exist');
     expect(error.extensions).to.eql({ code: 'user_not_found' });
     expect(error.code).to.eql('user_not_found');
-    // tslint:disable-next-line: no-unused-expression
     expect(error.ignorable).to.be.undefined;
   });
 
@@ -40,9 +35,7 @@ describe('convertToCraryGraphQLError', () => {
     expect(error).to.instanceOf(GraphQLError);
     expect(error.message).to.eql('User does not exist');
     expect(error.extensions).to.eql({ ignorable: true });
-    // tslint:disable-next-line: no-unused-expression
     expect(error.code).to.be.undefined;
-    // tslint:disable-next-line: no-unused-expression
     expect(error.ignorable).to.be.true;
   });
 });

@@ -65,7 +65,6 @@ function getModelDefinitionByVariantType(type) {
     }
 }
 function Field(type) {
-    // tslint:disable-next-line: only-arrow-functions
     return function (target, property) {
         const modelName = target.constructor.name;
         const def = getModelDefinition(modelName);
@@ -74,7 +73,6 @@ function Field(type) {
 }
 exports.Field = Field;
 function ArrayField(type) {
-    // tslint:disable-next-line: only-arrow-functions
     return function (target, property) {
         const modelName = target.constructor.name; // AdDisplaySlot
         const def = getModelDefinition(modelName);
@@ -84,7 +82,6 @@ function ArrayField(type) {
 }
 exports.ArrayField = ArrayField;
 function GlobalIndex(hashKey, rangeKey, projection) {
-    // tslint:disable-next-line: only-arrow-functions
     return function (target, property) {
         const modelName = target.prototype.constructor.name;
         const def = getModelDefinition(modelName);
@@ -98,7 +95,6 @@ function GlobalIndex(hashKey, rangeKey, projection) {
 }
 exports.GlobalIndex = GlobalIndex;
 function LocalIndex(rangeKey) {
-    // tslint:disable-next-line: only-arrow-functions
     return function (target, property) {
         const modelName = target.prototype.constructor.name;
         const def = getModelDefinition(modelName);

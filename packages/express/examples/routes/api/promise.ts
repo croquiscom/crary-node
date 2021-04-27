@@ -8,8 +8,8 @@ const checkItemsLength: RequestHandler = (req, res, next) => {
   }
 };
 
-async function processItems(items: (number | string)[]) {
-  return await Promise.all(items.map(async (item) => Number(item) * 5));
+async function processItems(items: Array<number | string>) {
+  return await Promise.all(items.map((item) => Number(item) * 5));
 }
 
 export default (router: Router) => {

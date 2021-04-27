@@ -17,7 +17,7 @@ function getFieldSet(info, nodes, prefix, depth) {
             return set;
         }
         switch (node.kind) {
-            case 'Field':
+            case 'Field': {
                 if (depth === 1) {
                     set[node.name.value] = true;
                     return set;
@@ -30,6 +30,7 @@ function getFieldSet(info, nodes, prefix, depth) {
                     set[newPrefix] = true;
                     return set;
                 }
+            }
             case 'InlineFragment':
                 return Object.assign({}, set, getFieldSet(info, [node], prefix, depth));
             case 'FragmentSpread':

@@ -1,7 +1,7 @@
+import util from 'util';
 import express from 'express';
 import log4js from 'log4js';
 import onFinished from 'on-finished';
-import util from 'util';
 import { IExpressConfig } from './config';
 import { shrinkStackTrace } from './util';
 
@@ -50,7 +50,6 @@ export default (config: IExpressConfig) => {
     }
     return {
       toJSON() {
-        // tslint:disable:object-literal-sort-keys
         return {
           session: this.C.s.substr(0, 6),
           response_time: this.C.t,

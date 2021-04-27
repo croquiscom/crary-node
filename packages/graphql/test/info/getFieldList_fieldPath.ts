@@ -1,5 +1,3 @@
-// tslint:disable:object-literal-sort-keys variable-name
-
 import { expect } from 'chai';
 import { buildSchema, graphql, GraphQLResolveInfo } from 'graphql';
 import { getFieldList } from '../../lib';

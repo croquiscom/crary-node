@@ -2,7 +2,6 @@ import { GraphQLScalarType } from 'graphql';
 import { GraphQLError } from 'graphql/error';
 import { Kind } from 'graphql/language';
 
-// tslint:disable-next-line:variable-name
 export const CrTimestamp = new GraphQLScalarType({
   name: 'CrTimestamp',
 

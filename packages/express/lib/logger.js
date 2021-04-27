@@ -3,9 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const util_1 = __importDefault(require("util"));
 const log4js_1 = __importDefault(require("log4js"));
 const on_finished_1 = __importDefault(require("on-finished"));
-const util_1 = __importDefault(require("util"));
 const util_2 = require("./util");
 log4js_1.default.addLayout('json', (config) => {
     return (logEvent) => JSON.stringify(Object.assign({ logdate: logEvent.startTime.getTime(), loglevel: logEvent.level.toString(), service_name: logEvent.categoryName }, logEvent.data[0].toJSON()));
@@ -46,7 +46,6 @@ exports.default = (config) => {
         }
         return {
             toJSON() {
-                // tslint:disable:object-literal-sort-keys
                 return {
                     session: this.C.s.substr(0, 6),
                     response_time: this.C.t,

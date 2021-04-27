@@ -28,7 +28,6 @@ function parseLiteral(valueAST, variables) {
     }
     throw new error_1.GraphQLError(`Do not support ${valueAST.kind} type`);
 }
-// tslint:disable-next-line:variable-name
 exports.CrJson = new graphql_1.GraphQLScalarType({
     name: 'CrJson',
     description: 'Serve JSON object',

@@ -22,7 +22,7 @@ function getFieldStringNode(info, nodes) {
             return values;
         }
         switch (node.kind) {
-            case 'Field':
+            case 'Field': {
                 const name = (node.arguments && node.arguments.length > 0) ?
                     `${node.name.value}(${getArgumentStringNode(node.arguments)})`
                     :
@@ -35,10 +35,12 @@ function getFieldStringNode(info, nodes) {
                     values.push(name);
                     return values;
                 }
-            case 'InlineFragment':
+            }
+            case 'InlineFragment': {
                 const type_name = node.typeCondition.name.value;
                 values.push(`... on ${type_name} { ${getFieldStringNode(info, [node])} }`);
                 return values;
+            }
             case 'FragmentSpread':
                 values.push(getFieldStringNode(info, [info.fragments[node.name.value]]));
                 return values;

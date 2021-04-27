@@ -32,7 +32,6 @@ function parseLiteral(valueAST: ValueNode, variables: { [key: string]: any } | u
   throw new GraphQLError(`Do not support ${valueAST.kind} type`);
 }
 
-// tslint:disable-next-line:variable-name
 export const CrJson = new GraphQLScalarType({
   name: 'CrJson',
 

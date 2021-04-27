@@ -16,7 +16,7 @@ type Query {
 describe('hookResolver', () => {
   it('hook', async () => {
     let called = false;
-    const originalResolve = async (source: any, args: any, context: any, info: GraphQLResolveInfo) => {
+    const originalResolve = (source: any, args: any, context: any, info: GraphQLResolveInfo) => {
       expect(called).to.eql(false);
       expect(args).to.eql({ text: 'my' });
       const document: DocumentNode = {

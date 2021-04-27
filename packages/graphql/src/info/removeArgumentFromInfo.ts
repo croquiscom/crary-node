@@ -11,7 +11,7 @@ export function removeArgumentFromInfo<T extends GraphQLResolveInfo = GraphQLRes
     return info;
   }
   if (arg_to_remove.value.kind === Kind.VARIABLE) {
-    const variable_name = (arg_to_remove.value as VariableNode).name.value;
+    const variable_name = arg_to_remove.value.name.value;
     const fieldNode = {
       ...info.fieldNodes[0],
       arguments: info.fieldNodes[0].arguments.filter((arg) => arg !== arg_to_remove),

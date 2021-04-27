@@ -1,3 +1,6 @@
+/* eslint-disable prefer-spread */
+
+import os from 'os';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import connectRedis from 'connect-redis';
@@ -6,7 +9,6 @@ import express from 'express';
 import expressSession from 'express-session';
 import helmet from 'helmet';
 import Redis from 'ioredis';
-import os from 'os';
 import { IExpressConfig } from './config';
 import logger from './logger';
 import * as response from './response';
@@ -26,7 +28,6 @@ function wrapPromise(args: any[]): any {
   return args;
 }
 
-// tslint:disable-next-line:variable-name
 const Router = express.Router as unknown as express.Router;
 
 Router.getPromise = function(...args: any[]) {
@@ -63,7 +64,6 @@ function setupSession(app: express.Express, config: IExpressConfig) {
   if (!config.session) {
     return;
   }
-  // tslint:disable-next-line: variable-name
   const RedisStore = connectRedis(expressSession);
   const port = config.session.redis?.port ?? 6379;
   const host = config.session.redis?.host ?? '127.0.0.1';
@@ -101,7 +101,6 @@ function setupSession(app: express.Express, config: IExpressConfig) {
 }
 
 function setupRouters(app: express.Express, config: IExpressConfig) {
-  // tslint:disable-next-line:forin
   for (const path in config.routers) {
     const ctor = config.routers[path];
     const router = express.Router();

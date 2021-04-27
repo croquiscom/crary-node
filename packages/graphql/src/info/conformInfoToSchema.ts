@@ -1,5 +1,5 @@
 import { AddSelectionSets, DelegationContext, FilterToSchema, StitchingInfo } from '@graphql-tools/delegate';
-import { Request } from '@graphql-tools/utils';
+import { Request as TransformRequest } from '@graphql-tools/utils';
 import { ArgumentNode, DocumentNode, FieldNode, GraphQLResolveInfo, GraphQLSchema, Kind, OperationDefinitionNode, SelectionNode, SelectionSetNode } from 'graphql';
 
 export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolveInfo>(
@@ -63,7 +63,7 @@ export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolv
       ),
     ],
   };
-  const original_request: Request = { document, variables: {} };
+  const original_request: TransformRequest = { document, variables: {} };
   const stitchingInfo: StitchingInfo = info?.schema.extensions?.stitchingInfo;
   const transforms = [
     new AddSelectionSets({}, stitchingInfo.selectionSetsByField, stitchingInfo.dynamicSelectionSetsByField),
@@ -75,8 +75,8 @@ export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolv
     returnType: info.returnType,
   } as DelegationContext;
   const transformed = transforms.reduce((request, transform) =>
-    transform.transformRequest(request, delegation_context, {}),
-    original_request);
+    transform.transformRequest(request, delegation_context, {})
+  , original_request);
   const definition = transformed.document.definitions[0] as OperationDefinitionNode;
   return {
     ...info,
