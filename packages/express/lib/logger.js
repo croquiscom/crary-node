@@ -7,8 +7,26 @@ const util_1 = __importDefault(require("util"));
 const log4js_1 = __importDefault(require("log4js"));
 const on_finished_1 = __importDefault(require("on-finished"));
 const util_2 = require("./util");
+let tracer;
+let formats;
+try {
+    tracer = require('dd-trace');
+    formats = require('dd-trace/ext/formats');
+}
+catch (error) {
+    // ignore
+}
 log4js_1.default.addLayout('json', (config) => {
-    return (logEvent) => JSON.stringify(Object.assign({ logdate: logEvent.startTime.getTime(), loglevel: logEvent.level.toString(), service_name: logEvent.categoryName }, logEvent.data[0].toJSON()));
+    return (logEvent) => {
+        const data = logEvent.data[0].toJSON();
+        if (tracer) {
+            const span = tracer.scope().active();
+            if (span) {
+                tracer.inject(span.context(), formats.LOG, data);
+            }
+        }
+        return JSON.stringify(Object.assign({ logdate: logEvent.startTime.getTime(), loglevel: logEvent.level.toString(), service_name: logEvent.categoryName }, data));
+    };
 });
 exports.default = (config) => {
     log4js_1.default.configure(config.log4js_config);

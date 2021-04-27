@@ -5,14 +5,31 @@ import onFinished from 'on-finished';
 import { IExpressConfig } from './config';
 import { shrinkStackTrace } from './util';
 
+let tracer: any;
+let formats: any;
+try {
+  tracer = require('dd-trace');
+  formats = require('dd-trace/ext/formats');
+} catch (error) {
+  // ignore
+}
+
 log4js.addLayout('json', (config) => {
-  return (logEvent) =>
-    JSON.stringify({
+  return (logEvent) => {
+    const data = logEvent.data[0].toJSON();
+    if (tracer) {
+      const span = tracer.scope().active();
+      if (span) {
+        tracer.inject(span.context(), formats.LOG, data);
+      }
+    }
+    return JSON.stringify({
       logdate: logEvent.startTime.getTime(),
       loglevel: logEvent.level.toString(),
       service_name: logEvent.categoryName,
-      ...logEvent.data[0].toJSON(),
+      ...data,
     });
+  };
 });
 
 export default (config: IExpressConfig) => {
