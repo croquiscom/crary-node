@@ -23,19 +23,19 @@
   },
   "homepage": "https://github.com/croquiscom/Crary-Node",
   "dependencies": {
-    "@graphql-tools/delegate": "^7.1.2",
-    "@graphql-tools/utils": "^7.8.0",
-    "graphql": "^15.5.0"
+    "@graphql-tools/delegate": "^7.1.5",
+    "@graphql-tools/utils": "^7.10.0",
+    "graphql": "^15.5.1"
   },
   "devDependencies": {
-    "@graphql-tools/stitch": "^7.5.1",
-    "@types/chai": "^4.2.17",
+    "@graphql-tools/stitch": "^7.5.3",
+    "@types/chai": "^4.2.21",
     "@types/graphql": "^14.5.0",
-    "@types/mocha": "^8.2.2",
+    "@types/mocha": "^9.0.0",
     "chai": "^4.3.4",
-    "mocha": "^8.3.2",
+    "mocha": "^9.0.3",
     "rimraf": "^3.0.2",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
   }
 }
