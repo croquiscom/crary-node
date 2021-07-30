@@ -4,7 +4,6 @@ exports.conformInfoToSchema = void 0;
 const delegate_1 = require("@graphql-tools/delegate");
 const graphql_1 = require("graphql");
 function conformInfoToSchema(info, schema, field_name) {
-    var _a;
     let rootSelectionSet;
     if (field_name) {
         let selections = [];
@@ -53,18 +52,16 @@ function conformInfoToSchema(info, schema, field_name) {
             ...Object.keys(info.fragments).map((fragmentName) => info.fragments[fragmentName]),
         ],
     };
-    const original_request = { document, variables: {} };
-    const stitchingInfo = (_a = info === null || info === void 0 ? void 0 : info.schema.extensions) === null || _a === void 0 ? void 0 : _a.stitchingInfo;
-    const transforms = [
-        new delegate_1.AddSelectionSets({}, stitchingInfo.selectionSetsByField, stitchingInfo.dynamicSelectionSetsByField),
-        new delegate_1.FilterToSchema(),
-    ];
+    const original_request = { document, operationType: 'query', variables: {} };
     const delegation_context = {
         targetSchema: schema,
         info: info,
         returnType: info.returnType,
+        transforms: [],
+        transformedSchema: schema,
     };
-    const transformed = transforms.reduce((request, transform) => transform.transformRequest(request, delegation_context, {}), original_request);
+    const transformer = new delegate_1.Transformer(delegation_context);
+    const transformed = transformer.transformRequest(original_request);
     const definition = transformed.document.definitions[0];
     return Object.assign(Object.assign({}, info), { fieldNodes: definition.selectionSet.selections });
 }

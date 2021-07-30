@@ -1,5 +1,5 @@
-import { AddSelectionSets, DelegationContext, FilterToSchema, StitchingInfo } from '@graphql-tools/delegate';
-import { Request as TransformRequest } from '@graphql-tools/utils';
+import { DelegationContext, Transformer } from '@graphql-tools/delegate';
+import { ExecutionRequest } from '@graphql-tools/utils';
 import {
   ArgumentNode,
   DocumentNode,
@@ -69,21 +69,16 @@ export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolv
       ...Object.keys(info.fragments).map((fragmentName) => info.fragments[fragmentName]),
     ],
   };
-  const original_request: TransformRequest = { document, variables: {} };
-  const stitchingInfo: StitchingInfo = info?.schema.extensions?.stitchingInfo;
-  const transforms = [
-    new AddSelectionSets({}, stitchingInfo.selectionSetsByField, stitchingInfo.dynamicSelectionSetsByField),
-    new FilterToSchema(),
-  ];
+  const original_request: ExecutionRequest = { document, operationType: 'query', variables: {} };
   const delegation_context = {
     targetSchema: schema,
     info: info as GraphQLResolveInfo,
     returnType: info.returnType,
-  } as DelegationContext;
-  const transformed = transforms.reduce(
-    (request, transform) => transform.transformRequest(request, delegation_context, {}),
-    original_request,
-  );
+    transforms: [],
+    transformedSchema: schema,
+  } as unknown as DelegationContext;
+  const transformer = new Transformer(delegation_context);
+  const transformed = transformer.transformRequest(original_request);
   const definition = transformed.document.definitions[0] as OperationDefinitionNode;
   return {
     ...info,
