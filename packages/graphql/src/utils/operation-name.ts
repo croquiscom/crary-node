@@ -20,7 +20,7 @@ export function getOperationNameOrFirstField(query_or_document: string | Documen
       }
       const selections = definition.selectionSet.selections;
       for (const selection of selections) {
-        if (selection.kind === Kind.FIELD) {
+        if (selection.kind === Kind.FIELD && !selection.name.value.startsWith('__')) {
           return selection.name.value;
         }
       }
@@ -46,7 +46,7 @@ export function getFirstField(query_or_document: string | DocumentNode): string 
     if (definition.kind === Kind.OPERATION_DEFINITION) {
       const selections = definition.selectionSet.selections;
       for (const selection of selections) {
-        if (selection.kind === Kind.FIELD) {
+        if (selection.kind === Kind.FIELD && !selection.name.value.startsWith('__')) {
           return selection.name.value;
         }
       }

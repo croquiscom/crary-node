@@ -22,7 +22,7 @@ function getOperationNameOrFirstField(query_or_document) {
             }
             const selections = definition.selectionSet.selections;
             for (const selection of selections) {
-                if (selection.kind === graphql_1.Kind.FIELD) {
+                if (selection.kind === graphql_1.Kind.FIELD && !selection.name.value.startsWith('__')) {
                     return selection.name.value;
                 }
             }
@@ -48,7 +48,7 @@ function getFirstField(query_or_document) {
         if (definition.kind === graphql_1.Kind.OPERATION_DEFINITION) {
             const selections = definition.selectionSet.selections;
             for (const selection of selections) {
-                if (selection.kind === graphql_1.Kind.FIELD) {
+                if (selection.kind === graphql_1.Kind.FIELD && !selection.name.value.startsWith('__')) {
                     return selection.name.value;
                 }
             }

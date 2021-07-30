@@ -12,4 +12,11 @@ describe('getOperationNameOrFirstField', () => {
     expect(getOperationNameOrFirstField(parse('query MyOp { some_model { id } another_model { id } }'))).to.eql('MyOp');
     expect(getOperationNameOrFirstField(parse('{ some_model { id } another_model { id } }'))).to.eql('some_model');
   });
+
+  it('ignore introspection field', () => {
+    expect(getOperationNameOrFirstField('query MyOp { __typename some_model { id } another_model { id } }')).to.eql(
+      'MyOp',
+    );
+    expect(getOperationNameOrFirstField('{ __typename some_model { id } another_model { id } }')).to.eql('some_model');
+  });
 });
