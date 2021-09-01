@@ -104,6 +104,7 @@ function setupSession(app, config) {
             domain: config.session.domain,
             maxAge: config.session.ttl * 1000,
             secure: config.session.secure,
+            sameSite: config.session.sameSite,
         },
         name: config.session.name,
         resave: false,

@@ -20,6 +20,7 @@ export interface IExpressConfig {
          * set express-session cookie.secure option
          */
         secure?: boolean;
+        sameSite?: boolean | 'lax' | 'strict' | 'none';
     };
     errors?: {
         [key: string]: Error;
