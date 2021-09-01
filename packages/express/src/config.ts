@@ -21,6 +21,7 @@ export interface IExpressConfig {
      * set express-session cookie.secure option
      */
     secure?: boolean;
+    sameSite?: boolean | 'lax' | 'strict' | 'none';
   };
   errors?: { [key: string]: Error };
   routers: { [path: string]: (router: express.Router, app: express.Application) => void };
