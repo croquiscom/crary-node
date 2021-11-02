@@ -13,7 +13,7 @@ function getFieldSet(info, nodes, prefix, depth) {
         return current;
     }, []);
     return selections.reduce((set, node) => {
-        if (common_1.isExcludedByDirective(info, node)) {
+        if ((0, common_1.isExcludedByDirective)(info, node)) {
             return set;
         }
         switch (node.kind) {

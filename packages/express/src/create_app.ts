@@ -20,7 +20,7 @@ function wrapPromise(args: any[]): any {
       try {
         const result = await handler(req, res);
         res.sendResult(result || {});
-      } catch (error) {
+      } catch (error: any) {
         res.sendError(error);
       }
     };
@@ -28,7 +28,7 @@ function wrapPromise(args: any[]): any {
   return args;
 }
 
-const Router = (express.Router as unknown) as express.Router;
+const Router = express.Router as unknown as express.Router;
 
 Router.getPromise = function (...args: any[]) {
   return this.get.apply(this, wrapPromise(args));

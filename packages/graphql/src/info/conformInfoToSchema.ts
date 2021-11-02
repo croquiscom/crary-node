@@ -1,4 +1,4 @@
-import { DelegationContext, Transformer } from '@graphql-tools/delegate';
+import { DelegationContext, Transformer as DelegateTransformer } from '@graphql-tools/delegate';
 import { ExecutionRequest } from '@graphql-tools/utils';
 import {
   ArgumentNode,
@@ -77,7 +77,7 @@ export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolv
     transforms: [],
     transformedSchema: schema,
   } as unknown as DelegationContext;
-  const transformer = new Transformer(delegation_context);
+  const transformer = new DelegateTransformer(delegation_context);
   const transformed = transformer.transformRequest(original_request);
   const definition = transformed.document.definitions[0] as OperationDefinitionNode;
   return {

@@ -6,7 +6,7 @@ const info_1 = require("../info");
 function hookResolver(field, fn) {
     const { resolve = graphql_1.defaultFieldResolver } = field;
     field.resolve = async (source, args, context, info) => {
-        return fn(source, args, context, info_1.wrapInfo(info), resolve);
+        return fn(source, args, context, (0, info_1.wrapInfo)(info), resolve);
     };
 }
 exports.hookResolver = hookResolver;

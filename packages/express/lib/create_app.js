@@ -70,17 +70,17 @@ function setupMiddlewares(app, config) {
         next();
     });
     app.use(helmet_1.default.hidePoweredBy());
-    app.use(compression_1.default());
+    app.use((0, compression_1.default)());
     app.use(body_parser_1.default.json({ limit: config.max_body_size || '10mb' }));
     app.use(body_parser_1.default.urlencoded({ limit: config.max_body_size || '10mb', extended: true }));
-    app.use(cookie_parser_1.default());
+    app.use((0, cookie_parser_1.default)());
 }
 function setupSession(app, config) {
     var _a, _b, _c, _d, _e;
     if (!config.session) {
         return;
     }
-    const RedisStore = connect_redis_1.default(express_session_1.default);
+    const RedisStore = (0, connect_redis_1.default)(express_session_1.default);
     const port = (_b = (_a = config.session.redis) === null || _a === void 0 ? void 0 : _a.port) !== null && _b !== void 0 ? _b : 6379;
     const host = (_d = (_c = config.session.redis) === null || _c === void 0 ? void 0 : _c.host) !== null && _d !== void 0 ? _d : '127.0.0.1';
     const redis_client = new ioredis_1.default({
@@ -99,7 +99,7 @@ function setupSession(app, config) {
             process.exit(0);
         }, 1000);
     });
-    const session_middleware = express_session_1.default({
+    const session_middleware = (0, express_session_1.default)({
         cookie: {
             domain: config.session.domain,
             maxAge: config.session.ttl * 1000,
@@ -168,10 +168,10 @@ function setupErrorHandler(app, config) {
     });
 }
 exports.default = (config) => {
-    const app = express_1.default();
+    const app = (0, express_1.default)();
     app.set('trust proxy', true);
     if (config.log4js_config) {
-        app.use(logger_1.default(config));
+        app.use((0, logger_1.default)(config));
     }
     setupMiddlewares(app, config);
     setupSession(app, config);

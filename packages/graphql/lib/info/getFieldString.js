@@ -5,7 +5,7 @@ const graphql_1 = require("graphql");
 const common_1 = require("./common");
 function getArgumentStringNode(nodes) {
     const result = nodes.reduce((values, node) => {
-        values.push(graphql_1.print(node));
+        values.push((0, graphql_1.print)(node));
         return values;
     }, []);
     return result.join(', ');
@@ -18,7 +18,7 @@ function getFieldStringNode(info, nodes) {
         return current;
     }, []);
     const result = selections.reduce((values, node) => {
-        if (common_1.isExcludedByDirective(info, node)) {
+        if ((0, common_1.isExcludedByDirective)(info, node)) {
             return values;
         }
         switch (node.kind) {

@@ -47,7 +47,7 @@ exports.default = (config) => {
             error_ignorable = e.ignorable;
             error_message = e._code || e.message;
             if (!e._code && e.stack) {
-                error_stack = util_2.shrinkStackTrace(e.stack, project_root, 3);
+                error_stack = (0, util_2.shrinkStackTrace)(e.stack, project_root, 3);
             }
             e = e.cause;
             if (e) {
@@ -170,7 +170,7 @@ exports.default = (config) => {
             res.__statusCode = code;
             res.__headers = headers || {};
         };
-        on_finished_1.default(res, () => {
+        (0, on_finished_1.default)(res, () => {
             res.responseTime = Date.now() - start;
             // status code response level handling
             let level = log4js_1.default.levels.INFO;

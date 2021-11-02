@@ -6,7 +6,7 @@ const info_1 = require("../info");
 function hookResolverAddArgument(field, name, value, type, options) {
     const { resolve = graphql_1.defaultFieldResolver } = field;
     field.resolve = (source, args, context, info) => {
-        info = info_1.addArgumentToInfo(info, name, value, type, options);
+        info = (0, info_1.addArgumentToInfo)(info, name, value, type, options);
         return resolve(source, args, context, info);
     };
 }
