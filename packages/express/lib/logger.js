@@ -25,7 +25,12 @@ log4js_1.default.addLayout('json', (config) => {
                 tracer.inject(span.context(), formats.LOG, data);
             }
         }
-        return JSON.stringify(Object.assign({ logdate: logEvent.startTime.getTime(), loglevel: logEvent.level.toString(), service_name: logEvent.categoryName }, data));
+        return JSON.stringify({
+            logdate: logEvent.startTime.getTime(),
+            loglevel: logEvent.level.toString(),
+            service_name: logEvent.categoryName,
+            ...data,
+        });
     };
 });
 exports.default = (config) => {

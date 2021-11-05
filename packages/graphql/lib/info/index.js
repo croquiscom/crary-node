@@ -17,7 +17,9 @@ Object.defineProperty(exports, "removeArgumentFromInfo", { enumerable: true, get
 const removeFieldFromInfo_1 = require("./removeFieldFromInfo");
 Object.defineProperty(exports, "removeFieldFromInfo", { enumerable: true, get: function () { return removeFieldFromInfo_1.removeFieldFromInfo; } });
 function wrapInfo(info) {
-    return Object.assign(Object.assign({}, info), { addArgument(name, value, type, options) {
+    return {
+        ...info,
+        addArgument(name, value, type, options) {
             return (0, addArgumentToInfo_1.addArgumentToInfo)(this, name, value, type, options);
         },
         addField(name, options) {
@@ -31,6 +33,7 @@ function wrapInfo(info) {
         },
         conformToSchema(schema) {
             return (0, conformInfoToSchema_1.conformInfoToSchema)(this, schema);
-        } });
+        },
+    };
 }
 exports.wrapInfo = wrapInfo;

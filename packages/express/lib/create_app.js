@@ -76,17 +76,16 @@ function setupMiddlewares(app, config) {
     app.use((0, cookie_parser_1.default)());
 }
 function setupSession(app, config) {
-    var _a, _b, _c, _d, _e;
     if (!config.session) {
         return;
     }
     const RedisStore = (0, connect_redis_1.default)(express_session_1.default);
-    const port = (_b = (_a = config.session.redis) === null || _a === void 0 ? void 0 : _a.port) !== null && _b !== void 0 ? _b : 6379;
-    const host = (_d = (_c = config.session.redis) === null || _c === void 0 ? void 0 : _c.host) !== null && _d !== void 0 ? _d : '127.0.0.1';
+    const port = config.session.redis?.port ?? 6379;
+    const host = config.session.redis?.host ?? '127.0.0.1';
     const redis_client = new ioredis_1.default({
         port,
         host,
-        db: (_e = config.session.redis) === null || _e === void 0 ? void 0 : _e.db,
+        db: config.session.redis?.db,
     });
     const session_store = new RedisStore({
         client: redis_client,

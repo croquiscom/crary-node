@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2020",
     "module": "commonjs",
     "declaration": true,
     "experimentalDecorators": true,
     "strict": true,
     "stripInternal": true,
     "esModuleInterop": true,
-    "lib": ["es2017", "dom", "esnext.asynciterable"]
+    "lib": ["es2020", "dom", "esnext.asynciterable"]
   }
 }

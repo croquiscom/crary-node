@@ -40,7 +40,9 @@ function valueToNode(value, type) {
 }
 function addArgumentToFieldNodeAsValue(fieldNode, path, name, value, type) {
     if (path.length === 0) {
-        return Object.assign(Object.assign({}, fieldNode), { arguments: [
+        return {
+            ...fieldNode,
+            arguments: [
                 ...(fieldNode.arguments || []),
                 {
                     kind: graphql_1.Kind.ARGUMENT,
@@ -50,7 +52,8 @@ function addArgumentToFieldNodeAsValue(fieldNode, path, name, value, type) {
                     },
                     value: valueToNode(value, type),
                 },
-            ] });
+            ],
+        };
     }
     if (!fieldNode.selectionSet) {
         return fieldNode;
@@ -61,7 +64,13 @@ function addArgumentToFieldNodeAsValue(fieldNode, path, name, value, type) {
         }
         return selection;
     });
-    return Object.assign(Object.assign({}, fieldNode), { selectionSet: Object.assign(Object.assign({}, fieldNode.selectionSet), { selections }) });
+    return {
+        ...fieldNode,
+        selectionSet: {
+            ...fieldNode.selectionSet,
+            selections,
+        },
+    };
 }
 function typeToAst(type) {
     if (type instanceof graphql_1.GraphQLNonNull) {
@@ -94,7 +103,9 @@ function typeToAst(type) {
 }
 function addArgumentToFieldNode(fieldNode, path, name, variable_name) {
     if (path.length === 0) {
-        return Object.assign(Object.assign({}, fieldNode), { arguments: [
+        return {
+            ...fieldNode,
+            arguments: [
                 ...(fieldNode.arguments || []),
                 {
                     kind: graphql_1.Kind.ARGUMENT,
@@ -110,7 +121,8 @@ function addArgumentToFieldNode(fieldNode, path, name, variable_name) {
                         },
                     },
                 },
-            ] });
+            ],
+        };
     }
     if (!fieldNode.selectionSet) {
         return fieldNode;
@@ -121,16 +133,29 @@ function addArgumentToFieldNode(fieldNode, path, name, variable_name) {
         }
         return selection;
     });
-    return Object.assign(Object.assign({}, fieldNode), { selectionSet: Object.assign(Object.assign({}, fieldNode.selectionSet), { selections }) });
+    return {
+        ...fieldNode,
+        selectionSet: {
+            ...fieldNode.selectionSet,
+            selections,
+        },
+    };
 }
 function addArgumentToInfo(info, name, value, type, options = {}) {
     if (options.as_value) {
         const path = options.path ? options.path.split('.') : [];
         const fieldNode = addArgumentToFieldNodeAsValue(info.fieldNodes[0], path, name, value, type);
-        return Object.assign(Object.assign({}, info), { fieldNodes: [fieldNode], operation: Object.assign(Object.assign({}, info.operation), { selectionSet: {
+        return {
+            ...info,
+            fieldNodes: [fieldNode],
+            operation: {
+                ...info.operation,
+                selectionSet: {
                     kind: graphql_1.Kind.SELECTION_SET,
                     selections: [fieldNode],
-                } }) });
+                },
+            },
+        };
     }
     else {
         const variable_name = `_c_${name}`;
@@ -150,10 +175,22 @@ function addArgumentToInfo(info, name, value, type, options = {}) {
         ];
         const path = options.path ? options.path.split('.') : [];
         const fieldNode = addArgumentToFieldNode(info.fieldNodes[0], path, name, variable_name);
-        return Object.assign(Object.assign({}, info), { fieldNodes: [fieldNode], operation: Object.assign(Object.assign({}, info.operation), { selectionSet: {
+        return {
+            ...info,
+            fieldNodes: [fieldNode],
+            operation: {
+                ...info.operation,
+                selectionSet: {
                     kind: graphql_1.Kind.SELECTION_SET,
                     selections: [fieldNode],
-                }, variableDefinitions }), variableValues: Object.assign(Object.assign({}, info.variableValues), { [variable_name]: value }) });
+                },
+                variableDefinitions,
+            },
+            variableValues: {
+                ...info.variableValues,
+                [variable_name]: value,
+            },
+        };
     }
 }
 exports.addArgumentToInfo = addArgumentToInfo;

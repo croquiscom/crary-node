@@ -63,6 +63,9 @@ function conformInfoToSchema(info, schema, field_name) {
     const transformer = new delegate_1.Transformer(delegation_context);
     const transformed = transformer.transformRequest(original_request);
     const definition = transformed.document.definitions[0];
-    return Object.assign(Object.assign({}, info), { fieldNodes: definition.selectionSet.selections });
+    return {
+        ...info,
+        fieldNodes: definition.selectionSet.selections,
+    };
 }
 exports.conformInfoToSchema = conformInfoToSchema;

@@ -14,12 +14,23 @@ function removeArgumentFromInfo(info, name) {
     }
     if (arg_to_remove.value.kind === graphql_1.Kind.VARIABLE) {
         const variable_name = arg_to_remove.value.name.value;
-        const fieldNode = Object.assign(Object.assign({}, info.fieldNodes[0]), { arguments: info.fieldNodes[0].arguments.filter((arg) => arg !== arg_to_remove) });
+        const fieldNode = {
+            ...info.fieldNodes[0],
+            arguments: info.fieldNodes[0].arguments.filter((arg) => arg !== arg_to_remove),
+        };
         const variableDefinitions = (info.operation.variableDefinitions || []).filter((def) => def.variable.name.value !== variable_name);
-        return Object.assign(Object.assign({}, info), { fieldNodes: [fieldNode], operation: Object.assign(Object.assign({}, info.operation), { selectionSet: {
+        return {
+            ...info,
+            fieldNodes: [fieldNode],
+            operation: {
+                ...info.operation,
+                selectionSet: {
                     kind: graphql_1.Kind.SELECTION_SET,
                     selections: [fieldNode],
-                }, variableDefinitions }) });
+                },
+                variableDefinitions,
+            },
+        };
     }
     else if ([
         graphql_1.Kind.INT,
@@ -32,11 +43,21 @@ function removeArgumentFromInfo(info, name) {
         graphql_1.Kind.OBJECT,
         graphql_1.Kind.OBJECT_FIELD,
     ].includes(arg_to_remove.value.kind)) {
-        const fieldNode = Object.assign(Object.assign({}, info.fieldNodes[0]), { arguments: info.fieldNodes[0].arguments.filter((arg) => arg !== arg_to_remove) });
-        return Object.assign(Object.assign({}, info), { fieldNodes: [fieldNode], operation: Object.assign(Object.assign({}, info.operation), { selectionSet: {
+        const fieldNode = {
+            ...info.fieldNodes[0],
+            arguments: info.fieldNodes[0].arguments.filter((arg) => arg !== arg_to_remove),
+        };
+        return {
+            ...info,
+            fieldNodes: [fieldNode],
+            operation: {
+                ...info.operation,
+                selectionSet: {
                     kind: graphql_1.Kind.SELECTION_SET,
                     selections: [fieldNode],
-                } }) });
+                },
+            },
+        };
     }
     else {
         return info;

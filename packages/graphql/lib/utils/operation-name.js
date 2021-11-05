@@ -89,10 +89,16 @@ function replaceOperationName(document, operation_name) {
     }
     const definitions = document.definitions.map((definition) => {
         if (definition.kind === 'OperationDefinition') {
-            return Object.assign(Object.assign({}, definition), { name: { kind: 'Name', value: operation_name } });
+            return {
+                ...definition,
+                name: { kind: 'Name', value: operation_name },
+            };
         }
         return definition;
     });
-    return Object.assign(Object.assign({}, document), { definitions });
+    return {
+        ...document,
+        definitions,
+    };
 }
 exports.replaceOperationName = replaceOperationName;

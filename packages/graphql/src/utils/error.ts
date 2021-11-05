@@ -10,7 +10,7 @@ export class CraryGraphQLError extends GraphQLError {
   ignorable?: boolean;
 
   constructor(graphql_error_object: any) {
-    const { ...extensions } = graphql_error_object.extensions;
+    const { ...extensions } = graphql_error_object.extensions ?? {};
     delete extensions.stack;
     super(
       graphql_error_object.message,
