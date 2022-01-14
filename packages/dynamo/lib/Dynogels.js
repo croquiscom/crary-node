@@ -30,7 +30,7 @@ const _ = __importStar(require("lodash"));
 // import * as logger from 'winston';
 // dynogels.log = logger;
 const { NODE_ENV } = process.env;
-exports.is_real_db = Boolean(NODE_ENV && ['real-prod', 'production', 'real-alpha', 'alpha'].indexOf(NODE_ENV) > -1);
+exports.is_real_db = Boolean(NODE_ENV && ['real-prod', 'production', 'real-alpha', 'alpha', 'beta'].indexOf(NODE_ENV) > -1);
 function getEndPoint() {
     return 'http://localhost:11505';
 }
