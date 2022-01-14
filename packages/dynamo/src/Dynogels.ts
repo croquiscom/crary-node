@@ -13,7 +13,7 @@ import * as _ from 'lodash';
 const { NODE_ENV } = process.env;
 
 export const is_real_db: boolean = Boolean(
-  NODE_ENV && ['real-prod', 'production', 'real-alpha', 'alpha'].indexOf(NODE_ENV) > -1,
+  NODE_ENV && ['real-prod', 'production', 'real-alpha', 'alpha', 'beta'].indexOf(NODE_ENV) > -1,
 );
 
 function getEndPoint() {
