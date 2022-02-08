@@ -32,7 +32,7 @@ describe('hookResolverAddArgument', () => {
     schema.getQueryType()!.getFields().getProducts.resolve = originalResolve;
     hookResolverAddArgument(schema.getQueryType()!.getFields().getProducts, 'limit', 5, GraphQLInt);
     const query = 'query($text: String) { getProducts(text: $text) { id name } }';
-    const result = await graphql(schema, query, {}, {}, { text: 'my' });
+    const result = await graphql({ schema, source: query, variableValues: { text: 'my' } });
     expect(result).to.eql({ data: { getProducts: [] } });
     expect(called).to.eql(true);
   });

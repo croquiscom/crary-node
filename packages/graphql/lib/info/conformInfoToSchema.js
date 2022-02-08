@@ -45,14 +45,14 @@ function conformInfoToSchema(info, schema, field_name) {
         definitions: [
             {
                 kind: graphql_1.Kind.OPERATION_DEFINITION,
-                operation: 'query',
+                operation: graphql_1.OperationTypeNode.QUERY,
                 selectionSet: rootSelectionSet,
                 variableDefinitions: [],
             },
             ...Object.keys(info.fragments).map((fragmentName) => info.fragments[fragmentName]),
         ],
     };
-    const original_request = { document, operationType: 'query', variables: {} };
+    const original_request = { document, operationType: graphql_1.OperationTypeNode.QUERY, variables: {} };
     const delegation_context = {
         targetSchema: schema,
         info: info,

@@ -8,6 +8,7 @@ import {
   GraphQLSchema,
   Kind,
   OperationDefinitionNode,
+  OperationTypeNode,
   SelectionNode,
   SelectionSetNode,
 } from 'graphql';
@@ -28,7 +29,7 @@ export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolv
       args = args.concat(field.arguments || []);
     });
 
-    let selectionSet;
+    let selectionSet: SelectionSetNode | undefined;
     if (selections.length > 0) {
       selectionSet = {
         kind: Kind.SELECTION_SET,
@@ -62,14 +63,14 @@ export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolv
     definitions: [
       {
         kind: Kind.OPERATION_DEFINITION,
-        operation: 'query',
+        operation: OperationTypeNode.QUERY,
         selectionSet: rootSelectionSet,
         variableDefinitions: [],
       },
       ...Object.keys(info.fragments).map((fragmentName) => info.fragments[fragmentName]),
     ],
   };
-  const original_request: ExecutionRequest = { document, operationType: 'query', variables: {} };
+  const original_request: ExecutionRequest = { document, operationType: OperationTypeNode.QUERY, variables: {} };
   const delegation_context = {
     targetSchema: schema,
     info: info as GraphQLResolveInfo,

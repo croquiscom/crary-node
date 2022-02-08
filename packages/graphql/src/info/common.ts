@@ -9,7 +9,7 @@ function getBooleanArgumentValue(info: GraphQLResolveInfo, node: DirectiveNode):
     case 'BooleanValue':
       return argument.value;
     case 'Variable':
-      return info.variableValues[argument.name.value];
+      return info.variableValues[argument.name.value] as boolean;
   }
   return false;
 }

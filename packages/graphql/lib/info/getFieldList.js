@@ -36,6 +36,7 @@ function getFieldSet(info, nodes, prefix, depth) {
             case 'FragmentSpread':
                 return Object.assign({}, set, getFieldSet(info, [info.fragments[node.name.value]], prefix, depth));
         }
+        return {};
     }, {});
 }
 function getSubFieldNode(info, nodes, fieldName) {

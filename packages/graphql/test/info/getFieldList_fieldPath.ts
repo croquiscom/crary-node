@@ -35,10 +35,10 @@ type Query {
 
 async function getInfo(query: string, variables: { [key: string]: any } | undefined) {
   let info!: GraphQLResolveInfo;
-  await graphql(
+  await graphql({
     schema,
-    query,
-    {
+    source: query,
+    rootValue: {
       scalarField: (args: any, context: any, _info: GraphQLResolveInfo) => {
         info = _info;
         return 'str';
@@ -48,9 +48,9 @@ async function getInfo(query: string, variables: { [key: string]: any } | undefi
         return { a: 1, b: 2, c: 3, d: 4, e: { x: 'str' } };
       },
     },
-    {},
-    variables,
-  );
+    contextValue: {},
+    variableValues: variables,
+  });
   return info;
 }
 
@@ -62,7 +62,7 @@ async function test(
 ) {
   const info = await getInfo(query, variables);
   const actual = getFieldList(info, fieldName);
-  await graphql(schema, query, undefined, undefined, variables);
+  await graphql({ schema, source: query, variableValues: variables });
   expect(actual).to.eql(expected);
 }
 

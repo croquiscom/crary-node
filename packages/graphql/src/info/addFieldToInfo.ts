@@ -17,9 +17,9 @@ function addFieldToFieldNode(fieldNode: FieldNode, path: string[], name: string)
       return fieldNode;
     }
     const new_selection: FieldNode = {
-      kind: 'Field',
+      kind: Kind.FIELD,
       name: {
-        kind: 'Name',
+        kind: Kind.NAME,
         value: name,
       },
     };

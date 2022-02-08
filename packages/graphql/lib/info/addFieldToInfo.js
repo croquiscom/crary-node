@@ -14,9 +14,9 @@ function addFieldToFieldNode(fieldNode, path, name) {
             return fieldNode;
         }
         const new_selection = {
-            kind: 'Field',
+            kind: graphql_1.Kind.FIELD,
             name: {
-                kind: 'Name',
+                kind: graphql_1.Kind.NAME,
                 value: name,
             },
         };

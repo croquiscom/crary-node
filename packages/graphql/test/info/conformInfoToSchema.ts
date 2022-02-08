@@ -95,7 +95,13 @@ describe('conformInfoToSchema', () => {
         }`,
     });
     const query = '{ user(id: 1) { id order_id order { product_id product { name price } } } }';
-    const result = await graphql(merged_schema, query, {}, {}, {});
+    const result = await graphql({
+      schema: merged_schema,
+      source: query,
+      rootValue: {},
+      contextValue: {},
+      variableValues: {},
+    });
     expect(result).to.eql({
       data: {
         user: {
@@ -174,7 +180,13 @@ describe('conformInfoToSchema', () => {
         }`,
     });
     const query = '{ user(id: 1) { order { product { name price } } } }';
-    const result = await graphql(merged_schema, query, {}, {}, {});
+    const result = await graphql({
+      schema: merged_schema,
+      source: query,
+      rootValue: {},
+      contextValue: {},
+      variableValues: {},
+    });
     expect(result).to.eql({
       data: {
         user: {
@@ -250,7 +262,13 @@ describe('conformInfoToSchema', () => {
         }`,
     });
     const query = '{ user(id: 1) { my_order { product { name price } } } }';
-    const result = await graphql(merged_schema, query, {}, {}, {});
+    const result = await graphql({
+      schema: merged_schema,
+      source: query,
+      rootValue: {},
+      contextValue: {},
+      variableValues: {},
+    });
     expect(result).to.eql({
       data: {
         user: {
@@ -325,7 +343,13 @@ describe('conformInfoToSchema', () => {
         }`,
     });
     const query = '{ user(id: 1) { id order_id order { product_id product { name price } } } }';
-    const result = await graphql(merged_schema, query, {}, {}, {});
+    const result = await graphql({
+      schema: merged_schema,
+      source: query,
+      rootValue: {},
+      contextValue: {},
+      variableValues: {},
+    });
     expect(result).to.eql({
       data: {
         user: {

@@ -16,17 +16,17 @@ type Query {
 describe('removeArgumentFromInfo', () => {
   it('remove', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(
+    await graphql({
       schema,
-      'query($text: String) { getProducts(text: $text) { id name } }',
-      {
+      source: 'query($text: String) { getProducts(text: $text) { id name } }',
+      rootValue: {
         getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
           info = _info;
         },
       },
-      {},
-      { text: 'my' },
-    );
+      contextValue: {},
+      variableValues: { text: 'my' },
+    });
     const newInfo = removeArgumentFromInfo(info, 'text');
     const document: DocumentNode = {
       definitions: [newInfo.operation],
@@ -38,9 +38,13 @@ describe('removeArgumentFromInfo', () => {
 
   it('remove value', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(schema, '{ getProducts(text: "FOOBAR") { id name } }', {
-      getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
-        info = _info;
+    await graphql({
+      schema,
+      source: '{ getProducts(text: "FOOBAR") { id name } }',
+      rootValue: {
+        getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
+          info = _info;
+        },
       },
     });
     const newInfo = removeArgumentFromInfo(info, 'text');
@@ -54,17 +58,17 @@ describe('removeArgumentFromInfo', () => {
 
   it('remove non-exist', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(
+    await graphql({
       schema,
-      'query($text: String) { getProducts(text: $text) { id name } }',
-      {
+      source: 'query($text: String) { getProducts(text: $text) { id name } }',
+      rootValue: {
         getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
           info = _info;
         },
       },
-      {},
-      { text: 'my' },
-    );
+      contextValue: {},
+      variableValues: { text: 'my' },
+    });
     const newInfo = removeArgumentFromInfo(info, 'limit');
     const document: DocumentNode = {
       definitions: [newInfo.operation],
@@ -76,17 +80,17 @@ describe('removeArgumentFromInfo', () => {
 
   it('wrap', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(
+    await graphql({
       schema,
-      'query($text: String) { getProducts(text: $text) { id name } }',
-      {
+      source: 'query($text: String) { getProducts(text: $text) { id name } }',
+      rootValue: {
         getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
           info = _info;
         },
       },
-      {},
-      { text: 'my' },
-    );
+      contextValue: {},
+      variableValues: { text: 'my' },
+    });
     const newInfo = wrapInfo(info).removeArgument('text');
     const document: DocumentNode = {
       definitions: [newInfo.operation],

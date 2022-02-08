@@ -44,6 +44,7 @@ function getFieldStringNode(info, nodes) {
                 values.push(getFieldStringNode(info, [info.fragments[node.name.value]]));
                 return values;
         }
+        return [];
     }, []);
     return result.join(' ');
 }

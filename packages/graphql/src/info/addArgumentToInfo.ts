@@ -9,7 +9,6 @@ import {
   GraphQLNonNull,
   GraphQLResolveInfo,
   Kind,
-  KindEnum,
   TypeNode,
   ValueNode,
 } from 'graphql';
@@ -31,7 +30,7 @@ function valueToNode(value: any, type: GraphQLInputType): ValueNode {
       values: value.map((item) => valueToNode(item, type.ofType)),
     };
   } else {
-    let kind: KindEnum;
+    let kind: Kind;
     if (type === GraphQLInt) {
       kind = Kind.INT;
     } else if (type === GraphQLFloat) {

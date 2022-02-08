@@ -22,17 +22,17 @@ type Query {
 describe('removeFieldFromInfo', () => {
   it('remove', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(
+    await graphql({
       schema,
-      'query($text: String) { getProducts(text: $text) { id name } }',
-      {
+      source: 'query($text: String) { getProducts(text: $text) { id name } }',
+      rootValue: {
         getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
           info = _info;
         },
       },
-      {},
-      { text: 'my' },
-    );
+      contextValue: {},
+      variableValues: { text: 'my' },
+    });
     expect(getFieldList(info)).to.eql(['id', 'name']);
     const newInfo = removeFieldFromInfo(info, 'id');
     expect(getFieldList(newInfo)).to.eql(['name']);
@@ -46,17 +46,17 @@ describe('removeFieldFromInfo', () => {
 
   it('not exist', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(
+    await graphql({
       schema,
-      'query($text: String) { getProducts(text: $text) { name } }',
-      {
+      source: 'query($text: String) { getProducts(text: $text) { name } }',
+      rootValue: {
         getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
           info = _info;
         },
       },
-      {},
-      { text: 'my' },
-    );
+      contextValue: {},
+      variableValues: { text: 'my' },
+    });
     const newInfo = removeFieldFromInfo(info, 'id');
     const document: DocumentNode = {
       definitions: [newInfo.operation],
@@ -68,17 +68,17 @@ describe('removeFieldFromInfo', () => {
 
   it('remove in path', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(
+    await graphql({
       schema,
-      'query($text: String) { getProducts(text: $text) { name supplier { id name } } }',
-      {
+      source: 'query($text: String) { getProducts(text: $text) { name supplier { id name } } }',
+      rootValue: {
         getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
           info = _info;
         },
       },
-      {},
-      { text: 'my' },
-    );
+      contextValue: {},
+      variableValues: { text: 'my' },
+    });
     const newInfo = removeFieldFromInfo(info, 'id', { path: 'supplier' });
     const document: DocumentNode = {
       definitions: [newInfo.operation],
@@ -90,17 +90,17 @@ describe('removeFieldFromInfo', () => {
 
   it('wrap', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(
+    await graphql({
       schema,
-      'query($text: String) { getProducts(text: $text) { id name } }',
-      {
+      source: 'query($text: String) { getProducts(text: $text) { id name } }',
+      rootValue: {
         getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
           info = _info;
         },
       },
-      {},
-      { text: 'my' },
-    );
+      contextValue: {},
+      variableValues: { text: 'my' },
+    });
     const newInfo = wrapInfo(info).removeField('id');
     const document: DocumentNode = {
       definitions: [newInfo.operation],
@@ -112,17 +112,18 @@ describe('removeFieldFromInfo', () => {
 
   it('using fragment', async () => {
     let info!: GraphQLResolveInfo;
-    await graphql(
+    await graphql({
       schema,
-      'fragment ProductFragment on Product { id name } query($text: String) { getProducts(text: $text) { ...ProductFragment } }',
-      {
+      source:
+        'fragment ProductFragment on Product { id name } query($text: String) { getProducts(text: $text) { ...ProductFragment } }',
+      rootValue: {
         getProducts: (args: any, context: any, _info: GraphQLResolveInfo) => {
           info = _info;
         },
       },
-      {},
-      { text: 'my' },
-    );
+      contextValue: {},
+      variableValues: { text: 'my' },
+    });
     expect(getFieldList(info)).to.eql(['id', 'name']);
     const newInfo = removeFieldFromInfo(info, 'id');
     expect(getFieldList(newInfo)).to.eql(['name']);

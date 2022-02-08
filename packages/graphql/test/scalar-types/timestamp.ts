@@ -17,7 +17,7 @@ describe('CrTimestamp', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, '{ query }');
+      const result = await graphql({ schema, source: '{ query }' });
       expect(result.data).to.eql({ query: date.getTime() });
       expect(result).to.not.have.property('errors');
     });
@@ -35,7 +35,7 @@ describe('CrTimestamp', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, '{ query }');
+      const result = await graphql({ schema, source: '{ query }' });
       expect(result.data).to.eql({ query: null });
       expect(result.errors![0].message).to.eql('Value is not a valid Date');
     });
@@ -53,7 +53,7 @@ describe('CrTimestamp', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, '{ query }');
+      const result = await graphql({ schema, source: '{ query }' });
       expect(result.data).to.eql({ query: date.getTime() });
       expect(result).to.not.have.property('errors');
     });
@@ -82,8 +82,12 @@ describe('CrTimestamp', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, 'query($input: CrTimestamp) { query(input: $input) }', null, null, {
-        input: date.getTime(),
+      const result = await graphql({
+        schema,
+        source: 'query($input: CrTimestamp) { query(input: $input) }',
+        variableValues: {
+          input: date.getTime(),
+        },
       });
       expect(result.data).to.eql({ query: true });
       expect(result).to.not.have.property('errors');
@@ -112,8 +116,12 @@ describe('CrTimestamp', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, 'query($input: CrTimestamp) { query(input: $input) }', null, null, {
-        input: new Date('2021-01-15T04:20Z').toISOString(),
+      const result = await graphql({
+        schema,
+        source: 'query($input: CrTimestamp) { query(input: $input) }',
+        variableValues: {
+          input: new Date('2021-01-15T04:20Z').toISOString(),
+        },
       });
       expect(result.data).to.eql(undefined);
       const msg =
@@ -143,8 +151,12 @@ describe('CrTimestamp', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, 'query($input: CrTimestamp) { query(input: $input) }', null, null, {
-        input: 'a',
+      const result = await graphql({
+        schema,
+        source: 'query($input: CrTimestamp) { query(input: $input) }',
+        variableValues: {
+          input: 'a',
+        },
       });
       expect(result.data).to.eql(undefined);
       const msg =
@@ -177,7 +189,7 @@ describe('CrTimestamp', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(schema, `{ query(input: ${date.getTime()}) }`);
+      const result = await graphql({ schema, source: `{ query(input: ${date.getTime()}) }` });
       expect(result.data).to.eql({ query: true });
       expect(result).to.not.have.property('errors');
       expect(value).to.instanceof(Date);
@@ -205,14 +217,14 @@ describe('CrTimestamp', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(
+      const result = await graphql({
         schema,
-        `
+        source: `
           {
             query(input: a)
           }
         `,
-      );
+      });
       expect(result.data).to.eql(undefined);
       const msg = 'Can only parse numbers but got a: EnumValue';
       expect(result.errors![0].message).to.eql(msg);
@@ -240,14 +252,14 @@ describe('CrTimestamp', () => {
           name: 'Query',
         }),
       });
-      const result = await graphql(
+      const result = await graphql({
         schema,
-        `
+        source: `
           {
             query(input: "2021-01-15T04:20Z")
           }
         `,
-      );
+      });
       expect(result.data).to.eql(undefined);
       const msg = 'Can only parse numbers but got a: StringValue';
       expect(result.errors![0].message).to.eql(msg);
