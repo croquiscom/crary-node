@@ -10,10 +10,7 @@
       "name": "Test: crary-graphql",
       "cwd": "${workspaceRoot}/packages/graphql",
       "runtimeExecutable": "npm",
-      "runtimeArgs": [
-        "run-script",
-        "test:unit"
-      ]
+      "runtimeArgs": ["run-script", "test:unit"]
     }
   ]
 }

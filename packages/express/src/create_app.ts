@@ -7,7 +7,7 @@ import connectRedis from 'connect-redis';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import expressSession from 'express-session';
-import helmet from 'helmet';
+import { hidePoweredBy } from 'helmet';
 import Redis from 'ioredis';
 import { IExpressConfig } from './config';
 import logger from './logger';
@@ -53,7 +53,7 @@ function setupMiddlewares(app: express.Express, config: IExpressConfig) {
     }
     next();
   });
-  app.use(helmet.hidePoweredBy());
+  app.use(hidePoweredBy());
   app.use(compression());
   app.use(bodyParser.json({ limit: config.max_body_size || '10mb' }));
   app.use(bodyParser.urlencoded({ limit: config.max_body_size || '10mb', extended: true }));
