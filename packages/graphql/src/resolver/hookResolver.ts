@@ -7,11 +7,11 @@ type ResolverHookFunction = (
   context: any,
   info: GraphQLResolveInfo & IGraphQLResolveInfoMethods,
   resolve: GraphQLFieldResolver<any, any>,
-) => Promise<any>;
+) => any | Promise<any>;
 
 export function hookResolver(field: GraphQLField<any, any>, fn: ResolverHookFunction) {
   const { resolve = defaultFieldResolver } = field;
-  field.resolve = async (source, args, context, info) => {
+  field.resolve = (source, args, context, info) => {
     return fn(source, args, context, wrapInfo(info), resolve);
   };
 }

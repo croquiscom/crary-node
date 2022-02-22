@@ -29,9 +29,9 @@ describe('hookResolver', () => {
       return [];
     };
     schema.getQueryType()!.getFields().getProducts.resolve = originalResolve;
-    hookResolver(schema.getQueryType()!.getFields().getProducts, async (source, args, context, info, resolve) => {
+    hookResolver(schema.getQueryType()!.getFields().getProducts, (source, args, context, info, resolve) => {
       info = info.addArgument('limit', 5, GraphQLInt).removeArgument('text');
-      return await resolve(source, args, context, info);
+      return resolve(source, args, context, info);
     });
     const query = 'query($text: String) { getProducts(text: $text) { id name } }';
     const result = await graphql({ schema, source: query, variableValues: { text: 'my' } });
