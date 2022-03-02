@@ -15,5 +15,4 @@ __exportStar(require("./ResultMapper"), exports);
 __exportStar(require("./Decorators"), exports);
 __exportStar(require("./Dynogels"), exports);
 __exportStar(require("./Query"), exports);
-__exportStar(require("./TestUtil"), exports);
 __exportStar(require("./Types"), exports);
