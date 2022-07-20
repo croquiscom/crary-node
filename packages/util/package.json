@@ -23,11 +23,14 @@
   },
   "homepage": "https://github.com/croquiscom/Crary-Node",
   "dependencies": {
+    "node-abort-controller": "^3.0.1",
+    "node-fetch": "^2.6.7",
     "ts-essentials": "^9.1.2"
   },
   "devDependencies": {
     "@types/chai": "^4.3.0",
     "@types/mocha": "^9.1.0",
+    "@types/node-fetch": "^2.6.2",
     "chai": "^4.3.6",
     "mocha": "^9.2.0",
     "rimraf": "^3.0.2",
