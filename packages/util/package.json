@@ -1,6 +1,6 @@
 {
   "name": "@croquiscom/crary-util",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Croquis's library - utilities",
   "main": "./lib",
   "types": "./lib/index.d.ts",
