@@ -88,7 +88,7 @@ function setupSession(app: express.Express, config: IExpressConfig) {
       domain: config.session.domain,
       maxAge: config.session.ttl * 1000,
       secure: config.session.secure,
-      sameSite: config.session.sameSite,
+      sameSite: config.session.same_site,
     },
     name: config.session.name,
     resave: false,
