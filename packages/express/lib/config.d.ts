@@ -29,4 +29,7 @@ export interface IExpressConfig {
         [path: string]: (router: express.Router, app: express.Application) => void;
     };
     max_body_size?: number | string;
+    hooks?: {
+        after_create_app?: (app: express.Application) => void;
+    };
 }

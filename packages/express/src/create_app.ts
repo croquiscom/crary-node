@@ -156,6 +156,9 @@ function setupErrorHandler(app: express.Express, config: IExpressConfig) {
 
 export default (config: IExpressConfig) => {
   const app = express();
+  if (config.hooks?.after_create_app) {
+    config.hooks.after_create_app(app);
+  }
   app.set('trust proxy', true);
   if (config.log4js_config) {
     app.use(logger(config));

@@ -168,6 +168,9 @@ function setupErrorHandler(app, config) {
 }
 exports.default = (config) => {
     const app = (0, express_1.default)();
+    if (config.hooks?.after_create_app) {
+        config.hooks.after_create_app(app);
+    }
     app.set('trust proxy', true);
     if (config.log4js_config) {
         app.use((0, logger_1.default)(config));

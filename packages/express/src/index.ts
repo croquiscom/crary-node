@@ -7,6 +7,7 @@ export type Router = express.Router;
 export type Request = express.Request;
 export type Response = express.Response;
 export type RequestHandler = express.RequestHandler;
+export type Application = express.Application;
 
 declare module 'express-serve-static-core' {
   export interface IRouter {
