@@ -24,9 +24,9 @@ log4js.addLayout('json', (config) => {
       }
     }
     return JSON.stringify({
-      logdate: logEvent.startTime.getTime(),
-      loglevel: logEvent.level.toString(),
-      service_name: logEvent.categoryName,
+      '@timestamp': logEvent.startTime.toISOString(),
+      'loglevel': logEvent.level.toString(),
+      'service_name': logEvent.categoryName,
       ...data,
     });
   };
@@ -70,12 +70,12 @@ export default (config: IExpressConfig) => {
       toJSON() {
         return {
           session: this.C.s.substr(0, 6),
-          response_time: this.C.t,
-          clientip: this.C.a,
           request_method: this.I.m,
           request_url: this.I.u,
-          httpversion: this.I.v,
           response: this.O.s,
+          response_time: this.C.t,
+          clientip: this.C.a,
+          httpversion: this.I.v,
           bytes: this.O.l,
           referrer: this.I.r,
           agent: this.I.a,
