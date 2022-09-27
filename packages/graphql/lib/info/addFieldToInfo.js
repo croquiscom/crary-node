@@ -19,6 +19,10 @@ function addFieldToFieldNode(fieldNode, path, name) {
                 kind: graphql_1.Kind.NAME,
                 value: name,
             },
+            selectionSet: {
+                kind: graphql_1.Kind.SELECTION_SET,
+                selections: [],
+            },
         };
         const selections = [...fieldNode.selectionSet.selections, new_selection];
         return {

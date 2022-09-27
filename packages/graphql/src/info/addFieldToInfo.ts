@@ -22,6 +22,10 @@ function addFieldToFieldNode(fieldNode: FieldNode, path: string[], name: string)
         kind: Kind.NAME,
         value: name,
       },
+      selectionSet: {
+        kind: Kind.SELECTION_SET,
+        selections: [],
+      },
     };
     const selections = [...fieldNode.selectionSet.selections, new_selection];
     return {
