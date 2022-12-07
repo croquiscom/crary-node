@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/croquiscom/Crary-Node.git"
+    "url": "git+https://github.com/croquiscom/crary-node.git"
   },
   "keywords": [
     "DynamoDB"
@@ -21,9 +21,9 @@
   "author": "Croquis",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/croquiscom/Crary-Node/issues"
+    "url": "https://github.com/croquiscom/crary-node/issues"
   },
-  "homepage": "https://github.com/croquiscom/Crary-Node",
+  "homepage": "https://github.com/croquiscom/crary-node",
   "dependencies": {
     "dynogels": "^9.1.0",
     "dynogels-promisified": "^1.0.4",

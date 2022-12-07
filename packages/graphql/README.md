@@ -12,4 +12,4 @@ Croquis's library - GraphQL extension
 
 # License
 
-MIT licenses. See [LICENSE](https://github.com/croquiscom/graphql-scalar-types/blob/master/LICENSE) for more details.
+MIT licenses. See [LICENSE](https://github.com/croquiscom/crary-node/blob/master/packages/graphql/LICENSE) for more details.

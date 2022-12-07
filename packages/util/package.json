@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/croquiscom/Crary-Node.git"
+    "url": "https://github.com/croquiscom/crary-node.git"
   },
-  "author": "",
+  "author": "Sangmin Yoon <simon.yoon@kakaostyle.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/croquiscom/Crary-Node/issues"
+    "url": "https://github.com/croquiscom/crary-node/issues"
   },
-  "homepage": "https://github.com/croquiscom/Crary-Node",
+  "homepage": "https://github.com/croquiscom/crary-node",
   "dependencies": {
     "node-abort-controller": "^3.0.1",
     "node-fetch": "^3.3.0",

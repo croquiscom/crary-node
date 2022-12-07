@@ -5,4 +5,4 @@ Croquis's library - utilities
 
 # License
 
-MIT licenses. See [LICENSE](https://github.com/croquiscom/util-scalar-types/blob/master/LICENSE) for more details.
+MIT licenses. See [LICENSE](https://github.com/croquiscom/crary-node/blob/master/packages/util/LICENSE) for more details.
