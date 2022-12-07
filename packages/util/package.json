@@ -1,6 +1,6 @@
 {
   "name": "@croquiscom/crary-util",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Croquis's library - utilities",
   "engines": {
     "node": "^16"
