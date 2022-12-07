@@ -1,14 +1,19 @@
 import { AbortController as NodeAbortController } from 'node-abort-controller';
-import nodeFetch, {
+import type nodeFetch from 'node-fetch';
+import type {
   RequestInfo as NodeFetchRequestInfo,
   RequestInit as NodeFetchRequestInit,
   Response as NodeFetchResponse,
 } from 'node-fetch';
+import { dynamicImport } from 'tsimportlib';
+
+const nodeFetchModule = dynamicImport('node-fetch', module) as Promise<{ default: typeof nodeFetch }>;
 
 export async function fetchWithTimeout(
   url: NodeFetchRequestInfo,
   init?: NodeFetchRequestInit & { timeout?: number },
 ): Promise<NodeFetchResponse> {
+  const nodeFetch = (await nodeFetchModule).default;
   const timeout = init?.timeout;
   if (!timeout || !(timeout > 0)) {
     return await nodeFetch(url, init);

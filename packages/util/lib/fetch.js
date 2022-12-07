@@ -1,15 +1,14 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchWithTimeout = void 0;
 const node_abort_controller_1 = require("node-abort-controller");
-const node_fetch_1 = __importDefault(require("node-fetch"));
+const tsimportlib_1 = require("tsimportlib");
+const nodeFetchModule = (0, tsimportlib_1.dynamicImport)('node-fetch', module);
 async function fetchWithTimeout(url, init) {
+    const nodeFetch = (await nodeFetchModule).default;
     const timeout = init?.timeout;
     if (!timeout || !(timeout > 0)) {
-        return await (0, node_fetch_1.default)(url, init);
+        return await nodeFetch(url, init);
     }
     const abort = new node_abort_controller_1.AbortController();
     const timer = setTimeout(() => {
@@ -21,7 +20,7 @@ async function fetchWithTimeout(url, init) {
     };
     delete init_copied.timeout;
     try {
-        return await (0, node_fetch_1.default)(url, init_copied);
+        return await nodeFetch(url, init_copied);
     }
     finally {
         clearTimeout(timer);
