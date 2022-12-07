@@ -2,11 +2,11 @@ import express from 'express';
 import createApp from './create_app';
 export { createApp };
 export { shrinkStackTrace } from './util';
-export declare type Router = express.Router;
-export declare type Request = express.Request;
-export declare type Response = express.Response;
-export declare type RequestHandler = express.RequestHandler;
-export declare type Application = express.Application;
+export type Router = express.Router;
+export type Request = express.Request;
+export type Response = express.Response;
+export type RequestHandler = express.RequestHandler;
+export type Application = express.Application;
 declare module 'express-serve-static-core' {
     interface IRouter {
         getPromise: express.IRouterMatcher<this>;
