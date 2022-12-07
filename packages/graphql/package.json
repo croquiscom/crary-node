@@ -2,6 +2,9 @@
   "name": "@croquiscom/crary-graphql",
   "version": "0.16.2",
   "description": "Croquis's library - graphql extension",
+  "engines": {
+    "node": "^16"
+  },
   "main": "./lib",
   "types": "./lib/index.d.ts",
   "scripts": {

@@ -2,6 +2,9 @@
   "name": "@croquiscom/crary-express",
   "version": "0.12.0",
   "description": "Croquis's library - express extension",
+  "engines": {
+    "node": "^16"
+  },
   "main": "./lib",
   "types": "./lib/index.d.ts",
   "scripts": {
