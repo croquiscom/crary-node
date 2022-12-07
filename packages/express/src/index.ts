@@ -24,19 +24,19 @@ declare module 'express-serve-static-core' {
     /** @internal */
     _logging: boolean;
     /** @internal */
-    files: object;
+    files?: object;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
   export interface Response {
-    result_for_logging: object;
+    result_for_logging?: object;
 
     /** @internal */
-    _errors: object;
+    _errors: Record<string, Error | undefined>;
     /** @internal */
     error: object;
     /** @internal */
-    result: object;
+    result?: object;
     /** @internal */
     __statusCode: number;
     /** @internal */

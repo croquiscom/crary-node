@@ -14,7 +14,7 @@ try {
   // ignore
 }
 
-log4js.addLayout('json', (config) => {
+log4js.addLayout('json', () => {
   return (logEvent) => {
     const data = logEvent.data[0].toJSON();
     if (tracer) {
@@ -130,7 +130,7 @@ export default (config: IExpressConfig) => {
         // method
         m: req.method,
         // query
-        q: req.query || {},
+        q: req.query,
         // referrer
         r: req.headers.referer || req.headers.referrer || '',
         // url

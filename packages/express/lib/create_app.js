@@ -64,7 +64,7 @@ Router.deletePromise = function (...args) {
 };
 function setupMiddlewares(app, config) {
     app.use((req, res, next) => {
-        if (req.headers && req.headers['content-type']) {
+        if (req.headers['content-type']) {
             req.headers['content-type'] = req.headers['content-type'].replace(/euc-kr/gi, 'utf-8');
         }
         next();
@@ -144,6 +144,7 @@ function installCheck(router, config) {
             uptime: process.uptime(),
             worker_num,
         };
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (req.session == null) {
             data.session = false;
             res.status(400);
@@ -153,8 +154,8 @@ function installCheck(router, config) {
         res.json(data);
     });
 }
-function setupErrorHandler(app, config) {
-    app.use((err, req, res, next) => {
+function setupErrorHandler(app) {
+    app.use((err, req, res) => {
         if (!(err instanceof Error)) {
             err = new Error(err);
         }
@@ -178,7 +179,7 @@ exports.default = (config) => {
     setupMiddlewares(app, config);
     setupSession(app, config);
     setupRouters(app, config);
-    setupErrorHandler(app, config);
+    setupErrorHandler(app);
     app.response._errors = config.errors || {};
     response.install(app.response);
     return app;

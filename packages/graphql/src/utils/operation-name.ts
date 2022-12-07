@@ -8,7 +8,7 @@ import { DocumentNode, Kind, parse, OperationDefinitionNode } from 'graphql';
  * * `query MyOp { some_model { id } another_model {id } }` -> `MyOp`
  * * `{ some_model { id } another_model {id } }` -> `some_model`
  */
-export function getOperationNameOrFirstField(query_or_document: string | DocumentNode): string | null {
+export function getOperationNameOrFirstField(query_or_document: string | DocumentNode | null): string | null {
   const document = typeof query_or_document === 'string' ? parse(query_or_document) : query_or_document;
   if (!document) {
     return null;
@@ -37,7 +37,7 @@ export function getOperationNameOrFirstField(query_or_document: string | Documen
  * * `query MyOp { some_model { id } another_model {id } }` -> `some_model`
  * * `{ some_model { id } another_model {id } }` -> `some_model`
  */
-export function getFirstField(query_or_document: string | DocumentNode): string | null {
+export function getFirstField(query_or_document: string | DocumentNode | null): string | null {
   const document = typeof query_or_document === 'string' ? parse(query_or_document) : query_or_document;
   if (!document) {
     return null;
@@ -63,7 +63,7 @@ export function getFirstField(query_or_document: string | DocumentNode): string 
  * * `query MyOp { some_model { id } another_model {id } }` -> `MyOp`
  * * `{ some_model { id } another_model {id } }` -> null
  */
-export function getOperationName(query_or_document: string | DocumentNode): string | null {
+export function getOperationName(query_or_document: string | DocumentNode | null): string | null {
   const document = typeof query_or_document === 'string' ? parse(query_or_document) : query_or_document;
   if (!document) {
     return null;
@@ -81,7 +81,9 @@ export function getOperationName(query_or_document: string | DocumentNode): stri
 /**
  * GraphQL query에서 operation name을 변경한다.
  */
-export function replaceOperationName(document: DocumentNode, operation_name: string): DocumentNode {
+export function replaceOperationName(document: DocumentNode, operation_name: string): DocumentNode;
+export function replaceOperationName(document: null, operation_name: string): null;
+export function replaceOperationName(document: DocumentNode | null, operation_name: string): DocumentNode | null {
   if (!document) {
     return document;
   }

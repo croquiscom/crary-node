@@ -1,6 +1,8 @@
 import type { DeepPartial } from 'ts-essentials';
 
-function cloneDeep<T>(obj: T): T {
+function cloneDeep(obj: null | undefined): null | undefined;
+function cloneDeep<T extends Record<string, any>>(obj: T): T;
+function cloneDeep<T extends Record<string, any>>(obj: T | null): T | null {
   if (!obj) {
     return obj;
   }
@@ -15,7 +17,7 @@ function cloneDeep<T>(obj: T): T {
   return copied;
 }
 
-function merge<T>(obj: T, other: T) {
+function merge<T extends Record<string, any>>(obj: T, other: T | null) {
   if (!other) {
     return;
   }
@@ -71,7 +73,7 @@ function defaultGetAltEnv(env: string): string[] {
  * * dev-xxx -> dev-default 또는 alpha (dev-xxx가 존재하면 dev-default는 읽지 않는다.)
  * * real-dev-xxx -> real-dev-default 또는 real-alpha
  */
-export function loadConfig<T>(
+export function loadConfig<T extends Record<string, any>>(
   dir: string,
   getAltEnv: (env: string) => string[] = defaultGetAltEnv,
   env_for_test?: string,

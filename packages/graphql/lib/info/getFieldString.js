@@ -12,7 +12,7 @@ function getArgumentStringNode(nodes) {
 }
 function getFieldStringNode(info, nodes) {
     const selections = nodes.reduce((current, source) => {
-        if (source && source.selectionSet && source.selectionSet.selections) {
+        if (source.selectionSet) {
             current.push(...source.selectionSet.selections);
         }
         return current;

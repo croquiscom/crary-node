@@ -14,5 +14,5 @@ import type { DeepPartial } from 'ts-essentials';
  * * dev-xxx -> dev-default 또는 alpha (dev-xxx가 존재하면 dev-default는 읽지 않는다.)
  * * real-dev-xxx -> real-dev-default 또는 real-alpha
  */
-export declare function loadConfig<T>(dir: string, getAltEnv?: (env: string) => string[], env_for_test?: string): T;
+export declare function loadConfig<T extends Record<string, any>>(dir: string, getAltEnv?: (env: string) => string[], env_for_test?: string): T;
 export type { DeepPartial };

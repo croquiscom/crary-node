@@ -12,7 +12,7 @@ function getFieldSet(
   depth: number,
 ): { [path: string]: boolean } {
   const selections = nodes.reduce((current, source) => {
-    if (source && source.selectionSet && source.selectionSet.selections) {
+    if (source.selectionSet) {
       current.push(...source.selectionSet.selections);
     }
     return current;
@@ -52,7 +52,7 @@ function getSubFieldNode(
   fieldName?: string,
 ): FieldNode | undefined {
   const selections = nodes.reduce((current, source) => {
-    if (source && source.selectionSet && source.selectionSet.selections) {
+    if (source.selectionSet) {
       current.push(...source.selectionSet.selections);
     }
     return current;
@@ -67,7 +67,8 @@ function getSubFieldNode(
       if (result) {
         return result;
       }
-    } else if (node.kind === 'FragmentSpread') {
+    } else {
+      // node.kind === 'FragmentSpread'
       const result = getSubFieldNode(info, [info.fragments[node.name.value]], fieldName);
       if (result) {
         return result;

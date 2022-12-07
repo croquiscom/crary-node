@@ -7,12 +7,12 @@ import nodeFetch, {
 
 export async function fetchWithTimeout(
   url: NodeFetchRequestInfo,
-  init: NodeFetchRequestInit & { timeout: number },
+  init?: NodeFetchRequestInit & { timeout?: number },
 ): Promise<NodeFetchResponse> {
-  if (!(init?.timeout > 0)) {
-    throw new Error('invalid timeout');
+  const timeout = init?.timeout;
+  if (!timeout || !(timeout > 0)) {
+    return await nodeFetch(url, init);
   }
-  const timeout = init.timeout;
   const abort = new NodeAbortController();
   const timer = setTimeout(() => {
     abort.abort();

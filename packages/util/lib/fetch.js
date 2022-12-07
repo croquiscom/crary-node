@@ -7,10 +7,10 @@ exports.fetchWithTimeout = void 0;
 const node_abort_controller_1 = require("node-abort-controller");
 const node_fetch_1 = __importDefault(require("node-fetch"));
 async function fetchWithTimeout(url, init) {
-    if (!(init?.timeout > 0)) {
-        throw new Error('invalid timeout');
+    const timeout = init?.timeout;
+    if (!timeout || !(timeout > 0)) {
+        return await (0, node_fetch_1.default)(url, init);
     }
-    const timeout = init.timeout;
     const abort = new node_abort_controller_1.AbortController();
     const timer = setTimeout(() => {
         abort.abort();

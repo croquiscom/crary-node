@@ -16,7 +16,7 @@ try {
 catch (error) {
     // ignore
 }
-log4js_1.default.addLayout('json', (config) => {
+log4js_1.default.addLayout('json', () => {
     return (logEvent) => {
         const data = logEvent.data[0].toJSON();
         if (tracer) {
@@ -131,7 +131,7 @@ exports.default = (config) => {
                 // method
                 m: req.method,
                 // query
-                q: req.query || {},
+                q: req.query,
                 // referrer
                 r: req.headers.referer || req.headers.referrer || '',
                 // url

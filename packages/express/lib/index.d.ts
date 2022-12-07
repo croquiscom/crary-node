@@ -18,7 +18,7 @@ declare module 'express-serve-static-core' {
         skip_logging?: boolean;
     }
     interface Response {
-        result_for_logging: object;
+        result_for_logging?: object;
         sendResult(result: object, result_for_logging?: object): void;
         sendResult(status: number, result: object, result_for_logging?: object): void;
         sendError(error: Error, cause?: Error): void;

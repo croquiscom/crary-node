@@ -80,9 +80,6 @@ function getOperationName(query_or_document) {
     return null;
 }
 exports.getOperationName = getOperationName;
-/**
- * GraphQL query에서 operation name을 변경한다.
- */
 function replaceOperationName(document, operation_name) {
     if (!document) {
         return document;

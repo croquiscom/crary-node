@@ -7,7 +7,7 @@ function dotConcat(a, b) {
 }
 function getFieldSet(info, nodes, prefix, depth) {
     const selections = nodes.reduce((current, source) => {
-        if (source && source.selectionSet && source.selectionSet.selections) {
+        if (source.selectionSet) {
             current.push(...source.selectionSet.selections);
         }
         return current;
@@ -41,7 +41,7 @@ function getFieldSet(info, nodes, prefix, depth) {
 }
 function getSubFieldNode(info, nodes, fieldName) {
     const selections = nodes.reduce((current, source) => {
-        if (source && source.selectionSet && source.selectionSet.selections) {
+        if (source.selectionSet) {
             current.push(...source.selectionSet.selections);
         }
         return current;
@@ -58,7 +58,8 @@ function getSubFieldNode(info, nodes, fieldName) {
                 return result;
             }
         }
-        else if (node.kind === 'FragmentSpread') {
+        else {
+            // node.kind === 'FragmentSpread'
             const result = getSubFieldNode(info, [info.fragments[node.name.value]], fieldName);
             if (result) {
                 return result;

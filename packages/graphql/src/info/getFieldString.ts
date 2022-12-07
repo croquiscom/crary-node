@@ -23,7 +23,7 @@ function getFieldStringNode(
   nodes: ReadonlyArray<FieldNode | InlineFragmentNode | FragmentDefinitionNode>,
 ): string {
   const selections = nodes.reduce((current, source) => {
-    if (source && source.selectionSet && source.selectionSet.selections) {
+    if (source.selectionSet) {
       current.push(...source.selectionSet.selections);
     }
     return current;
