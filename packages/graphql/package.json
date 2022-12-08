@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Croquis's library - graphql extension",
   "engines": {
-    "node": "^16"
+    "node": ">=16"
   },
   "main": "./lib",
   "types": "./lib/index.d.ts",
