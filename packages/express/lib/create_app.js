@@ -28,7 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const os_1 = __importDefault(require("os"));
-const body_parser_1 = __importDefault(require("body-parser"));
+const body_parser_1 = require("body-parser");
 const compression_1 = __importDefault(require("compression"));
 const connect_redis_1 = __importDefault(require("connect-redis"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
@@ -75,8 +75,8 @@ function setupMiddlewares(app, config) {
     });
     app.use((0, helmet_1.hidePoweredBy)());
     app.use((0, compression_1.default)());
-    app.use(body_parser_1.default.json({ limit: config.max_body_size || '10mb' }));
-    app.use(body_parser_1.default.urlencoded({ limit: config.max_body_size || '10mb', extended: true }));
+    app.use((0, body_parser_1.json)({ limit: config.max_body_size || '10mb' }));
+    app.use((0, body_parser_1.urlencoded)({ limit: config.max_body_size || '10mb', extended: true }));
     app.use((0, cookie_parser_1.default)());
 }
 function setupSession(app, config) {
@@ -159,7 +159,7 @@ function installCheck(router, config) {
     });
 }
 function setupErrorHandler(app) {
-    app.use((err, req, res) => {
+    const error_handler = (err, req, res, _next) => {
         if (!(err instanceof Error)) {
             err = new Error(err);
         }
@@ -169,7 +169,8 @@ function setupErrorHandler(app) {
             code = 500;
         }
         res.type('application/json; charset=utf-8').status(code).json({ error: err.message });
-    });
+    };
+    app.use(error_handler);
 }
 exports.default = (config) => {
     const app = (0, express_1.default)();

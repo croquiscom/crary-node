@@ -1,11 +1,11 @@
 /* eslint-disable prefer-spread */
 
 import os from 'os';
-import bodyParser from 'body-parser';
+import { json, urlencoded } from 'body-parser';
 import compression from 'compression';
 import connectRedis from 'connect-redis';
 import cookieParser from 'cookie-parser';
-import express from 'express';
+import express, { ErrorRequestHandler } from 'express';
 import expressSession from 'express-session';
 import { hidePoweredBy } from 'helmet';
 import Redis from 'ioredis';
@@ -55,8 +55,8 @@ function setupMiddlewares(app: express.Express, config: IExpressConfig) {
   });
   app.use(hidePoweredBy());
   app.use(compression());
-  app.use(bodyParser.json({ limit: config.max_body_size || '10mb' }));
-  app.use(bodyParser.urlencoded({ limit: config.max_body_size || '10mb', extended: true }));
+  app.use(json({ limit: config.max_body_size || '10mb' }));
+  app.use(urlencoded({ limit: config.max_body_size || '10mb', extended: true }));
   app.use(cookieParser());
 }
 
@@ -142,7 +142,7 @@ function installCheck(router: express.Router, config: IExpressConfig) {
 }
 
 function setupErrorHandler(app: express.Express) {
-  app.use((err: any, req: express.Request, res: express.Response) => {
+  const error_handler: ErrorRequestHandler = (err, req, res, _next) => {
     if (!(err instanceof Error)) {
       err = new Error(err);
     }
@@ -152,7 +152,8 @@ function setupErrorHandler(app: express.Express) {
       code = 500;
     }
     res.type('application/json; charset=utf-8').status(code).json({ error: err.message });
-  });
+  };
+  app.use(error_handler);
 }
 
 export default (config: IExpressConfig) => {
