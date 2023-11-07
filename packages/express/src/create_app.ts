@@ -64,7 +64,8 @@ function setupSession(app: express.Express, config: IExpressConfig) {
   if (!config.session) {
     return;
   }
-  const RedisStore = connectRedis(expressSession);
+  const customExpressSession = config.session.custom_module ?? expressSession;
+  const RedisStore = connectRedis(customExpressSession);
   const port = config.session.redis?.port ?? 6379;
   const host = config.session.redis?.host ?? '127.0.0.1';
   const redis_client = new Redis({
@@ -83,7 +84,7 @@ function setupSession(app: express.Express, config: IExpressConfig) {
       process.exit(0);
     }, 1000);
   });
-  const session_middleware = expressSession({
+  const session_middleware = customExpressSession({
     cookie: {
       domain: config.session.domain,
       maxAge: config.session.ttl * 1000,

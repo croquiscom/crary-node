@@ -1,4 +1,5 @@
 import express from 'express';
+import expressSession from 'express-session';
 import log4js from 'log4js';
 export interface IExpressConfig {
     project_name?: string;
@@ -21,6 +22,7 @@ export interface IExpressConfig {
          */
         secure?: boolean;
         same_site?: boolean | 'lax' | 'strict' | 'none';
+        custom_module?: typeof expressSession;
     };
     errors?: {
         [key: string]: Error;
