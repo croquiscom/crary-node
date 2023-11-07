@@ -81,7 +81,7 @@ export default (config: IExpressConfig) => {
           session: this.C.s.substring(0, 6),
           given_session: given_session?.substring(0, 6),
           user_id: (req.session as any)?.user_id,
-          user_uuid: (req.session as any)?.user_uuid?.substring(0, 6),
+          user_uuid: (req.session as any)?.uuid?.substring(0, 6),
           request_method: this.I.m,
           request_url: this.I.u,
           response: this.O.s,
