@@ -1,4 +1,5 @@
 import util from 'util';
+import { parse as cookie_parse } from 'cookie';
 import express from 'express';
 import log4js from 'log4js';
 import onFinished from 'on-finished';
@@ -66,10 +67,21 @@ export default (config: IExpressConfig) => {
     if (url[url.length - 1] === '/') {
       url = url.substr(0, url.length - 1);
     }
+    let given_session: string | undefined;
+    if (req.headers.cookie) {
+      const cookies = cookie_parse(req.headers.cookie);
+      const raw = cookies[config.session?.name ?? 'connect.sid'];
+      if (raw && raw.substring(0, 2) === 's:') {
+        given_session = raw.slice(2, raw.lastIndexOf('.'));
+      }
+    }
     return {
       toJSON() {
         return {
-          session: this.C.s.substr(0, 6),
+          session: this.C.s.substring(0, 6),
+          given_session: given_session?.substring(0, 6),
+          user_id: (req.session as any)?.user_id,
+          user_uuid: (req.session as any)?.user_uuid?.substring(0, 6),
           request_method: this.I.m,
           request_url: this.I.u,
           response: this.O.s,

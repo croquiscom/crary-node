@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const util_1 = __importDefault(require("util"));
+const cookie_1 = require("cookie");
 const log4js_1 = __importDefault(require("log4js"));
 const on_finished_1 = __importDefault(require("on-finished"));
 const util_2 = require("./util");
@@ -67,10 +68,21 @@ exports.default = (config) => {
         if (url[url.length - 1] === '/') {
             url = url.substr(0, url.length - 1);
         }
+        let given_session;
+        if (req.headers.cookie) {
+            const cookies = (0, cookie_1.parse)(req.headers.cookie);
+            const raw = cookies[config.session?.name ?? 'connect.sid'];
+            if (raw && raw.substring(0, 2) === 's:') {
+                given_session = raw.slice(2, raw.lastIndexOf('.'));
+            }
+        }
         return {
             toJSON() {
                 return {
-                    session: this.C.s.substr(0, 6),
+                    session: this.C.s.substring(0, 6),
+                    given_session: given_session?.substring(0, 6),
+                    user_id: req.session?.user_id,
+                    user_uuid: req.session?.user_uuid?.substring(0, 6),
                     request_method: this.I.m,
                     request_url: this.I.u,
                     response: this.O.s,
