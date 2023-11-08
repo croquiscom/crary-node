@@ -80,7 +80,8 @@ exports.default = (config) => {
             toJSON() {
                 return {
                     session: this.C.s.substring(0, 6),
-                    given_session: given_session?.substring(0, 6),
+                    session_given: given_session?.substring(0, 6),
+                    session_changed: this.C.s !== given_session,
                     user_id: req.session?.user_id,
                     user_uuid: req.session?.uuid?.substring(0, 6),
                     request_method: this.I.m,
