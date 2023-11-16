@@ -112,8 +112,8 @@ function setupSession(app, config) {
         },
         name: config.session.name,
         resave: false,
-        rolling: true,
-        saveUninitialized: config.session.save_uninitialized || false,
+        rolling: config.session.rolling ?? true,
+        saveUninitialized: config.session.save_uninitialized ?? false,
         secret: config.session.secret,
         store: session_store,
     });

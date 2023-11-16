@@ -17,6 +17,7 @@ export interface IExpressConfig {
     secret: string;
     name?: string;
     save_uninitialized?: boolean;
+    rolling?: boolean;
     domain?: string;
     /**
      * set express-session cookie.secure option
