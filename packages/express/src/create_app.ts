@@ -3,7 +3,7 @@
 import os from 'os';
 import { json, urlencoded } from 'body-parser';
 import compression from 'compression';
-import connectRedis from 'connect-redis';
+import RedisStore from 'connect-redis';
 import cookieParser from 'cookie-parser';
 import express, { ErrorRequestHandler } from 'express';
 import expressSession from 'express-session';
@@ -65,7 +65,6 @@ function setupSession(app: express.Express, config: IExpressConfig) {
     return;
   }
   const customExpressSession = config.session.custom_module ?? expressSession;
-  const RedisStore = connectRedis(customExpressSession);
   const port = config.session.redis?.port ?? 6379;
   const host = config.session.redis?.host ?? '127.0.0.1';
   const redis_client = new Redis({
@@ -75,7 +74,6 @@ function setupSession(app: express.Express, config: IExpressConfig) {
   });
   const session_store = new RedisStore({
     client: redis_client,
-    pass: config.session.redis && config.session.redis.password,
     ttl: config.session.ttl,
   });
   session_store.on('disconnect', () => {

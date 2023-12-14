@@ -18,32 +18,35 @@ function getFieldSet(
     return current;
   }, [] as SelectionNode[]);
 
-  return selections.reduce((set, node) => {
-    if (isExcludedByDirective(info, node)) {
-      return set;
-    }
-    switch (node.kind) {
-      case 'Field': {
-        if (depth === 1) {
-          set[node.name.value] = true;
-          return set;
-        }
-        const newPrefix = dotConcat(prefix, node.name.value);
-        if (node.selectionSet) {
-          return Object.assign({}, set, getFieldSet(info, [node], newPrefix, depth - 1));
-        } else {
-          set[newPrefix] = true;
-          return set;
-        }
+  return selections.reduce(
+    (set, node) => {
+      if (isExcludedByDirective(info, node)) {
+        return set;
       }
-      case 'InlineFragment':
-        return Object.assign({}, set, getFieldSet(info, [node], prefix, depth));
-      case 'FragmentSpread':
-        return Object.assign({}, set, getFieldSet(info, [info.fragments[node.name.value]], prefix, depth));
-    }
+      switch (node.kind) {
+        case 'Field': {
+          if (depth === 1) {
+            set[node.name.value] = true;
+            return set;
+          }
+          const newPrefix = dotConcat(prefix, node.name.value);
+          if (node.selectionSet) {
+            return Object.assign({}, set, getFieldSet(info, [node], newPrefix, depth - 1));
+          } else {
+            set[newPrefix] = true;
+            return set;
+          }
+        }
+        case 'InlineFragment':
+          return Object.assign({}, set, getFieldSet(info, [node], prefix, depth));
+        case 'FragmentSpread':
+          return Object.assign({}, set, getFieldSet(info, [info.fragments[node.name.value]], prefix, depth));
+      }
 
-    return {};
-  }, {} as { [path: string]: boolean });
+      return {};
+    },
+    {} as { [path: string]: boolean },
+  );
 }
 
 function getSubFieldNode(

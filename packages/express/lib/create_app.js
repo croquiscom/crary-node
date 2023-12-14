@@ -84,7 +84,6 @@ function setupSession(app, config) {
         return;
     }
     const customExpressSession = config.session.custom_module ?? express_session_1.default;
-    const RedisStore = (0, connect_redis_1.default)(customExpressSession);
     const port = config.session.redis?.port ?? 6379;
     const host = config.session.redis?.host ?? '127.0.0.1';
     const redis_client = new ioredis_1.default({
@@ -92,9 +91,8 @@ function setupSession(app, config) {
         host,
         db: config.session.redis?.db,
     });
-    const session_store = new RedisStore({
+    const session_store = new connect_redis_1.default({
         client: redis_client,
-        pass: config.session.redis && config.session.redis.password,
         ttl: config.session.ttl,
     });
     session_store.on('disconnect', () => {
