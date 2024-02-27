@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import { ASTVisitor, buildSchema, ConstDirectiveNode, Kind, parse, TypeInfo, visit, visitWithTypeInfo } from 'graphql';
-import { extractQueryList } from './common';
+import { COLORS, extractQueryList } from './common';
 
 function isDeprecated(directives: readonly ConstDirectiveNode[] | undefined) {
   for (const directive of directives || []) {
@@ -36,7 +36,7 @@ async function check(schema_file: string, query_list_file: string) {
             const is_field_deprecated = isDeprecated(field.astNode?.directives);
             if (is_field_deprecated) {
               has_deprecated = true;
-              console.log(`${type.name}.${field.name} is deprecated`);
+              console.log(`${COLORS.RED}${type.name}.${field.name} is deprecated${COLORS.RESET}`);
             }
             if (node.arguments) {
               for (const argument of node.arguments) {
@@ -45,7 +45,9 @@ async function check(schema_file: string, query_list_file: string) {
                   const is_arg_deprecated = isDeprecated(field_arg.astNode?.directives);
                   if (is_arg_deprecated) {
                     has_deprecated = true;
-                    console.log(`${type.name}.${field.name}(${field_arg.name}) is deprecated`);
+                    console.log(
+                      `${COLORS.RED}${type.name}.${field.name}(${field_arg.name}) is deprecated${COLORS.RESET}`,
+                    );
                   }
                 }
               }

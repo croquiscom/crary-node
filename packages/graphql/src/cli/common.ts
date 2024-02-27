@@ -15,3 +15,10 @@ export function extractQueryList(text: string) {
     .trim()
     .split('\n');
 }
+
+export const COLORS = {
+  RED: '\x1b[31m',
+  GREEN: '\x1b[32m',
+  BLUE: '\x1b[34m',
+  RESET: '\x1b[0m',
+};

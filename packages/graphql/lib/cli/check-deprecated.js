@@ -38,7 +38,7 @@ async function check(schema_file, query_list_file) {
                         const is_field_deprecated = isDeprecated(field.astNode?.directives);
                         if (is_field_deprecated) {
                             has_deprecated = true;
-                            console.log(`${type.name}.${field.name} is deprecated`);
+                            console.log(`${common_1.COLORS.RED}${type.name}.${field.name} is deprecated${common_1.COLORS.RESET}`);
                         }
                         if (node.arguments) {
                             for (const argument of node.arguments) {
@@ -47,7 +47,7 @@ async function check(schema_file, query_list_file) {
                                     const is_arg_deprecated = isDeprecated(field_arg.astNode?.directives);
                                     if (is_arg_deprecated) {
                                         has_deprecated = true;
-                                        console.log(`${type.name}.${field.name}(${field_arg.name}) is deprecated`);
+                                        console.log(`${common_1.COLORS.RED}${type.name}.${field.name}(${field_arg.name}) is deprecated${common_1.COLORS.RESET}`);
                                     }
                                 }
                             }
