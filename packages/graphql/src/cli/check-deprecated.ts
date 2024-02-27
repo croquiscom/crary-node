@@ -18,8 +18,15 @@ async function check(schema_file: string, query_list_file: string) {
     if (!query) {
       continue;
     }
+    console.log(`=`.repeat(120));
+    console.log(query);
+    console.log(`-`.repeat(80));
+
     const parsed_query = parse(query);
     const type_info = new TypeInfo(schema);
+    let has_deprecated;
+
+    has_deprecated = false;
     const visitor: ASTVisitor = {
       enter(node) {
         if (node.kind === Kind.FIELD) {
@@ -28,6 +35,7 @@ async function check(schema_file: string, query_list_file: string) {
           if (type && field) {
             const is_field_deprecated = isDeprecated(field.astNode?.directives);
             if (is_field_deprecated) {
+              has_deprecated = true;
               console.log(`${type.name}.${field.name} is deprecated`);
             }
             if (node.arguments) {
@@ -36,6 +44,7 @@ async function check(schema_file: string, query_list_file: string) {
                 if (field_arg) {
                   const is_arg_deprecated = isDeprecated(field_arg.astNode?.directives);
                   if (is_arg_deprecated) {
+                    has_deprecated = true;
                     console.log(`${type.name}.${field.name}(${field_arg.name}) is deprecated`);
                   }
                 }
@@ -45,14 +54,20 @@ async function check(schema_file: string, query_list_file: string) {
         }
       },
     };
+
     visit(parsed_query, visitWithTypeInfo(type_info, visitor));
+
+    if (!has_deprecated) {
+      console.log('No deprecated fields found');
+    }
+    console.log('\n');
   }
   return schema;
 }
 
 export async function run(argv: string[]) {
   if (argv.length < 4) {
-    throw new Error('Usage: check-deprecated <schema file> <query list> [type or field]');
+    throw new Error('Usage: check-deprecated <schema file> <query list>');
   }
   const schema_file = argv[2];
   const query_list_file = argv[3];
