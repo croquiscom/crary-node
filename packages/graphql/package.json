@@ -7,6 +7,9 @@
   },
   "main": "./lib",
   "types": "./lib/index.d.ts",
+  "bin": {
+    "check-deprecated": "./bin/check-deprecated"
+  },
   "scripts": {
     "prepublishOnly": "npm run lint && npm run build",
     "build": "rimraf lib && tsc -p src/tsconfig.build.json",
