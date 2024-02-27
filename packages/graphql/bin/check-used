@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+var path = require('path');
+require(path.resolve(__dirname, '../lib/cli/check-used.js')).run(process.argv);
