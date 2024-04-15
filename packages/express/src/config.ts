@@ -1,5 +1,5 @@
 import express from 'express';
-import expressSession from 'express-session';
+import expressSession, { SessionData } from 'express-session';
 import log4js from 'log4js';
 
 export interface IExpressConfig {
@@ -14,6 +14,7 @@ export interface IExpressConfig {
       password?: string;
     };
     ttl: number;
+    custom_ttl?: (sess: SessionData) => number;
     secret: string;
     name?: string;
     save_uninitialized?: boolean;
