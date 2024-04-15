@@ -74,7 +74,7 @@ function setupSession(app: express.Express, config: IExpressConfig) {
   });
   const session_store = new RedisStore({
     client: redis_client,
-    ttl: config.session.ttl,
+    ttl: config.session.custom_ttl ?? config.session.ttl,
   });
   session_store.on('disconnect', () => {
     console.log('RedisStore for express is disconnected. Exit the process...');
