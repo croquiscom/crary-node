@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { buildSchema, DocumentNode, graphql, GraphQLResolveInfo, Kind, print } from 'graphql';
-import { addFieldToInfo, wrapInfo } from '../..';
+import { addFieldToInfo, getFieldString, wrapInfo } from '../..';
 
 const schema = buildSchema(`
 type Supplier {
@@ -40,6 +40,7 @@ describe('addFieldToInfo', () => {
     };
     const expected = 'query ($text: String) { getProducts(text: $text) { name id } }';
     expect(print(document).replace(/\s+/g, ' ').trim()).to.eql(expected);
+    expect(getFieldString(newInfo)).to.eql('name id');
   });
 
   it('already exist', async () => {

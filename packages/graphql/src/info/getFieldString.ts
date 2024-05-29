@@ -39,7 +39,7 @@ function getFieldStringNode(
           node.arguments && node.arguments.length > 0
             ? `${node.name.value}(${getArgumentStringNode(node.arguments)})`
             : node.name.value;
-        if (node.selectionSet) {
+        if (node.selectionSet && node.selectionSet.selections.length > 0) {
           values.push(`${name} { ${getFieldStringNode(info, [node])} }`);
           return values;
         } else {
