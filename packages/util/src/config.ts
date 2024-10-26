@@ -35,10 +35,10 @@ function merge<T extends Record<string, any>>(obj: T, other: T | null) {
 function loadConfigByList(dir: string, file_list: string[]) {
   for (const file of file_list) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const config = require(`${dir}/${file}`).default;
       return config;
-    } catch (e) {
+    } catch {
       // 파일을 찾지 못하면 무시하고 다음 설정으로 넘어간다
     }
   }
@@ -79,7 +79,7 @@ export function loadConfig<T extends Record<string, any>>(
   env_for_test?: string,
 ): T {
   const env = env_for_test || process.env.NODE_ENV;
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const base = cloneDeep(require(`${dir}/default`).default as T);
 
   if (env) {
@@ -93,7 +93,7 @@ export function loadConfig<T extends Record<string, any>>(
       } else {
         merge(base, env_config);
       }
-    } catch (e) {
+    } catch {
       console.log(`Cannot find configs for env=${env}`);
     }
   }

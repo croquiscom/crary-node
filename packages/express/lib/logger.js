@@ -11,10 +11,12 @@ const util_2 = require("./util");
 let tracer;
 let formats;
 try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     tracer = require('dd-trace');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     formats = require('dd-trace/ext/formats');
 }
-catch (error) {
+catch {
     // ignore
 }
 log4js_1.default.addLayout('json', () => {

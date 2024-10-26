@@ -34,11 +34,11 @@ function merge(obj, other) {
 function loadConfigByList(dir, file_list) {
     for (const file of file_list) {
         try {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
             const config = require(`${dir}/${file}`).default;
             return config;
         }
-        catch (e) {
+        catch {
             // 파일을 찾지 못하면 무시하고 다음 설정으로 넘어간다
         }
     }
@@ -76,7 +76,7 @@ function defaultGetAltEnv(env) {
  */
 function loadConfig(dir, getAltEnv = defaultGetAltEnv, env_for_test) {
     const env = env_for_test || process.env.NODE_ENV;
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const base = cloneDeep(require(`${dir}/default`).default);
     if (env) {
         try {
@@ -91,7 +91,7 @@ function loadConfig(dir, getAltEnv = defaultGetAltEnv, env_for_test) {
                 merge(base, env_config);
             }
         }
-        catch (e) {
+        catch {
             console.log(`Cannot find configs for env=${env}`);
         }
     }

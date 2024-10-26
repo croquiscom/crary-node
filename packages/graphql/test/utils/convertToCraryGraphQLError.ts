@@ -8,7 +8,9 @@ describe('convertToCraryGraphQLError', () => {
     expect(error).to.instanceOf(GraphQLError);
     expect(error.message).to.eql('User does not exist');
     expect(error.extensions).to.eql({});
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(error.code).to.be.undefined;
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(error.ignorable).to.be.undefined;
   });
 
@@ -17,7 +19,9 @@ describe('convertToCraryGraphQLError', () => {
     expect(error).to.instanceOf(GraphQLError);
     expect(error.message).to.eql('User does not exist');
     expect(error.extensions).to.eql({ status: 404 });
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(error.code).to.be.undefined;
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(error.ignorable).to.be.undefined;
   });
 
@@ -30,6 +34,7 @@ describe('convertToCraryGraphQLError', () => {
     expect(error.message).to.eql('User does not exist');
     expect(error.extensions).to.eql({ code: 'user_not_found' });
     expect(error.code).to.eql('user_not_found');
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(error.ignorable).to.be.undefined;
   });
 
@@ -38,7 +43,9 @@ describe('convertToCraryGraphQLError', () => {
     expect(error).to.instanceOf(GraphQLError);
     expect(error.message).to.eql('User does not exist');
     expect(error.extensions).to.eql({ ignorable: true });
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(error.code).to.be.undefined;
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(error.ignorable).to.be.true;
   });
 });

@@ -9,9 +9,11 @@ import { shrinkStackTrace } from './util';
 let tracer: any;
 let formats: any;
 try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   tracer = require('dd-trace');
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   formats = require('dd-trace/ext/formats');
-} catch (error) {
+} catch {
   // ignore
 }
 

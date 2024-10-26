@@ -7,11 +7,13 @@ describe('loadConfig', () => {
 
     const func = config?.nested?.func;
     delete config?.nested?.func;
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(func).to.be.exist;
     expect(func(5)).to.eql(10);
 
     const prm = config?.nested?.prm;
     delete config?.nested?.prm;
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(prm).to.be.exist;
     expect(await prm).to.eql('hello');
 
