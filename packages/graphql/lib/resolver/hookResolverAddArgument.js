@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.hookResolverAddArgument = void 0;
+exports.hookResolverAddArgument = hookResolverAddArgument;
 const graphql_1 = require("graphql");
 const info_1 = require("../info");
 function hookResolverAddArgument(field, name, value, type, options) {
@@ -10,4 +10,3 @@ function hookResolverAddArgument(field, name, value, type, options) {
         return resolve(source, args, context, info);
     };
 }
-exports.hookResolverAddArgument = hookResolverAddArgument;

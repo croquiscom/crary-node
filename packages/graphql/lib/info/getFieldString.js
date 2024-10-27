@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFieldString = void 0;
+exports.getFieldString = getFieldString;
 const graphql_1 = require("graphql");
 const common_1 = require("./common");
 function getArgumentStringNode(nodes) {
@@ -51,4 +51,3 @@ function getFieldStringNode(info, nodes) {
 function getFieldString(info) {
     return getFieldStringNode(info, info.fieldNodes);
 }
-exports.getFieldString = getFieldString;

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFieldList1st = exports.getFieldList = void 0;
+exports.getFieldList = getFieldList;
+exports.getFieldList1st = getFieldList1st;
 const common_1 = require("./common");
 function dotConcat(a, b) {
     return a ? `${a}.${b}` : b;
@@ -88,8 +89,6 @@ function getFieldListByDepth(info, field_path, depth) {
 function getFieldList(info, field_path = []) {
     return getFieldListByDepth(info, field_path, 99999);
 }
-exports.getFieldList = getFieldList;
 function getFieldList1st(info, field_path = []) {
     return getFieldListByDepth(info, field_path, 1);
 }
-exports.getFieldList1st = getFieldList1st;

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.run = void 0;
+exports.run = run;
 const promises_1 = __importDefault(require("fs/promises"));
 const graphql_1 = require("graphql");
 const common_1 = require("./common");
@@ -72,4 +72,3 @@ async function run(argv) {
     const query_list_file = argv[3];
     await check(schema_file, query_list_file);
 }
-exports.run = run;

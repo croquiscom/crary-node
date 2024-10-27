@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.COLORS = exports.extractQueryList = void 0;
+exports.COLORS = void 0;
+exports.extractQueryList = extractQueryList;
 function extractQueryList(text) {
     return text
         .split('\n')
@@ -16,7 +17,6 @@ function extractQueryList(text) {
         .trim()
         .split('\n');
 }
-exports.extractQueryList = extractQueryList;
 exports.COLORS = {
     RED: '\x1b[31m',
     GREEN: '\x1b[32m',

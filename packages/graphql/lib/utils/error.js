@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convertToCraryGraphQLError = exports.CraryGraphQLError = void 0;
+exports.CraryGraphQLError = void 0;
+exports.convertToCraryGraphQLError = convertToCraryGraphQLError;
 const graphql_1 = require("graphql");
 /**
  * crary-express가 남기는 로그에 적합하게 처리된 GraphQLError 클래스.
@@ -23,4 +24,3 @@ exports.CraryGraphQLError = CraryGraphQLError;
 function convertToCraryGraphQLError(graphql_error_object) {
     return new CraryGraphQLError(graphql_error_object);
 }
-exports.convertToCraryGraphQLError = convertToCraryGraphQLError;

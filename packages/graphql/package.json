@@ -15,7 +15,7 @@
     "build": "rimraf lib && tsc -p src/tsconfig.build.json",
     "lint": "../../node_modules/.bin/eslint .",
     "test:type": "tsc --noEmit",
-    "test:unit": "mocha --require ts-node/register/transpile-only ./test/*/*.ts",
+    "test:unit": "mocha -n import=tsx ./test/*/*.ts",
     "test": "npm run test:type && npm run lint && npm run test:unit --"
   },
   "repository": {
@@ -29,20 +29,20 @@
   },
   "homepage": "https://github.com/croquiscom/crary-node",
   "dependencies": {
-    "@graphql-tools/delegate": "^10.0.3",
-    "@graphql-tools/utils": "^10.0.11",
-    "graphql": "^16.8.1"
+    "@graphql-tools/delegate": "^10.0.27",
+    "@graphql-tools/utils": "^10.5.5",
+    "graphql": "^16.9.0"
   },
   "devDependencies": {
-    "@graphql-tools/stitch": "^9.0.3",
+    "@graphql-tools/stitch": "^9.2.16",
     "@types/chai": "^4.3.11",
     "@types/graphql": "^14.5.0",
-    "@types/mocha": "^10.0.6",
-    "@types/node": "^20.10.4",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "^22.8.1",
     "chai": "^4.3.10",
-    "mocha": "^10.2.0",
-    "rimraf": "^5.0.5",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "mocha": "^10.7.3",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
   }
 }

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.conformInfoToSchema = void 0;
+exports.conformInfoToSchema = conformInfoToSchema;
 const delegate_1 = require("@graphql-tools/delegate");
 const graphql_1 = require("graphql");
 function conformInfoToSchema(info, schema, field_name) {
@@ -68,4 +68,3 @@ function conformInfoToSchema(info, schema, field_name) {
         fieldNodes: definition.selectionSet.selections,
     };
 }
-exports.conformInfoToSchema = conformInfoToSchema;

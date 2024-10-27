@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addArgumentToInfo = void 0;
+exports.addArgumentToInfo = addArgumentToInfo;
 const graphql_1 = require("graphql");
 function valueToNode(value, type) {
     if (type instanceof graphql_1.GraphQLNonNull) {
@@ -193,4 +193,3 @@ function addArgumentToInfo(info, name, value, type, options = {}) {
         };
     }
 }
-exports.addArgumentToInfo = addArgumentToInfo;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeFieldFromInfo = void 0;
+exports.removeFieldFromInfo = removeFieldFromInfo;
 const graphql_1 = require("graphql");
 function removeFieldFromFragment(fragment, name) {
     return {
@@ -71,4 +71,3 @@ function removeFieldFromInfo(info, name, options = {}) {
         },
     };
 }
-exports.removeFieldFromInfo = removeFieldFromInfo;

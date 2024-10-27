@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addFieldToInfo = void 0;
+exports.addFieldToInfo = addFieldToInfo;
 const graphql_1 = require("graphql");
 function addFieldToFieldNode(fieldNode, path, name) {
     if (!fieldNode.selectionSet) {
@@ -64,4 +64,3 @@ function addFieldToInfo(info, name, options = {}) {
         },
     };
 }
-exports.addFieldToInfo = addFieldToInfo;

@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.replaceOperationName = exports.getOperationName = exports.getFirstField = exports.getOperationNameOrFirstField = void 0;
+exports.getOperationNameOrFirstField = getOperationNameOrFirstField;
+exports.getFirstField = getFirstField;
+exports.getOperationName = getOperationName;
+exports.replaceOperationName = replaceOperationName;
 const graphql_1 = require("graphql");
 /**
  * GraphQL query에서 operation name이나 첫번째 필드를 반환한다.
@@ -30,7 +33,6 @@ function getOperationNameOrFirstField(query_or_document) {
     }
     return null;
 }
-exports.getOperationNameOrFirstField = getOperationNameOrFirstField;
 /**
  * GraphQL query에서 첫번째 필드를 반환한다.
  * 로깅시 query를 구분하기 위한 용도로 사용한다.
@@ -56,7 +58,6 @@ function getFirstField(query_or_document) {
     }
     return null;
 }
-exports.getFirstField = getFirstField;
 /**
  * GraphQL query에서 operation name을 반환한다.
  * 로깅시 query를 구분하기 위한 용도로 사용한다.
@@ -79,7 +80,6 @@ function getOperationName(query_or_document) {
     }
     return null;
 }
-exports.getOperationName = getOperationName;
 function replaceOperationName(document, operation_name) {
     if (!document) {
         return document;
@@ -98,4 +98,3 @@ function replaceOperationName(document, operation_name) {
         definitions,
     };
 }
-exports.replaceOperationName = replaceOperationName;
