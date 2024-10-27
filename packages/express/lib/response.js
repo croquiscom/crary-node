@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.install = void 0;
+exports.install = install;
 function install(response) {
     response.sendResult = function (status, obj, for_logging) {
         if (typeof status !== 'number') {
@@ -37,4 +37,3 @@ function install(response) {
         });
     };
 }
-exports.install = install;
