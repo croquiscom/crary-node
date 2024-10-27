@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loadConfig = void 0;
+exports.loadConfig = loadConfig;
 function cloneDeep(obj) {
     if (!obj) {
         return obj;
@@ -97,4 +97,3 @@ function loadConfig(dir, getAltEnv = defaultGetAltEnv, env_for_test) {
     }
     return base;
 }
-exports.loadConfig = loadConfig;

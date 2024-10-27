@@ -12,7 +12,7 @@
     "build": "rimraf lib && tsc -p src/tsconfig.build.json",
     "lint": "../../node_modules/.bin/eslint .",
     "test:type": "tsc --noEmit",
-    "test:unit": "mocha --require ts-node/register/transpile-only ./test/*/*.ts",
+    "test:unit": "mocha -n import=tsx ./test/*/*.ts",
     "test": "npm run test:type && npm run lint && npm run test:unit --"
   },
   "repository": {
@@ -28,17 +28,17 @@
   "dependencies": {
     "node-abort-controller": "^3.1.1",
     "node-fetch": "^3.3.2",
-    "ts-essentials": "^9.4.1",
+    "ts-essentials": "^10.0.2",
     "tsimportlib": "^0.0.5"
   },
   "devDependencies": {
     "@types/chai": "^4.3.11",
-    "@types/mocha": "^10.0.6",
-    "@types/node": "^20.10.4",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "^22.8.1",
     "chai": "^4.3.10",
-    "mocha": "^10.2.0",
-    "rimraf": "^5.0.5",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "mocha": "^10.7.3",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
   }
 }

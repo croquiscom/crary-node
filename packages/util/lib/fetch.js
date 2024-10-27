@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchWithTimeout = void 0;
+exports.fetchWithTimeout = fetchWithTimeout;
 const node_abort_controller_1 = require("node-abort-controller");
 const tsimportlib_1 = require("tsimportlib");
 const nodeFetchModule = (0, tsimportlib_1.dynamicImport)('node-fetch', module);
@@ -26,4 +26,3 @@ async function fetchWithTimeout(url, init) {
         clearTimeout(timer);
     }
 }
-exports.fetchWithTimeout = fetchWithTimeout;
