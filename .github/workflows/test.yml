@@ -25,7 +25,6 @@ jobs:
       - name: Install packages
         run: |
           npm install
-          (cd packages/dynamo ; npm install)
           (cd packages/express ; npm install)
           (cd packages/graphql ; npm install)
           (cd packages/util ; npm install)
