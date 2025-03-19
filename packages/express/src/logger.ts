@@ -89,7 +89,7 @@ export default (config: IExpressConfig) => {
           request_url: this.I.u,
           response: this.O.s,
           response_time: this.C.t,
-          clientip: this.C.a,
+          clientip: (req.headers['x-forwarded-for']?.toString() || this.C.a).split(',')[0],
           httpversion: this.I.v,
           bytes: this.O.l,
           referrer: this.I.r,
