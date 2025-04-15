@@ -3,7 +3,7 @@
 import os from 'os';
 import { json, urlencoded } from 'body-parser';
 import compression from 'compression';
-import RedisStore from 'connect-redis';
+import { RedisStore } from 'connect-redis';
 import cookieParser from 'cookie-parser';
 import express, { ErrorRequestHandler } from 'express';
 import expressSession from 'express-session';
@@ -28,21 +28,21 @@ function wrapPromise(args: any[]): any {
   return args;
 }
 
-const Router = express.Router as unknown as express.Router;
+const Router = express.Router;
 
-Router.getPromise = function (...args: any[]) {
+Router.prototype.getPromise = function (...args: any[]) {
   return this.get.apply(this, wrapPromise(args));
 };
 
-Router.postPromise = function (...args: any[]) {
+Router.prototype.postPromise = function (...args: any[]) {
   return this.post.apply(this, wrapPromise(args));
 };
 
-Router.putPromise = function (...args: any[]) {
+Router.prototype.putPromise = function (...args: any[]) {
   return this.put.apply(this, wrapPromise(args));
 };
 
-Router.deletePromise = function (...args: any[]) {
+Router.prototype.deletePromise = function (...args: any[]) {
   return this.delete.apply(this, wrapPromise(args));
 };
 
