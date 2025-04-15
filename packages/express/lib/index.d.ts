@@ -9,7 +9,7 @@ export type Request = express.Request;
 export type Response = express.Response;
 export type RequestHandler = express.RequestHandler;
 export type Application = express.Application;
-type PromiseRequestHandler<P = ParamsDictionary, ResBody = any, ReqBody = any, ReqQuery = ParsedQs, LocalsObj extends Record<string, any> = Record<string, any>> = (req: express.Request<P, ResBody, ReqBody, ReqQuery, LocalsObj>, res: express.Response<ResBody, LocalsObj>, next: express.NextFunction) => void | Promise<any>;
+type PromiseRequestHandler<P = ParamsDictionary, ResBody = any, ReqBody = any, ReqQuery = ParsedQs, LocalsObj extends Record<string, any> = Record<string, any>> = (req: express.Request<P, ResBody, ReqBody, ReqQuery, LocalsObj>, res: express.Response<ResBody, LocalsObj>, next: express.NextFunction) => any;
 type PromiseRouterMatcher<T> = <P = ParamsDictionary, ResBody = any, ReqBody = any, ReqQuery = ParsedQs, LocalsObj extends Record<string, any> = Record<string, any>>(path: PathParams, ...handlers: Array<PromiseRequestHandler<P, ResBody, ReqBody, ReqQuery, LocalsObj>>) => T;
 declare module 'express-serve-static-core' {
     interface IRouter {

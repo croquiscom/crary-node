@@ -21,7 +21,7 @@ type PromiseRequestHandler<
   req: express.Request<P, ResBody, ReqBody, ReqQuery, LocalsObj>,
   res: express.Response<ResBody, LocalsObj>,
   next: express.NextFunction,
-) => void | Promise<any>;
+) => any; // can return any including a promise
 
 type PromiseRouterMatcher<T> = <
   P = ParamsDictionary,
