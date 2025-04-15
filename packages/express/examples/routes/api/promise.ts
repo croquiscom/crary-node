@@ -16,9 +16,9 @@ export default (router: Router) => {
   // Promise 테스트
   // $ curl -X POST http://localhost:3000/api/promise -d items=1 -d items=2
   // $ curl -X POST http://localhost:3000/api/promise -d items=1 -d items=2 -d items=3
-  router.postPromise('/promise', checkItemsLength, (async (req, res) => {
+  router.postPromise('/promise', checkItemsLength, async (req, res) => {
     const items = await processItems(req.body.items);
     res.result_for_logging = { items_length: items.length };
     return items;
-  }) as RequestHandler);
+  });
 };

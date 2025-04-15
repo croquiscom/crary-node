@@ -16,13 +16,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -30,7 +40,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const os_1 = __importDefault(require("os"));
 const body_parser_1 = require("body-parser");
 const compression_1 = __importDefault(require("compression"));
-const connect_redis_1 = __importDefault(require("connect-redis"));
+const connect_redis_1 = require("connect-redis");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const express_1 = __importDefault(require("express"));
 const express_session_1 = __importDefault(require("express-session"));
@@ -54,16 +64,16 @@ function wrapPromise(args) {
     return args;
 }
 const Router = express_1.default.Router;
-Router.getPromise = function (...args) {
+Router.prototype.getPromise = function (...args) {
     return this.get.apply(this, wrapPromise(args));
 };
-Router.postPromise = function (...args) {
+Router.prototype.postPromise = function (...args) {
     return this.post.apply(this, wrapPromise(args));
 };
-Router.putPromise = function (...args) {
+Router.prototype.putPromise = function (...args) {
     return this.put.apply(this, wrapPromise(args));
 };
-Router.deletePromise = function (...args) {
+Router.prototype.deletePromise = function (...args) {
     return this.delete.apply(this, wrapPromise(args));
 };
 function setupMiddlewares(app, config) {
@@ -91,7 +101,7 @@ function setupSession(app, config) {
         host,
         db: config.session.redis?.db,
     });
-    const session_store = new connect_redis_1.default({
+    const session_store = new connect_redis_1.RedisStore({
         client: redis_client,
         ttl: config.session.custom_ttl ?? config.session.ttl,
     });

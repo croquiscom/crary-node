@@ -29,20 +29,20 @@
   },
   "homepage": "https://github.com/croquiscom/crary-node",
   "dependencies": {
-    "@graphql-tools/delegate": "^10.0.27",
-    "@graphql-tools/utils": "^10.5.5",
-    "graphql": "^16.9.0"
+    "@graphql-tools/delegate": "^10.2.17",
+    "@graphql-tools/utils": "^10.8.6",
+    "graphql": "^16.10.0"
   },
   "devDependencies": {
-    "@graphql-tools/stitch": "^9.2.16",
-    "@types/chai": "^4.3.11",
+    "@graphql-tools/stitch": "^9.4.22",
+    "@types/chai": "^5.2.1",
     "@types/graphql": "^14.5.0",
-    "@types/mocha": "^10.0.9",
-    "@types/node": "^22.8.1",
-    "chai": "^4.3.10",
-    "mocha": "^10.7.3",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.14.1",
+    "chai": "^5.2.0",
+    "mocha": "^11.1.0",
     "rimraf": "^6.0.1",
     "tsx": "^4.19.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.8.3"
   }
 }

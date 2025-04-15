@@ -27,6 +27,7 @@ const app = createApp({
   },
 });
 
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 const server = http.createServer(app);
 
 server.listen(3000, () => {

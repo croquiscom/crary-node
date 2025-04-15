@@ -1,4 +1,6 @@
 import express from 'express';
+import { type ParamsDictionary, type PathParams } from 'express-serve-static-core';
+import { type ParsedQs } from 'qs';
 import createApp from './create_app';
 export { createApp };
 export { shrinkStackTrace } from './util';
@@ -7,12 +9,14 @@ export type Request = express.Request;
 export type Response = express.Response;
 export type RequestHandler = express.RequestHandler;
 export type Application = express.Application;
+type PromiseRequestHandler<P = ParamsDictionary, ResBody = any, ReqBody = any, ReqQuery = ParsedQs, LocalsObj extends Record<string, any> = Record<string, any>> = (req: express.Request<P, ResBody, ReqBody, ReqQuery, LocalsObj>, res: express.Response<ResBody, LocalsObj>, next: express.NextFunction) => void | Promise<any>;
+type PromiseRouterMatcher<T> = <P = ParamsDictionary, ResBody = any, ReqBody = any, ReqQuery = ParsedQs, LocalsObj extends Record<string, any> = Record<string, any>>(path: PathParams, ...handlers: Array<PromiseRequestHandler<P, ResBody, ReqBody, ReqQuery, LocalsObj>>) => T;
 declare module 'express-serve-static-core' {
     interface IRouter {
-        getPromise: express.IRouterMatcher<this>;
-        postPromise: express.IRouterMatcher<this>;
-        putPromise: express.IRouterMatcher<this>;
-        deletePromise: express.IRouterMatcher<this>;
+        getPromise: PromiseRouterMatcher<this>;
+        postPromise: PromiseRouterMatcher<this>;
+        putPromise: PromiseRouterMatcher<this>;
+        deletePromise: PromiseRouterMatcher<this>;
     }
     interface Request {
         skip_logging?: boolean;

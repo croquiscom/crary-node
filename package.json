@@ -5,14 +5,14 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@croquiscom/eslint-config": "^3.0.0",
-    "eslint": "^9.13.0",
-    "husky": "^9.1.6",
-    "lerna": "^8.1.8",
-    "lint-staged": "^15.2.10",
+    "@croquiscom/eslint-config": "^3.2.0",
+    "eslint": "^9.24.0",
+    "husky": "^9.1.7",
+    "lerna": "^8.2.2",
+    "lint-staged": "^15.5.1",
     "post-merge-install": "^0.4.0",
-    "prettier": "^3.3.3",
-    "typescript": "^5.6.3"
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": "eslint --flag unstable_config_lookup_from_file",
