@@ -1,6 +1,6 @@
 {
   "name": "@croquiscom/crary-graphql",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Croquis's library - graphql extension",
   "engines": {
     "node": ">=16"
