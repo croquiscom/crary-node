@@ -36,7 +36,6 @@ export default tseslint.config(
       '@typescript-eslint/consistent-indexed-object-style': 'off',
       '@typescript-eslint/prefer-nullish-coalescing': 'off',
       '@typescript-eslint/prefer-optional-chain': 'off',
-      '@typescript-eslint/no-base-to-string': 'off',
       '@typescript-eslint/prefer-string-starts-ends-with': 'off',
     },
   },

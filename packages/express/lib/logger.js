@@ -30,7 +30,7 @@ log4js_1.default.addLayout('json', () => {
         }
         return JSON.stringify({
             '@timestamp': logEvent.startTime.toISOString(),
-            'loglevel': logEvent.level.toString(),
+            'loglevel': logEvent.level.levelStr.toString(),
             'service_name': logEvent.categoryName,
             ...data,
         });

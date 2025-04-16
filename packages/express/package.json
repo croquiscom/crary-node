@@ -27,7 +27,6 @@
   },
   "homepage": "https://github.com/croquiscom/crary-node",
   "dependencies": {
-    "@types/cookie": "^1.0.0",
     "body-parser": "^2.2.0",
     "compression": "^1.8.0",
     "connect-redis": "^8.0.2",
