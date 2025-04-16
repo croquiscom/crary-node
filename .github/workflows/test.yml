@@ -30,4 +30,7 @@ jobs:
           (cd packages/util ; npm install)
 
       - name: Run test
-        run: ./node_modules/.bin/lerna run test
+        run: |
+          (cd packages/express ; npm test)
+          (cd packages/graphql ; npm test)
+          (cd packages/util ; npm test)
