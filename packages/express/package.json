@@ -1,6 +1,6 @@
 {
   "name": "@croquiscom/crary-express",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Croquis's library - express extension",
   "engines": {
     "node": ">=16"
