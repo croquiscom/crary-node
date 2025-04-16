@@ -1,0 +1,46 @@
+name: Release crary-graphql
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - packages/graphql/**
+  workflow_dispatch:
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/graphql
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install packages
+        run: npm install
+
+      - name: Install packages (root)
+        run: cd ../.. && npm install
+
+      - name: Create Release Pull Request or Publish to npm
+        uses: changesets/action@v1
+        with:
+          version: npm run changeset version
+          publish: npm run release
+          title: 'chore(graphql): release x.y.z'
+          cwd: ./packages/graphql
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          createGithubReleases: false
