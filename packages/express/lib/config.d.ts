@@ -25,6 +25,8 @@ export interface IExpressConfig {
         secure?: boolean;
         same_site?: boolean | 'lax' | 'strict' | 'none';
         custom_module?: typeof expressSession;
+        redis_store_prefix?: string;
+        redis_connection_name?: string;
     };
     errors?: {
         [key: string]: Error;

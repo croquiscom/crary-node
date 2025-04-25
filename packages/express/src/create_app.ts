@@ -71,10 +71,12 @@ function setupSession(app: express.Express, config: IExpressConfig) {
     port,
     host,
     db: config.session.redis?.db,
+    connectionName: config.session.redis_connection_name,
   });
   const session_store = new RedisStore({
     client: redis_client,
     ttl: config.session.custom_ttl ?? config.session.ttl,
+    prefix: config.session.redis_store_prefix ? `${config.session.redis_store_prefix}:sess:` : undefined,
   });
   session_store.on('disconnect', () => {
     console.log('RedisStore for express is disconnected. Exit the process...');
