@@ -1,5 +1,11 @@
 # @croquiscom/crary-express
 
+## 2.2.0
+
+### Minor Changes
+
+- 6307fe1: fix undefined error by writeHeader().end()
+
 ## 2.1.0
 
 ### Minor Changes
