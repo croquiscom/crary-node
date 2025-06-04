@@ -185,9 +185,10 @@ export default (config: IExpressConfig) => {
     req._logging = true;
     (res as any).writeHead = (code: number, headers: any) => {
       res.writeHead = writeHead;
-      res.writeHead(code, headers);
+      const ret = res.writeHead(code, headers);
       res.__statusCode = code;
       res.__headers = headers || {};
+      return ret;
     };
     onFinished(res, () => {
       res.responseTime = Date.now() - start;
