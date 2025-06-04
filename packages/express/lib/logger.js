@@ -186,9 +186,10 @@ exports.default = (config) => {
         req._logging = true;
         res.writeHead = (code, headers) => {
             res.writeHead = writeHead;
-            res.writeHead(code, headers);
+            const ret = res.writeHead(code, headers);
             res.__statusCode = code;
             res.__headers = headers || {};
+            return ret;
         };
         (0, on_finished_1.default)(res, () => {
             res.responseTime = Date.now() - start;
