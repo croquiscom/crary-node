@@ -1,5 +1,11 @@
 # @croquiscom/crary-express
 
+## 2.3.0
+
+### Minor Changes
+
+- 42c066c: update dependencies
+
 ## 2.2.0
 
 ### Minor Changes
