@@ -3,7 +3,10 @@
   "version": "2.3.0",
   "description": "Croquis's library - express extension",
   "engines": {
-    "node": ">=16"
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "main": "./lib",
   "types": "./lib/index.d.ts",
