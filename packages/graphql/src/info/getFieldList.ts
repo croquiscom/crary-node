@@ -1,4 +1,4 @@
-import { FieldNode, FragmentDefinitionNode, GraphQLResolveInfo, InlineFragmentNode, SelectionNode } from 'graphql';
+import type { FieldNode, FragmentDefinitionNode, GraphQLResolveInfo, InlineFragmentNode, SelectionNode } from 'graphql';
 import { isExcludedByDirective } from './common';
 
 function dotConcat(a: string, b: string) {

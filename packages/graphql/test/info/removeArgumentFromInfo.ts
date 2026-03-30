@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { buildSchema, DocumentNode, graphql, GraphQLResolveInfo, Kind, print } from 'graphql';
+import type { DocumentNode, GraphQLResolveInfo } from 'graphql';
+import { buildSchema, graphql, Kind, print } from 'graphql';
 import { removeArgumentFromInfo, wrapInfo } from '../..';
 
 const schema = buildSchema(`

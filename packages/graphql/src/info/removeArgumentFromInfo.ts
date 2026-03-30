@@ -1,4 +1,5 @@
-import { GraphQLResolveInfo, Kind } from 'graphql';
+import type { GraphQLResolveInfo } from 'graphql';
+import { Kind } from 'graphql';
 
 export function removeArgumentFromInfo<T extends GraphQLResolveInfo = GraphQLResolveInfo>(info: T, name: string): T {
   if (!info.fieldNodes[0].arguments) {

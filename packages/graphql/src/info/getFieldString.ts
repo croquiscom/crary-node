@@ -1,12 +1,12 @@
-import {
+import type {
   ArgumentNode,
   FieldNode,
   FragmentDefinitionNode,
   GraphQLResolveInfo,
   InlineFragmentNode,
-  print,
   SelectionNode,
 } from 'graphql';
+import { print } from 'graphql';
 import { isExcludedByDirective } from './common';
 
 function getArgumentStringNode(nodes: readonly ArgumentNode[]): string {

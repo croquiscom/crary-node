@@ -1,4 +1,5 @@
-import { FieldNode, GraphQLResolveInfo, Kind } from 'graphql';
+import type { FieldNode, GraphQLResolveInfo } from 'graphql';
+import { Kind } from 'graphql';
 
 export interface IAddFieldToInfoOptions {
   path?: string;

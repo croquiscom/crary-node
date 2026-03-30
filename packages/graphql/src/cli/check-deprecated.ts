@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
-import { ASTVisitor, buildSchema, ConstDirectiveNode, Kind, parse, TypeInfo, visit, visitWithTypeInfo } from 'graphql';
+import type { ASTVisitor, ConstDirectiveNode } from 'graphql';
+import { buildSchema, Kind, parse, TypeInfo, visit, visitWithTypeInfo } from 'graphql';
 import { COLORS, extractQueryList } from './common';
 
 function isDeprecated(directives: readonly ConstDirectiveNode[] | undefined) {

@@ -1,4 +1,5 @@
-import { defaultFieldResolver, GraphQLField, GraphQLInputType } from 'graphql';
+import type { GraphQLField, GraphQLInputType } from 'graphql';
+import { defaultFieldResolver } from 'graphql';
 import { addArgumentToInfo } from '../info';
 
 export function hookResolverAddArgument(
