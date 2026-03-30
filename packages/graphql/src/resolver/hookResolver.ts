@@ -1,4 +1,5 @@
-import { defaultFieldResolver, GraphQLField, GraphQLFieldResolver, GraphQLResolveInfo } from 'graphql';
+import type { GraphQLField, GraphQLFieldResolver, GraphQLResolveInfo } from 'graphql';
+import { defaultFieldResolver } from 'graphql';
 import { IGraphQLResolveInfoMethods, wrapInfo } from '../info';
 
 type ResolverHookFunction = (

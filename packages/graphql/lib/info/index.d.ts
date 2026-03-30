@@ -1,4 +1,5 @@
-import { GraphQLInputType, GraphQLResolveInfo, GraphQLSchema } from 'graphql';
+import type { GraphQLInputType, GraphQLResolveInfo } from 'graphql';
+import { GraphQLSchema } from 'graphql';
 import { addArgumentToInfo, IAddArgumentToInfoOptions } from './addArgumentToInfo';
 export { addArgumentToInfo };
 import { addFieldToInfo, IAddFieldToInfoOptions } from './addFieldToInfo';

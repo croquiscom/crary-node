@@ -1,7 +1,6 @@
 import fs from 'fs/promises';
+import type { ASTVisitor, ConstDirectiveNode } from 'graphql';
 import {
-  ASTVisitor,
-  ConstDirectiveNode,
   GraphQLInputObjectType,
   GraphQLObjectType,
   GraphQLSchema,

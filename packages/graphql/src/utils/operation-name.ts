@@ -1,4 +1,5 @@
-import { DocumentNode, Kind, parse, OperationDefinitionNode } from 'graphql';
+import type { DocumentNode, OperationDefinitionNode } from 'graphql';
+import { Kind, parse } from 'graphql';
 
 /**
  * GraphQL query에서 operation name이나 첫번째 필드를 반환한다.

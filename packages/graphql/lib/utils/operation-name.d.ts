@@ -1,4 +1,4 @@
-import { DocumentNode } from 'graphql';
+import type { DocumentNode } from 'graphql';
 /**
  * GraphQL query에서 operation name이나 첫번째 필드를 반환한다.
  * 로깅시 query를 구분하기 위한 용도로 사용한다.

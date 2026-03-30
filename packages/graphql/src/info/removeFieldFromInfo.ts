@@ -1,4 +1,5 @@
-import { FieldNode, FragmentDefinitionNode, GraphQLResolveInfo, Kind } from 'graphql';
+import type { FieldNode, FragmentDefinitionNode, GraphQLResolveInfo } from 'graphql';
+import { Kind } from 'graphql';
 
 export interface IRemoveFieldFromInfoOptions {
   path?: string;

@@ -1,17 +1,15 @@
 import { DelegationContext, Transformer as DelegateTransformer } from '@graphql-tools/delegate';
 import { ExecutionRequest } from '@graphql-tools/utils';
-import {
+import type {
   ArgumentNode,
   DocumentNode,
   FieldNode,
   GraphQLResolveInfo,
-  GraphQLSchema,
-  Kind,
   OperationDefinitionNode,
-  OperationTypeNode,
   SelectionNode,
   SelectionSetNode,
 } from 'graphql';
+import { GraphQLSchema, Kind, OperationTypeNode } from 'graphql';
 
 export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolveInfo>(
   info: T,

@@ -1,4 +1,4 @@
-import { DirectiveNode, GraphQLResolveInfo, SelectionNode } from 'graphql';
+import type { DirectiveNode, GraphQLResolveInfo, SelectionNode } from 'graphql';
 
 function getBooleanArgumentValue(info: GraphQLResolveInfo, node: DirectiveNode): boolean {
   if (!node.arguments || node.arguments.length === 0) {

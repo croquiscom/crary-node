@@ -1,4 +1,4 @@
-import { GraphQLInputType, GraphQLResolveInfo } from 'graphql';
+import type { GraphQLInputType, GraphQLResolveInfo } from 'graphql';
 export interface IAddArgumentToInfoOptions {
     path?: string;
     as_value?: boolean;

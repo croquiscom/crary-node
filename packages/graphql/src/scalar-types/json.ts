@@ -1,4 +1,5 @@
-import { GraphQLScalarType, ValueNode } from 'graphql';
+import type { ValueNode } from 'graphql';
+import { GraphQLScalarType } from 'graphql';
 import { GraphQLError } from 'graphql/error';
 import { Kind } from 'graphql/language';
 

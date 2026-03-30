@@ -1,17 +1,5 @@
-import {
-  FieldNode,
-  GraphQLBoolean,
-  GraphQLEnumType,
-  GraphQLFloat,
-  GraphQLInputType,
-  GraphQLInt,
-  GraphQLList,
-  GraphQLNonNull,
-  GraphQLResolveInfo,
-  Kind,
-  TypeNode,
-  ValueNode,
-} from 'graphql';
+import type { FieldNode, GraphQLInputType, GraphQLResolveInfo, TypeNode, ValueNode } from 'graphql';
+import { GraphQLBoolean, GraphQLEnumType, GraphQLFloat, GraphQLInt, GraphQLList, GraphQLNonNull, Kind } from 'graphql';
 
 export interface IAddArgumentToInfoOptions {
   path?: string;
