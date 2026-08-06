@@ -1,5 +1,11 @@
 # @croquiscom/crary-express
 
+## 2.4.0
+
+### Minor Changes
+
+- 3a7b200: add login_user_account_id to access log
+
 ## 2.3.0
 
 ### Minor Changes
