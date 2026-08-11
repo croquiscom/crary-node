@@ -39,7 +39,7 @@
     "graphql": "^16.13.2"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.30.0",
+    "@changesets/cli": "^3.0.0",
     "@graphql-tools/stitch": "^10.1.16",
     "@types/chai": "^5.2.3",
     "@types/graphql": "^14.5.0",
