@@ -1,5 +1,11 @@
 # @croquiscom/crary-express
 
+## 2.5.0
+
+### Minor Changes
+
+- 6160cd5: add trust_proxy option to configure express 'trust proxy' setting
+
 ## 2.4.0
 
 ### Minor Changes

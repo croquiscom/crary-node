@@ -1,6 +1,6 @@
 {
   "name": "@croquiscom/crary-express",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "Croquis's library - express extension",
   "engines": {
     "node": ">=22"
@@ -17,6 +17,7 @@
     "test:type": "tsc --noEmit",
     "test": "npm run test:type && npm run lint",
     "changeset": "changeset",
+    "changeset:version": "changeset version && npm install --package-lock-only --ignore-scripts",
     "release": "npm run lint && npm run build && npm run changeset publish"
   },
   "repository": {
