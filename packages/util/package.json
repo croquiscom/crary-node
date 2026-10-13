@@ -18,6 +18,7 @@
     "test:unit": "mocha -n import=tsx ./test/*/*.ts",
     "test": "npm run test:type && npm run lint && npm run test:unit --",
     "changeset": "changeset",
+    "changeset:version": "changeset version && npm install --package-lock-only --ignore-scripts",
     "release": "npm run lint && npm run build && npm run changeset publish"
   },
   "repository": {
