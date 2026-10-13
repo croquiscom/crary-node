@@ -162,7 +162,7 @@ export default (config: IExpressConfig) => {
   if (config.hooks?.after_create_app) {
     config.hooks.after_create_app(app);
   }
-  app.set('trust proxy', true);
+  app.set('trust proxy', config.trust_proxy ?? true);
   if (config.log4js_config) {
     app.use(logger(config));
   }
