@@ -35,6 +35,10 @@ export interface IExpressConfig {
         [path: string]: (router: express.Router, app: express.Application) => void;
     };
     max_body_size?: number | string;
+    /**
+     * set express 'trust proxy' setting (default: true)
+     */
+    trust_proxy?: boolean | number | string | string[] | ((ip: string, hop_index: number) => boolean);
     hooks?: {
         after_create_app?: (app: express.Application) => void;
     };
