@@ -1,34 +1,22 @@
-import { AbortController as NodeAbortController } from 'node-abort-controller';
-import type nodeFetch from 'node-fetch';
-import type {
-  RequestInfo as NodeFetchRequestInfo,
-  RequestInit as NodeFetchRequestInit,
-  Response as NodeFetchResponse,
-} from 'node-fetch';
-import { dynamicImport } from 'tsimportlib';
+export type FetchWithTimeoutInit = RequestInit & {
+  /** milliseconds to wait for the response headers. rejects with AbortError on timeout */
+  timeout?: number;
+};
 
-const nodeFetchModule = dynamicImport('node-fetch', module) as Promise<{ default: typeof nodeFetch }>;
-
-export async function fetchWithTimeout(
-  url: NodeFetchRequestInfo,
-  init?: NodeFetchRequestInit & { timeout?: number },
-): Promise<NodeFetchResponse> {
-  const nodeFetch = (await nodeFetchModule).default;
-  const timeout = init?.timeout;
+export async function fetchWithTimeout(input: string | URL | Request, init?: FetchWithTimeoutInit): Promise<Response> {
+  const { timeout, ...rest } = init ?? {};
   if (!timeout || !(timeout > 0)) {
-    return await nodeFetch(url, init);
+    return await fetch(input, rest);
   }
-  const abort = new NodeAbortController();
+  const abort = new AbortController();
   const timer = setTimeout(() => {
     abort.abort();
   }, timeout);
-  const init_copied = {
-    ...init,
-    signal: abort.signal,
-  };
-  delete (init_copied as unknown as any).timeout;
+  // init.signal replaces a Request's own signal, so keep the Request's one unless init gives a signal
+  const caller_signal = rest.signal !== undefined ? rest.signal : input instanceof Request ? input.signal : null;
+  const signal = caller_signal ? AbortSignal.any([caller_signal, abort.signal]) : abort.signal;
   try {
-    return await nodeFetch(url, init_copied);
+    return await fetch(input, { ...rest, signal });
   } finally {
     clearTimeout(timer);
   }
