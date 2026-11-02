@@ -1,26 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchWithTimeout = fetchWithTimeout;
-const node_abort_controller_1 = require("node-abort-controller");
-const tsimportlib_1 = require("tsimportlib");
-const nodeFetchModule = (0, tsimportlib_1.dynamicImport)('node-fetch', module);
-async function fetchWithTimeout(url, init) {
-    const nodeFetch = (await nodeFetchModule).default;
-    const timeout = init?.timeout;
+async function fetchWithTimeout(input, init) {
+    const { timeout, ...rest } = init ?? {};
     if (!timeout || !(timeout > 0)) {
-        return await nodeFetch(url, init);
+        return await fetch(input, rest);
     }
-    const abort = new node_abort_controller_1.AbortController();
+    const abort = new AbortController();
     const timer = setTimeout(() => {
         abort.abort();
     }, timeout);
-    const init_copied = {
-        ...init,
-        signal: abort.signal,
-    };
-    delete init_copied.timeout;
+    const signal = rest.signal ? AbortSignal.any([rest.signal, abort.signal]) : abort.signal;
     try {
-        return await nodeFetch(url, init_copied);
+        return await fetch(input, { ...rest, signal });
     }
     finally {
         clearTimeout(timer);

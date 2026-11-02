@@ -1,4 +1,5 @@
-import type { RequestInfo as NodeFetchRequestInfo, RequestInit as NodeFetchRequestInit, Response as NodeFetchResponse } from 'node-fetch';
-export declare function fetchWithTimeout(url: NodeFetchRequestInfo, init?: NodeFetchRequestInit & {
+export type FetchWithTimeoutInit = RequestInit & {
+    /** milliseconds to wait for the response headers. rejects with AbortError on timeout */
     timeout?: number;
-}): Promise<NodeFetchResponse>;
+};
+export declare function fetchWithTimeout(input: string | URL | Request, init?: FetchWithTimeoutInit): Promise<Response>;
