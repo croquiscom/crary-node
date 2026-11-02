@@ -56,4 +56,37 @@ describe('fetchWithTimeout', () => {
       expect(error.name).to.eql('AbortError');
     }
   });
+
+  it('Request 의 signal 이 이미 abort 됐으면 실패한다', async () => {
+    const abort = new AbortController();
+    abort.abort();
+    try {
+      await fetchWithTimeout(new Request(`${base_url}/`, { signal: abort.signal }), { timeout: 1000 });
+      expect.fail('should be rejected');
+    } catch (error: any) {
+      expect(error.name).to.eql('AbortError');
+    }
+  });
+
+  it('Request 의 signal 로 나중에 취소할 수 있다', async () => {
+    const abort = new AbortController();
+    setTimeout(() => {
+      abort.abort();
+    }, 50);
+    try {
+      await fetchWithTimeout(new Request(`${base_url}/?delay=500`, { signal: abort.signal }), { timeout: 1000 });
+      expect.fail('should be rejected');
+    } catch (error: any) {
+      expect(error.name).to.eql('AbortError');
+    }
+  });
+
+  it('Request 를 넘겨도 timeout 이 적용된다', async () => {
+    try {
+      await fetchWithTimeout(new Request(`${base_url}/?delay=500`), { timeout: 50 });
+      expect.fail('should be rejected');
+    } catch (error: any) {
+      expect(error.name).to.eql('AbortError');
+    }
+  });
 });
