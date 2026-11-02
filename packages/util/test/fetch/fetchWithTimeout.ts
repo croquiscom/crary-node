@@ -9,10 +9,15 @@ describe('fetchWithTimeout', () => {
 
   before(async () => {
     server = http.createServer((req, res) => {
-      const delay = Number(new URL(req.url ?? '/', 'http://localhost').searchParams.get('delay') ?? 0);
+      const params = new URL(req.url ?? '/', 'http://localhost').searchParams;
+      const delay = Number(params.get('delay') ?? 0);
+      const body_delay = Number(params.get('body_delay') ?? 0);
       setTimeout(() => {
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ method: req.method }));
+        res.flushHeaders();
+        setTimeout(() => {
+          res.end(JSON.stringify({ method: req.method }));
+        }, body_delay);
       }, delay);
     });
     await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
@@ -42,6 +47,21 @@ describe('fetchWithTimeout', () => {
     } catch (error: any) {
       expect(error.name).to.eql('AbortError');
     }
+  });
+
+  it('본문을 읽는 동안에도 timeout 을 넘기면 AbortError 로 실패한다', async () => {
+    const response = await fetchWithTimeout(`${base_url}/?body_delay=500`, { timeout: 100 });
+    try {
+      await response.json();
+      expect.fail('should be rejected');
+    } catch (error: any) {
+      expect(error.name).to.eql('AbortError');
+    }
+  });
+
+  it('timeout 안에 본문까지 받으면 성공한다', async () => {
+    const response = await fetchWithTimeout(`${base_url}/?body_delay=10`, { timeout: 1000 });
+    expect(await response.json()).to.eql({ method: 'GET' });
   });
 
   it('호출하는 쪽의 signal 도 함께 적용한다', async () => {
