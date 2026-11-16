@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import type { GraphQLResolveInfo } from 'graphql';
-import { buildSchema, graphql } from 'graphql';
+import { buildSchema, graphql, versionInfo } from 'graphql';
 import { getFieldString } from '../..';
 
 const schema = buildSchema(`
@@ -80,7 +80,9 @@ describe('getFieldString', () => {
         }
       }
     `,
-      'a(y: "text", z: {g: RED, h: false}) b(k: [1, null, 3])',
+      versionInfo.major >= 17
+        ? 'a(y: "text", z: { g: RED, h: false }) b(k: [1, null, 3])'
+        : 'a(y: "text", z: {g: RED, h: false}) b(k: [1, null, 3])',
       undefined,
     );
   });

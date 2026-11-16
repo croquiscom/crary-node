@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addArgumentToInfo = addArgumentToInfo;
 const graphql_1 = require("graphql");
+const common_1 = require("./common");
 function valueToNode(value, type) {
     if (type instanceof graphql_1.GraphQLNonNull) {
         return valueToNode(value, type.ofType);
@@ -16,26 +17,21 @@ function valueToNode(value, type) {
         };
     }
     else {
-        let kind;
         if (type === graphql_1.GraphQLInt) {
-            kind = graphql_1.Kind.INT;
+            return { kind: graphql_1.Kind.INT, value: String(value) };
         }
         else if (type === graphql_1.GraphQLFloat) {
-            kind = graphql_1.Kind.FLOAT;
+            return { kind: graphql_1.Kind.FLOAT, value: String(value) };
         }
         else if (type === graphql_1.GraphQLBoolean) {
-            kind = graphql_1.Kind.BOOLEAN;
+            return { kind: graphql_1.Kind.BOOLEAN, value: Boolean(value) };
         }
         else if (type instanceof graphql_1.GraphQLEnumType) {
-            kind = graphql_1.Kind.ENUM;
+            return { kind: graphql_1.Kind.ENUM, value: String(value) };
         }
         else {
             throw new Error('unknow type: ' + type.toString());
         }
-        return {
-            kind,
-            value,
-        };
     }
 }
 function addArgumentToFieldNodeAsValue(fieldNode, path, name, value, type) {
@@ -186,10 +182,7 @@ function addArgumentToInfo(info, name, value, type, options = {}) {
                 },
                 variableDefinitions,
             },
-            variableValues: {
-                ...info.variableValues,
-                [variable_name]: value,
-            },
+            variableValues: (0, common_1.addVariableValue)(info, variable_name, value, type),
         };
     }
 }

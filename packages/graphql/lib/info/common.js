@@ -1,6 +1,32 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getVariableValues = getVariableValues;
+exports.addVariableValue = addVariableValue;
 exports.isExcludedByDirective = isExcludedByDirective;
+const graphql_1 = require("graphql");
+/**
+ * graphql 17부터 info.variableValues가 { sources, coerced } 구조로 바뀌었다.
+ */
+const IS_VARIABLE_VALUES_STRUCTURED = graphql_1.versionInfo.major >= 17;
+function getVariableValues(info) {
+    const variableValues = info.variableValues;
+    if (IS_VARIABLE_VALUES_STRUCTURED) {
+        return variableValues.coerced;
+    }
+    return variableValues;
+}
+function addVariableValue(info, name, value, type) {
+    const variableValues = info.variableValues;
+    if (IS_VARIABLE_VALUES_STRUCTURED) {
+        const { sources, coerced } = variableValues;
+        const structured = {
+            sources: { ...sources, [name]: { signature: { name, type, default: undefined }, value } },
+            coerced: { ...coerced, [name]: value },
+        };
+        return structured;
+    }
+    return { ...variableValues, [name]: value };
+}
 function getBooleanArgumentValue(info, node) {
     if (!node.arguments || node.arguments.length === 0) {
         return false;
@@ -10,7 +36,7 @@ function getBooleanArgumentValue(info, node) {
         case 'BooleanValue':
             return argument.value;
         case 'Variable':
-            return info.variableValues[argument.name.value];
+            return getVariableValues(info)[argument.name.value];
     }
     return false;
 }

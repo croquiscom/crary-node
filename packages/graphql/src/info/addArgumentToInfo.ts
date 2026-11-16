@@ -1,5 +1,6 @@
 import type { FieldNode, GraphQLInputType, GraphQLResolveInfo, TypeNode, ValueNode } from 'graphql';
 import { GraphQLBoolean, GraphQLEnumType, GraphQLFloat, GraphQLInt, GraphQLList, GraphQLNonNull, Kind } from 'graphql';
+import { addVariableValue } from './common';
 
 export interface IAddArgumentToInfoOptions {
   path?: string;
@@ -18,22 +19,17 @@ function valueToNode(value: any, type: GraphQLInputType): ValueNode {
       values: value.map((item) => valueToNode(item, type.ofType)),
     };
   } else {
-    let kind: Kind;
     if (type === GraphQLInt) {
-      kind = Kind.INT;
+      return { kind: Kind.INT, value: String(value) };
     } else if (type === GraphQLFloat) {
-      kind = Kind.FLOAT;
+      return { kind: Kind.FLOAT, value: String(value) };
     } else if (type === GraphQLBoolean) {
-      kind = Kind.BOOLEAN;
+      return { kind: Kind.BOOLEAN, value: Boolean(value) };
     } else if (type instanceof GraphQLEnumType) {
-      kind = Kind.ENUM;
+      return { kind: Kind.ENUM, value: String(value) };
     } else {
       throw new Error('unknow type: ' + type.toString());
     }
-    return {
-      kind,
-      value,
-    };
   }
 }
 
@@ -200,10 +196,7 @@ export function addArgumentToInfo<T extends GraphQLResolveInfo = GraphQLResolveI
         },
         variableDefinitions,
       },
-      variableValues: {
-        ...info.variableValues,
-        [variable_name]: value,
-      },
+      variableValues: addVariableValue(info, variable_name, value, type),
     };
   }
 }
