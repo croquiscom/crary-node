@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { graphql, GraphQLBoolean, GraphQLObjectType, GraphQLSchema } from 'graphql';
+import { graphql, GraphQLBoolean, GraphQLObjectType, GraphQLSchema, versionInfo } from 'graphql';
 import { CrTimestamp } from '../..';
 
 describe('CrTimestamp', () => {
@@ -125,7 +125,9 @@ describe('CrTimestamp', () => {
       });
       expect(result.data).to.eql(undefined);
       const msg =
-        'Variable "$input" got invalid value "2021-01-15T04:20:00.000Z"; Expected type "CrTimestamp". Value is not a valid timestamp: 2021-01-15T04:20:00.000Z';
+        versionInfo.major >= 17
+          ? 'Variable "$input" has invalid value: Expected value of type "CrTimestamp", but encountered error "Value is not a valid timestamp: 2021-01-15T04:20:00.000Z"; found: "2021-01-15T04:20:00.000Z".'
+          : 'Variable "$input" got invalid value "2021-01-15T04:20:00.000Z"; Expected type "CrTimestamp". Value is not a valid timestamp: 2021-01-15T04:20:00.000Z';
       expect(result.errors![0].message).to.eql(msg);
       expect(value).to.eql(undefined);
     });
@@ -160,7 +162,9 @@ describe('CrTimestamp', () => {
       });
       expect(result.data).to.eql(undefined);
       const msg =
-        'Variable "$input" got invalid value "a"; Expected type "CrTimestamp". Value is not a valid timestamp: a';
+        versionInfo.major >= 17
+          ? 'Variable "$input" has invalid value: Expected value of type "CrTimestamp", but encountered error "Value is not a valid timestamp: a"; found: "a".'
+          : 'Variable "$input" got invalid value "a"; Expected type "CrTimestamp". Value is not a valid timestamp: a';
       expect(result.errors![0].message).to.eql(msg);
       expect(value).to.eql(undefined);
     });

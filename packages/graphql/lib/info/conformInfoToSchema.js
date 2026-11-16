@@ -54,6 +54,7 @@ function conformInfoToSchema(info, schema, field_name) {
     };
     const original_request = { document, operationType: graphql_1.OperationTypeNode.QUERY, variables: {} };
     const delegation_context = {
+        subschema: schema,
         targetSchema: schema,
         info: info,
         returnType: info.returnType,

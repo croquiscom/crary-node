@@ -70,6 +70,7 @@ export function conformInfoToSchema<T extends GraphQLResolveInfo = GraphQLResolv
   };
   const original_request: ExecutionRequest = { document, operationType: OperationTypeNode.QUERY, variables: {} };
   const delegation_context = {
+    subschema: schema,
     targetSchema: schema,
     info: info as GraphQLResolveInfo,
     returnType: info.returnType,

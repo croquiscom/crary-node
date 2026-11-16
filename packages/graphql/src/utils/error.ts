@@ -12,15 +12,13 @@ export class CraryGraphQLError extends GraphQLError {
   constructor(graphql_error_object: any) {
     const { ...extensions } = graphql_error_object.extensions ?? {};
     delete extensions.stack;
-    super(
-      graphql_error_object.message,
-      graphql_error_object.nodes,
-      graphql_error_object.source,
-      graphql_error_object.positions,
-      graphql_error_object.path,
-      undefined,
+    super(graphql_error_object.message, {
+      nodes: graphql_error_object.nodes,
+      source: graphql_error_object.source,
+      positions: graphql_error_object.positions,
+      path: graphql_error_object.path,
       extensions,
-    );
+    });
     this.code = extensions?.code;
     this.ignorable = extensions?.ignorable;
   }

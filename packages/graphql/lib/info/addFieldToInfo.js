@@ -19,10 +19,6 @@ function addFieldToFieldNode(fieldNode, path, name) {
                 kind: graphql_1.Kind.NAME,
                 value: name,
             },
-            selectionSet: {
-                kind: graphql_1.Kind.SELECTION_SET,
-                selections: [],
-            },
         };
         const selections = [...fieldNode.selectionSet.selections, new_selection];
         return {
@@ -36,7 +32,10 @@ function addFieldToFieldNode(fieldNode, path, name) {
     else {
         const selections = fieldNode.selectionSet.selections.map((selection) => {
             if (selection.kind === 'Field' && selection.name.value === path[0]) {
-                return addFieldToFieldNode(selection, path.slice(1), name);
+                const target = selection.selectionSet
+                    ? selection
+                    : { ...selection, selectionSet: { kind: graphql_1.Kind.SELECTION_SET, selections: [] } };
+                return addFieldToFieldNode(target, path.slice(1), name);
             }
             return selection;
         });

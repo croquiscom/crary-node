@@ -23,10 +23,6 @@ function addFieldToFieldNode(fieldNode: FieldNode, path: string[], name: string)
         kind: Kind.NAME,
         value: name,
       },
-      selectionSet: {
-        kind: Kind.SELECTION_SET,
-        selections: [],
-      },
     };
     const selections = [...fieldNode.selectionSet.selections, new_selection];
     return {
@@ -39,7 +35,10 @@ function addFieldToFieldNode(fieldNode: FieldNode, path: string[], name: string)
   } else {
     const selections = fieldNode.selectionSet.selections.map((selection) => {
       if (selection.kind === 'Field' && selection.name.value === path[0]) {
-        return addFieldToFieldNode(selection, path.slice(1), name);
+        const target: FieldNode = selection.selectionSet
+          ? selection
+          : { ...selection, selectionSet: { kind: Kind.SELECTION_SET, selections: [] } };
+        return addFieldToFieldNode(target, path.slice(1), name);
       }
       return selection;
     });
